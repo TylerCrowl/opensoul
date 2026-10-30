@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "opensoul"
+version = "0.1.0"
+description = "Open-source consistent-character / AI-influencer toolkit on Comfy Developer Platform"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+authors = [{ name = "OpenSoul contributors" }]
+keywords = ["comfyui", "comfy-sdk", "gradio", "open-weights", "character-consistency"]
+dependencies = [
+  "comfy-sdk>=0.5",
+  "numpy>=1.26",
+  "opencv-python-headless>=4.8",  # Apache-2.0; motion-direction check (opensoul/motion_check.py)
+  "Pillow>=10.0",
+  "pydantic>=2.0",
+  "fastapi>=0.115",
+  "uvicorn>=0.30",
+  "python-multipart>=0.0.9",
+  "PyYAML>=6.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "ruff>=0.6"]
+gradio = ["gradio>=6.0"]
+# MCP server (opensoul/mcp_server.py, docs/MCP.md): the official MCP Python SDK, MIT license
+mcp = ["mcp==2.3.0"]
+# Static ffmpeg for machines without a system ffmpeg (stock DGX Spark, Windows); setup_dev.sh adds it automatically
+ffmpeg = ["imageio-ffmpeg>=0.5"]
+# Optional heavier backends (install on GPU hosts / when testing CLIP)
+clip = ["transformers>=4.40", "torch"]
+
+[project.scripts]
+opensoul = "opensoul.cli:main"
+opensoul-ui = "app.server:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["opensoul*", "app*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

@@ -1,0 +1,72 @@
+/* Music tab (music.js). Same tokens as app.css: white cards on #f5f5f7, 18px radius, one blue accent. */
+body.music-on .hero, body.music-on .steps, body.music-on #ufCharacters, body.music-on .create-card,
+body.music-on #storyboardView, body.music-on .sb-sheet, body.music-on .sb-scrim { display: none !important; }
+.mu { max-width: 1080px; margin: 0 auto; padding: 8px 0 48px; }
+.mu-head h1 { font-size: 32px; letter-spacing: -0.02em; margin: 8px 0 4px; }
+.mu-head p { color: var(--text-secondary); margin: 0 0 20px; max-width: 640px; }
+.mu-preview { background: var(--warn-bg); border-radius: 12px; padding: 10px 14px; color: var(--warn-text); font-size: 14px; margin: 0 0 16px; }
+.mu-card { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow); padding: 28px; margin-bottom: 20px; }
+.mu-card h2 { font-size: 20px; margin: 0 0 16px; display: flex; align-items: center; gap: 10px; }
+.mu-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 28px; }
+@media (max-width: 760px) { .mu-grid { grid-template-columns: 1fr; } .mu-card { padding: 20px; } }
+.mu-card textarea { font-family: var(--font); }
+.mu-earlier { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+#muAudio { width: 100%; margin-bottom: 8px; }
+.mu-stats { margin: 4px 0 14px; color: var(--text-secondary); }
+.mu-stats strong { color: var(--text); }
+.mu-map { position: relative; background: var(--bg); border-radius: 12px; padding: 10px; }
+.mu-row { position: relative; height: 34px; margin: 4px 0; }
+.mu-secs { height: 40px; }
+.mu-sec { position: absolute; top: 0; bottom: 0; border-radius: 8px; border: 2px solid var(--surface); overflow: hidden; display: flex; align-items: center; padding: 0 8px; font-size: 13px; font-weight: 600; color: var(--text); }
+.mu-sec span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mu-sec.e-low { background: var(--viz-low); } .mu-sec.e-mid { background: var(--viz-mid); } .mu-sec.e-high { background: var(--viz-high); }
+.mu-ticks { height: 26px; }
+.mu-beat { position: absolute; top: 8px; height: 10px; width: 1px; background: var(--line-strong); }
+.mu-bar { position: absolute; top: 2px; height: 22px; width: 2px; background: var(--inverse-bg); border-radius: 1px; }
+.mu-barnums { height: 14px; margin: 2px 0 0; }
+.mu-barn { position: absolute; top: 0; transform: translateX(-50%); font-size: 10px; line-height: 14px; color: var(--text-secondary); }
+.mu-barn:first-child { transform: none; }
+.mu-lines { height: 14px; }
+.mu-line { position: absolute; top: 2px; height: 10px; background: var(--accent); border-radius: 5px; opacity: 0.8; }
+.mu-legend { display: flex; gap: 16px; font-size: 12px; color: var(--text-secondary); margin-top: 6px; }
+.mu-legend .k { display: inline-block; width: 12px; height: 8px; border-radius: 3px; margin-right: 6px; vertical-align: middle; }
+.k-sec { background: var(--viz-mid); } .k-bar { background: var(--inverse-bg); width: 3px !important; } .k-line { background: var(--accent); }
+.mu-cutbar { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; margin: 4px 0 14px; }
+.mu-cutbar .segmented { margin: 0; }
+.mu-inline { font-size: 14px; color: var(--text-secondary); display: flex; gap: 8px; align-items: center; }
+.mu-inline select { width: auto; }
+.mu-shots { list-style: none; margin: 0; padding: 0; }
+.mu-shot { display: grid; grid-template-columns: 36px 170px 110px 130px 1fr; gap: 12px; align-items: center; padding: 10px 4px; border-top: 1px solid var(--border); font-size: 14px; }
+.mu-shot:first-child { border-top: 0; }
+.mu-n { width: 28px; height: 28px; border-radius: 50%; background: var(--bg); display: grid; place-items: center; font-weight: 600; font-size: 13px; }
+.mu-t small { display: block; color: var(--text-secondary); font-size: 12px; }
+.mu-cam { color: var(--text-secondary); }
+.mu-t .mu-mobile { display: none; }
+.mu-sing em { font-style: normal; font-size: 12px; font-weight: 600; color: var(--on-accent); background: var(--accent); border-radius: var(--pill); padding: 2px 8px; margin-right: 6px; }
+@media (max-width: 760px) { .mu-shot { grid-template-columns: 32px 1fr; } .mu-sect, .mu-cam { display: none; } .mu-t .mu-mobile { display: block; } .mu-sing { grid-column: 2; } }
+.mu-sung { list-style: none; padding: 0; margin: 12px 0; }
+.mu-sung li { display: grid; grid-template-columns: minmax(0, 220px) 170px minmax(0, 1fr) auto; gap: 12px; align-items: center; min-height: 96px; padding: 8px 0; border-top: 1px solid var(--border); font-size: 14px; }
+.mu-sung li.hint { display: block; min-height: 0; }
+.mu-sb { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mu-lipv { height: 80px; display: flex; align-items: center; }
+.mu-tile { display: grid; place-items: center; align-content: center; gap: 2px; background: var(--control); color: var(--text-secondary); border-radius: 10px; font-size: 12px; text-align: center; overflow: hidden; }
+video.mu-tile { background: var(--media-bg); }
+.mu-lipv .mu-tile { height: 80px; }
+.mu-tile.ar-169 { aspect-ratio: 16 / 9; } .mu-tile.ar-916 { aspect-ratio: 9 / 16; }
+.mu-result .mu-tile { height: 180px; }
+.mu-play { font-size: 12px; }
+@media (max-width: 760px) { .mu-sung li { grid-template-columns: 1fr auto; min-height: 0; } .mu-lipst { grid-column: 1 / -1; } .mu-lipv { grid-column: 1 / -1; } }
+/* Narrow screens: the step bar scrolls sideways with a fade on the right while there is more */
+@media (max-width: 760px) {
+  .uf-tabs { max-width: 100%; scroll-snap-type: x proximity; scrollbar-width: none; }
+  .uf-tabs::-webkit-scrollbar { display: none; }
+  .uf-tabs button { flex: none; white-space: nowrap; scroll-snap-align: start; }
+  .uf-tabs.mu-more { -webkit-mask-image: linear-gradient(90deg, #000 80%, transparent); mask-image: linear-gradient(90deg, #000 80%, transparent); }
+}
+.mu-sung li:first-child { border-top: 0; }
+.mu-result { display: flex; gap: 16px; align-items: flex-end; flex-wrap: wrap; margin-top: 12px; }
+
+.mu-stemnote { margin: 8px 0 0; }
+.mu-keep { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; margin: 12px 0 0; font-weight: 600; }
+.mu-keep input { width: auto; min-height: 0; margin: 0; }
+.mu-keep .hint { flex-basis: 100%; font-weight: 400; margin: 0; font-size: 13px; color: var(--text-secondary); }

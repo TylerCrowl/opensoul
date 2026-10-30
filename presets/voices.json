@@ -1,0 +1,10 @@
+[
+  {"id": "tara", "label": "Tara · warm", "gender": "female", "kokoro": "af_heart"},
+  {"id": "leah", "label": "Leah · composed", "gender": "female", "kokoro": "bf_emma"},
+  {"id": "jess", "label": "Jess · bright", "gender": "female", "kokoro": "af_bella"},
+  {"id": "mia", "label": "Mia · soft", "gender": "female", "kokoro": "af_nicole"},
+  {"id": "zoe", "label": "Zoe · breezy", "gender": "female", "kokoro": "af_kore"},
+  {"id": "zac", "label": "Zac · boyish", "gender": "male", "kokoro": "am_puck"},
+  {"id": "leo", "label": "Leo · deep", "gender": "male", "kokoro": "am_michael"},
+  {"id": "dan", "label": "Dan · easygoing", "gender": "male", "kokoro": "am_adam"}
+]

@@ -1,0 +1,21 @@
+{
+  "1": {
+    "class_type": "OpenSoulOrpheusTTS",
+    "inputs": {
+      "text": "<sigh> No. I have walked this earth for a thousand years.",
+      "voice": "tara",
+      "temperature": 0.6,
+      "seed": 0
+    }
+  },
+  "2": {
+    "class_type": "SaveAudio",
+    "inputs": {
+      "audio": [
+        "1",
+        0
+      ],
+      "filename_prefix": "opensoul_tts_orpheus"
+    }
+  }
+}

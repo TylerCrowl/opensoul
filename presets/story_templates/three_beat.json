@@ -1,0 +1,11 @@
+{
+  "id": "three-beat",
+  "title": "Three-beat short",
+  "blurb": "Hook, twist, payoff. The simplest story that works.",
+  "order": 20,
+  "shots": [
+    {"beat": "Hook", "camera": "push_in_gentle", "prompt": "{lead} in their world, doing something that makes you want to watch."},
+    {"beat": "Twist", "camera": "static", "prompt": "Something unexpected happens and {lead} reacts."},
+    {"beat": "Payoff", "camera": "dolly_out", "prompt": "{lead} deals with it in their own way; pull back on the moment."}
+  ]
+}

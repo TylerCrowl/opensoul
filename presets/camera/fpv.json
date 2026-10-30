@@ -1,0 +1,29 @@
+{
+  "order": 10,
+  "id": "fpv",
+  "kind": "camera",
+  "label": "FPV drone",
+  "glyph": "fpv",
+  "blurb": "Fly-through like a racing drone",
+  "prompt": "FPV racing-drone flythrough: fast forward flight from far away, banking and diving toward the subject, slight fisheye 14mm look, horizon rolls 10\u201320 degrees on turns, motion blur, ends hovering in front of the subject.",
+  "phrase": "an FPV drone camera glides smoothly toward the subject",
+  "lora": null,
+  "expect_motion": "zoom_in",
+  "experimental": false,
+  "verified": {
+    "model": "LTX-2.5 22B distilled",
+    "path": "prompt",
+    "result": "works",
+    "checked_by": "eye",
+    "evidence": "production/motion_check/confusion.md set 15"
+  },
+  "defaults": {
+    "duration_s": 5,
+    "fps": 24,
+    "cfg": 3.0,
+    "steps": 8,
+    "width": 704,
+    "height": 1280
+  },
+  "thumbnail": "/assets/preset_thumbs/camera/fpv.mp4"
+}

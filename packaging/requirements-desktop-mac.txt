@@ -1,0 +1,15 @@
+# macOS packages only, on top of requirements-desktop.txt: OpenSoul's own window (opensoul/desktop_window.py).
+# pywebview (BSD-3-Clause) shows the app in a native WKWebView window with its own Dock icon and menu; it needs
+# PyObjC (MIT) on macOS. Listed by hand because pip skips "sys_platform == darwin" dependencies when it cross-builds
+# on Linux. proxy_tools (MIT) is published as source only: build_bundle.py builds its wheel from the sdist after
+# checking the sdist's sha256 (PROXY_TOOLS_SDIST_SHA256).
+pywebview==6.2.1
+proxy_tools==0.1.0
+bottle==0.13.4
+typing_extensions==4.16.0
+pyobjc-core==12.2.2
+pyobjc-framework-Cocoa==12.2.2
+pyobjc-framework-Quartz==12.2.2
+pyobjc-framework-WebKit==12.2.2
+pyobjc-framework-Security==12.2.2
+pyobjc-framework-UniformTypeIdentifiers==12.2.2

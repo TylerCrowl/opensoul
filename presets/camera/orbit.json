@@ -1,0 +1,29 @@
+{
+  "order": 9,
+  "id": "orbit",
+  "kind": "camera",
+  "label": "Orbit",
+  "glyph": "orbit",
+  "blurb": "Circle around the subject",
+  "prompt": "360-degree orbit around the subject at eye level, constant radius about two meters, steady angular speed, subject stays centered and in focus, background sweeps behind with strong parallax, no height change.",
+  "phrase": "the camera orbits around the subject at eye level, background sweeping behind",
+  "lora": null,
+  "expect_motion": "orbit",
+  "experimental": true,
+  "verified": {
+    "model": "LTX-2.5 22B distilled",
+    "path": "prompt",
+    "result": "not working yet",
+    "checked_by": "eye",
+    "evidence": "production/motion_check/confusion.md set 15"
+  },
+  "defaults": {
+    "duration_s": 5,
+    "fps": 24,
+    "cfg": 3.0,
+    "steps": 8,
+    "width": 704,
+    "height": 1280
+  },
+  "thumbnail": "/assets/preset_thumbs/camera/orbit.mp4"
+}

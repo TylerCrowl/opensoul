@@ -1,0 +1,5 @@
+{
+  "note": "Identity-consistency gate as a node. Default backend 'patch' (Apache-2.0, no extra weights). Node 1 anchor, node 2 candidate(s); node 3 emits a JSON report (ui text) and passes on-model frames to node 9. For the optional ArcFace backend (InsightFace buffalo_l, non-commercial weights) use 06b.",
+  "status": "docs/evidence/ run of Oct 16 used the ArcFace backend (now 06b); patch default covered by CPU tests.",
+  "format": "ComfyUI API (prompt) dict"
+}

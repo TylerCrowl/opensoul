@@ -1,0 +1,5 @@
+{
+  "note": "Character Sheet maker: ONE view of the six-view turnaround per run (Qwen-Image-Edit-2511 bf16 + Lightning 4-step LoRA). opensoul/character_sheet.py sets node 5 image (reference), node 6 prompt (view), node 7 negative, node 3 seed, node 20 threshold/backend, and reads node 9. Node 20 is the OpenSoul identity gate (patch backend by default): it scores the view against the reference. The app runs the 6 views as separate jobs, re-renders an off-model view once with a new seed, then composites the 3x2 grid with Pillow (views come from separate gated jobs, so the grid cannot be a single graph without a second upload round-trip). On a ComfyUI without the OpenSoul node pack, OPENSOUL_SHEET_GATE=local drops node 20 and runs the identical patch gate code in-app.",
+  "status": "See docs/evidence/CHARACTER_SHEET.md",
+  "format": "ComfyUI API (prompt) dict"
+}

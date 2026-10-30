@@ -1,0 +1,5 @@
+{
+  "note": "Character Sheet back-view fallback: re-renders a back view FROM the sheet's already-correct side view. Picture 1 (node 21 -> 22) is the side view, picture 2 (node 5 -> 14) is the original reference for identity. Same model stack as workflow 07 (Qwen-Image-Edit-2511 bf16 + Lightning 4-step LoRA); node 20 (identity gate) still scores against the original reference (node 5). Used by opensoul/character_sheet.py when a back view fails its checks twice (preset back_fallback).",
+  "status": "See docs/evidence/CHARACTER_SHEET.md",
+  "format": "ComfyUI API (prompt) dict"
+}

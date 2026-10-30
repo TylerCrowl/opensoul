@@ -1,0 +1,40 @@
+{
+  "1": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "anchor.png"
+    }
+  },
+  "2": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "candidate.png"
+    }
+  },
+  "3": {
+    "class_type": "OpenSoulIdentityGate",
+    "inputs": {
+      "anchor": [
+        "1",
+        0
+      ],
+      "candidates": [
+        "2",
+        0
+      ],
+      "threshold": 0.45,
+      "fail_on_reject": false,
+      "backend": "arcface"
+    }
+  },
+  "9": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "3",
+        0
+      ],
+      "filename_prefix": "opensoul_gate_arcface_pass"
+    }
+  }
+}

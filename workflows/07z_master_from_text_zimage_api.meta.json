@@ -1,0 +1,5 @@
+{
+  "note": "Text-only master (Create > Describe > Generate master): one original-character portrait from the user's words, no photo of anyone. Z-Image-Turbo (Tongyi-MAI, Apache-2.0) via Comfy-Org/z_image_turbo split files: UNETLoader z_image_turbo_bf16, CLIPLoader qwen_3_4b (type lumina2), VAELoader ae; ModelSamplingAuraFlow shift 3, 9 steps, cfg 1, res_multistep/simple. opensoul/zimage_master.py sets node 1/2/3 file names (presets/text_master.json, OPENSOUL_ZIMAGE_* env), node 5 prompt, node 6 negative, node 7 size, node 8 seed/steps/cfg, node 10 prefix, and reads node 10. The master becomes the pack's refs/ref_00; the sheet (workflow 07) starts from it. Fallback: OPENSOUL_MASTER_BACKEND=qwen07t uses workflow 07t (no extra download).",
+  "status": "Graph matches the one the rebuild lane ran on the DGX Spark (Oct 19 2026); first in-app master run: see review notes",
+  "format": "ComfyUI API (prompt) dict"
+}

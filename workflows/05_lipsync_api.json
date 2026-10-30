@@ -1,0 +1,42 @@
+{
+  "1": {
+    "class_type": "LoadVideo",
+    "inputs": {
+      "file": "opensoul_i2v.mp4"
+    }
+  },
+  "2": {
+    "class_type": "LoadAudio",
+    "inputs": {
+      "audio": "opensoul_tts.wav"
+    }
+  },
+  "3": {
+    "class_type": "OpenSoulLatentSync",
+    "inputs": {
+      "video": [
+        "1",
+        0
+      ],
+      "audio": [
+        "2",
+        0
+      ],
+      "inference_steps": 50,
+      "guidance_scale": 1.5,
+      "seed": 1247,
+      "face_box": ""
+    }
+  },
+  "9": {
+    "class_type": "SaveVideo",
+    "inputs": {
+      "video": [
+        "3",
+        0
+      ],
+      "filename_prefix": "opensoul_lipsync",
+      "format": "auto"
+    }
+  }
+}

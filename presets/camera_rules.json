@@ -1,0 +1,15 @@
+{
+  "max_moves": 3,
+  "alone": {
+    "static": "Static means no camera move, so it can't be combined with a move.",
+    "jib_down": "Jib down is rendered in reverse, so it has to be the only move in the shot."
+  },
+  "conflicts": [
+    {"a": ["dolly_in", "push_in_gentle", "crash_zoom", "fpv"], "b": ["dolly_out"], "why": "Can't push in and pull back in one shot.", "short": "one pushes in, the other pulls back"},
+    {"a": ["dolly_left"], "b": ["dolly_right"], "why": "Can't move left and right in one shot.", "short": "they go opposite ways"},
+    {"a": ["dolly_zoom"], "b": ["dolly_in", "push_in_gentle", "dolly_out", "crash_zoom", "fpv"], "why": "A dolly zoom already moves in and zooms out; add a sideways or crane move instead.", "short": "a dolly zoom already moves while it zooms"},
+    {"a": ["crash_zoom"], "b": ["dolly_in", "push_in_gentle", "fpv"], "why": "A crash zoom already does the push-in; pick one of them.", "short": "both push in"},
+    {"a": ["dolly_in"], "b": ["push_in_gentle"], "why": "Dolly in and Gentle push-in are the same move at two speeds; pick one.", "short": "the same push-in at two speeds"},
+    {"a": ["fpv"], "b": ["dolly_in", "push_in_gentle"], "why": "FPV already flies toward the subject; pick one of them.", "short": "both fly toward the subject"}
+  ]
+}

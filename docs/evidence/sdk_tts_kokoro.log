@@ -1,0 +1,18 @@
+2026-10-16 14:21:17,114 INFO root: comfy_sdk version 0.5.0, status {'COMFY_BASE_URL': 'http://127.0.0.1:8191', 'has_api_key': False, 'comfy_sdk_importable': True, 'version': '0.5.0', 'note': 'Local open weights: ComfyUI on :8188 + `comfy-api-proxy` on :8189 (COMFY_BASE_URL).'}
+2026-10-16 14:21:17,138 INFO opensoul.comfy: comfy_sdk submit 03_tts_api.json -> http://127.0.0.1:8191
+2026-10-16 14:21:17,145 INFO httpx: HTTP Request: POST http://127.0.0.1:8191/api/v2/jobs "HTTP/1.1 201 Created"
+2026-10-16 14:21:17,145 INFO opensoul.comfy: comfy_sdk job id=fdfb4eca-ff27-4faa-bdbe-f84d1cb0d144
+2026-10-16 14:21:17,147 INFO httpx: HTTP Request: GET http://127.0.0.1:8191/api/v2/jobs/fdfb4eca-ff27-4faa-bdbe-f84d1cb0d144 "HTTP/1.1 200 OK"
+2026-10-16 14:21:17,650 INFO httpx: HTTP Request: GET http://127.0.0.1:8191/api/v2/jobs/fdfb4eca-ff27-4faa-bdbe-f84d1cb0d144 "HTTP/1.1 200 OK"
+2026-10-16 14:21:18,407 INFO httpx: HTTP Request: GET http://127.0.0.1:8191/api/v2/jobs/fdfb4eca-ff27-4faa-bdbe-f84d1cb0d144 "HTTP/1.1 200 OK"
+2026-10-16 14:21:19,539 INFO httpx: HTTP Request: GET http://127.0.0.1:8191/api/v2/jobs/fdfb4eca-ff27-4faa-bdbe-f84d1cb0d144 "HTTP/1.1 200 OK"
+2026-10-16 14:21:21,233 INFO httpx: HTTP Request: GET http://127.0.0.1:8191/api/v2/jobs/fdfb4eca-ff27-4faa-bdbe-f84d1cb0d144 "HTTP/1.1 200 OK"
+2026-10-16 14:21:23,769 INFO httpx: HTTP Request: GET http://127.0.0.1:8191/api/v2/jobs/fdfb4eca-ff27-4faa-bdbe-f84d1cb0d144 "HTTP/1.1 200 OK"
+2026-10-16 14:21:27,568 INFO httpx: HTTP Request: GET http://127.0.0.1:8191/api/v2/jobs/fdfb4eca-ff27-4faa-bdbe-f84d1cb0d144 "HTTP/1.1 200 OK"
+2026-10-16 14:21:32,573 INFO httpx: HTTP Request: GET http://127.0.0.1:8191/api/v2/jobs/fdfb4eca-ff27-4faa-bdbe-f84d1cb0d144 "HTTP/1.1 200 OK"
+2026-10-16 14:21:37,575 INFO httpx: HTTP Request: GET http://127.0.0.1:8191/api/v2/jobs/fdfb4eca-ff27-4faa-bdbe-f84d1cb0d144 "HTTP/1.1 200 OK"
+2026-10-16 14:21:37,575 INFO opensoul.comfy: comfy_sdk job fdfb4eca-ff27-4faa-bdbe-f84d1cb0d144 finished status=succeeded in 20.4s
+2026-10-16 14:21:37,577 INFO httpx: HTTP Request: GET http://127.0.0.1:8191/api/v2/assets/eyJqIjogImZkZmI0ZWNhLWZmMjctNGZhYS1iZGJlLWY4NGQxY2IwZDE0NCIsICJmIjogIm9wZW5zb3VsX3R0c18wMDAwMS5mbGFjIiwgInMiOiAiIiwgInQiOiAib3V0cHV0In0.EOkMsggXSJkg3_u6cFT6nkh6-dTDM9Rm84XeYknXeVc/content "HTTP/1.1 200 OK"
+2026-10-16 14:21:37,578 INFO opensoul.comfy: comfy_sdk output node=2 -> ../out/tts/opensoul_tts_00001.flac
+2026-10-16 14:21:37,578 INFO root: DONE 1 output(s) in 20.5s: ['../out/tts/opensoul_tts_00001.flac']
+EXIT 0

@@ -1,0 +1,338 @@
+{
+  "note": "Music tab model registry (docs/MUSIC.md). One entry per swappable model; the dropdown offers only entries that opensoul/music/registry.py lets through: enabled, status confirmed, confirmed_by set, licence allowed by license_allowlist / license_rules, every spec filled in and a runner (a comfyui runner needs a workflow file that exists), and a pinned revision for anything that isn't OpenSoul's own code. Licences and revisions come from a licence check written down in docs/MUSIC.md; nobody fills one in from memory. gpu_validated false = never run from the app on the GPU. preview_only entries exist only in preview mode (OPENSOUL_DRY_RUN): original synthetic audio, no model. runner.nodes maps the app's inputs to [node id, input name] in the API-format workflow, plus the output node id; opensoul/music/song.py applies them through opensoul.comfy_client.run_workflow_file like every other workflow. 'files' use the presets/models.yaml path rules.",
+  "schema": 1,
+  "gpu_gate": {
+    "yield_to": [
+      "mv_*"
+    ],
+    "interval_s": 30,
+    "max_wait_s": 7200,
+    "note": "Studio mode only: before a song or stem job is queued, wait while a tmux session matching one of these globs runs (session names are only listed, never touched). mv_* = music-video renders."
+  },
+  "license_allowlist": [
+    "Apache-2.0",
+    "MIT",
+    "BSD-2-Clause",
+    "BSD-3-Clause",
+    "CC0-1.0",
+    "CC-BY-4.0"
+  ],
+  "license_rules": {
+    "note": "Contest licence policy. Allowed: license_allowlist. needs_credit: allowed only with a credit line ('credit'). needs_ai_label: allowed only on output that carries the AI-generated label (the model sets ai_label true). blocked: non-commercial, research-only, gated without redistribution, or no licence; never enabled. Anything else is undecided: off by default and listed by opensoul.music.registry.undecided() for review.",
+    "needs_credit": [
+      "CC-BY-4.0"
+    ],
+    "needs_ai_label": [
+      "LTX-2 Community License",
+      "LTX-2.x Community License"
+    ],
+    "blocked_patterns": [
+      "\\bNC\\b",
+      "non-?commercial",
+      "research",
+      "gated",
+      "no[- ]redistribution",
+      "unlicensed",
+      "proprietary"
+    ]
+  },
+  "defaults": {
+    "song": "ace_step",
+    "song_preview": "preview_tone",
+    "stems": "ace_step_extract",
+    "stems_preview": "preview_stem",
+    "analysis": "beat_this",
+    "analysis_fallback": "opensoul_onset"
+  },
+  "roles": {
+    "song": "Lyrics or a prompt in, a finished song (with or without vocals) out.",
+    "stems": "Optional vocal separation: a song in, a vocal stem and an instrumental stem out. Lip-sync uses the full mix by default, and the vocal stem only when the optional ACE-Step 1.5 XL base model is installed.",
+    "analysis": "Beats, bars and sections from an audio file."
+  },
+  "models": [
+    {
+      "id": "opensoul_onset",
+      "name": "OpenSoul beat finder (built in, CPU)",
+      "role": "analysis",
+      "status": "confirmed",
+      "enabled": true,
+      "preview_only": false,
+      "license": "Apache-2.0",
+      "license_url": "LICENSE",
+      "confirmed_by": "OpenSoul source (this repo's own code, numpy only)",
+      "revision": null,
+      "gpu_validated": null,
+      "vram_gb": 0,
+      "max_seconds": 600,
+      "vocals": false,
+      "lyrics_input": false,
+      "prompt_input": false,
+      "runner": {
+        "kind": "python",
+        "module": "opensoul.music.beats",
+        "workflow": null
+      },
+      "files": [],
+      "download_group": null,
+      "credit": null,
+      "notes": "Fallback and preview beat grid: spectral-flux onsets, autocorrelation tempo, dynamic-programming beats, bar phase, section novelty. Always available."
+    },
+    {
+      "id": "beat_this",
+      "name": "beat_this (CPJKU)",
+      "role": "analysis",
+      "status": "confirmed",
+      "enabled": true,
+      "preview_only": false,
+      "license": "MIT",
+      "license_url": "https://github.com/CPJKU/beat_this",
+      "confirmed_by": "docs/MUSIC.md (licence check, Oct 19 2026): 'The code and the published model weights are released under the MIT license'",
+      "revision": {
+        "checkpoint_sha256": "8c328b45f59d8dd3dff219253ff6a8d6482be57d0133a29140e2febbf8eb8331"
+      },
+      "gpu_validated": false,
+      "vram_gb": 0,
+      "max_seconds": 600,
+      "vocals": false,
+      "lyrics_input": false,
+      "prompt_input": false,
+      "runner": {
+        "kind": "python",
+        "module": "opensoul.music.beat_this_backend",
+        "workflow": null,
+        "needs": "beat_this + torch (studio env only) and a local 'final0' checkpoint file: env OPENSOUL_BEAT_THIS_CKPT or runner.checkpoint",
+        "checkpoint": null
+      },
+      "files": [],
+      "download_group": null,
+      "credit": null,
+      "notes": "Preferred beat and downbeat grid in the studio. Imported only when installed (needs torch; never installed into the app's .venv). Loads a local checkpoint file only (sha256 checked, never auto-downloaded); without it, or with a different file, the built-in opensoul_onset tracker runs. Not run yet."
+    },
+    {
+      "id": "preview_tone",
+      "name": "Preview song (no model)",
+      "role": "song",
+      "status": "confirmed",
+      "enabled": true,
+      "preview_only": true,
+      "license": "Apache-2.0",
+      "license_url": "LICENSE",
+      "confirmed_by": "OpenSoul source (synthetic audio made by opensoul/music/song.py)",
+      "revision": null,
+      "gpu_validated": null,
+      "vram_gb": 0,
+      "max_seconds": 120,
+      "vocals": true,
+      "lyrics_input": true,
+      "prompt_input": true,
+      "runner": {
+        "kind": "python",
+        "module": "opensoul.music.song",
+        "workflow": null
+      },
+      "files": [],
+      "download_group": null,
+      "credit": null,
+      "notes": "Preview mode only. A click track whose bars follow the lyric sections, a soft hum on each lyric line as the stand-in vocal, and a matching LRC."
+    },
+    {
+      "id": "ace_step",
+      "name": "ACE-Step 1.5 XL Turbo",
+      "role": "song",
+      "status": "confirmed",
+      "enabled": true,
+      "preview_only": false,
+      "license": "MIT",
+      "license_url": "https://github.com/ace-step/ACE-Step-1.5",
+      "confirmed_by": "docs/MUSIC.md (licence check, Oct 19 2026): MIT on the HF metadata of all weight repos and on the GitHub repo",
+      "revision": {
+        "comfy_files": "Comfy-Org/ace_step_1.5_ComfyUI_files@6707deb277e9e0907fd9c14ce6b6f1d695c6a3fc",
+        "xl_turbo": "ACE-Step/acestep-v15-xl-turbo@d4a0b288b83ebb7e25a8c0b32c573c22e134e8ee",
+        "lm_4b": "ACE-Step/acestep-5Hz-lm-4B@0a3ec94b557aea7d508da38b31cfe7341f6ff737",
+        "core": "ACE-Step/Ace-Step1.5@19671f406d603126926c1b7e2adc169acbcade22",
+        "code": "ace-step/ACE-Step-1.5@ca1e85fe9430179831e6bc6be790c332190a3866"
+      },
+      "gpu_validated": false,
+      "vram_gb": 24,
+      "max_seconds": 600,
+      "vocals": true,
+      "lyrics_input": true,
+      "prompt_input": true,
+      "runner": {
+        "kind": "comfyui",
+        "module": null,
+        "workflow": "workflows/08m_song_acestep15_api.json",
+        "nodes": {
+          "tags": [
+            "5",
+            "tags"
+          ],
+          "lyrics": [
+            "5",
+            "lyrics"
+          ],
+          "seed": [
+            "5",
+            "seed"
+          ],
+          "bpm": [
+            "5",
+            "bpm"
+          ],
+          "duration": [
+            "5",
+            "duration"
+          ],
+          "keyscale": [
+            "5",
+            "keyscale"
+          ],
+          "timesignature": [
+            "5",
+            "timesignature"
+          ],
+          "language": [
+            "5",
+            "language"
+          ],
+          "seconds": [
+            "7",
+            "seconds"
+          ],
+          "sampler_seed": [
+            "8",
+            "seed"
+          ],
+          "output": "10"
+        },
+        "core_nodes": true
+      },
+      "files": [
+        "diffusion_models/acestep_v1.5_xl_turbo_bf16.safetensors",
+        "text_encoders/qwen_0.6b_ace15.safetensors",
+        "text_encoders/qwen_4b_ace15.safetensors",
+        "vae/ace_1.5_vae.safetensors"
+      ],
+      "download_group": "music",
+      "credit": "Music generated with ACE-Step 1.5 (ACE Studio & StepFun), MIT License, https://github.com/ace-step/ACE-Step-1.5",
+      "notes": "Default song model. Native ComfyUI core nodes; workflow workflows/08m_song_acestep15_api.json (same graph as ComfyUI's ACE-Step 1.5 XL Turbo template); files: ./scripts/download_models.sh music (pinned, sha256-checked). VRAM: XL-turbo + 4B LM, no offload. NOT validated on the GPU from the app yet. Text-to-music from original lyrics only: no reference audio, cover or LoRA of real recordings. LRC lyric timestamps: the ACE-Step LM can write them; the ComfyUI core nodes' LRC output is not confirmed, so the app takes song.lrc when the runner provides one and estimates line times otherwise."
+    },
+    {
+      "id": "heartmula",
+      "name": "HeartMuLa-oss-3B",
+      "role": "song",
+      "status": "confirmed",
+      "enabled": false,
+      "preview_only": false,
+      "license": "Apache-2.0",
+      "license_url": "https://github.com/HeartMuLa/heartlib",
+      "confirmed_by": "docs/MUSIC.md (licence check, Oct 19 2026): Apache-2.0 on the HF metadata (3B, happy-new-year, HeartCodec) and on GitHub; licence changed to Apache-2.0 on 20 Jan 2026",
+      "revision": {
+        "model": "HeartMuLa/HeartMuLa-oss-3B-happy-new-year@41f6fc68490e11dc43fdabaa6b5767946408c903",
+        "codec": "HeartMuLa/HeartCodec-oss-20260123@f889dab0532cfa4bf459f2a3367eb6d346b8eeda"
+      },
+      "gpu_validated": false,
+      "vram_gb": 16,
+      "max_seconds": 240,
+      "vocals": true,
+      "lyrics_input": true,
+      "prompt_input": true,
+      "runner": {
+        "kind": "comfyui",
+        "module": null,
+        "workflow": null,
+        "custom_node": "benjiyaya/HeartMuLa_ComfyUI (Apache-2.0)"
+      },
+      "files": [],
+      "download_group": null,
+      "credit": null,
+      "notes": "Second option. Weights pinned in 'revision' (Apache-2.0 at these revisions; older HeartMuLa-oss-3B revisions were CC-BY-NC-4.0, never use them). VRAM about 16 GB comes from the community node's README (unverified). Needs a custom node (not on workflows/node_allowlist.json yet) and an API workflow, so the dropdown shows it as not ready. Not validated on the GPU."
+    },
+    {
+      "id": "preview_stem",
+      "name": "Preview vocal (the preview song's hum)",
+      "role": "stems",
+      "status": "confirmed",
+      "enabled": true,
+      "preview_only": true,
+      "license": "Apache-2.0",
+      "license_url": "LICENSE",
+      "confirmed_by": "OpenSoul source (opensoul/music/song.py)",
+      "revision": null,
+      "gpu_validated": null,
+      "vram_gb": 0,
+      "max_seconds": 120,
+      "vocals": true,
+      "lyrics_input": false,
+      "prompt_input": false,
+      "runner": {
+        "kind": "python",
+        "module": "opensoul.music.song",
+        "workflow": null
+      },
+      "files": [],
+      "download_group": null,
+      "credit": null,
+      "notes": "Preview mode only: the hum written next to the preview song stands in for a separated vocal stem."
+    },
+    {
+      "id": "ace_step_extract",
+      "name": "ACE-Step 1.5 XL base: extract (vocals)",
+      "role": "stems",
+      "status": "confirmed",
+      "enabled": false,
+      "preview_only": false,
+      "license": "MIT",
+      "license_url": "https://huggingface.co/ACE-Step/acestep-v15-xl-base",
+      "confirmed_by": "docs/MUSIC.md (licence check, Oct 19 2026): MIT on the acestep-v15-xl-base HF card and on the GitHub repo; extract runs on base models only",
+      "revision": {
+        "xl_base": "ACE-Step/acestep-v15-xl-base@220c1166efbdd9583eafcb12eb160594bbfcb241",
+        "code": "ace-step/ACE-Step-1.5@ca1e85fe9430179831e6bc6be790c332190a3866"
+      },
+      "gpu_validated": false,
+      "vram_gb": null,
+      "max_seconds": null,
+      "vocals": true,
+      "lyrics_input": false,
+      "prompt_input": false,
+      "runner": {
+        "kind": "runner",
+        "module": "opensoul.music.ace_extract",
+        "workflow": null,
+        "stub": true,
+        "needs": "the ACE-Step 1.5 Python env with acestep-v15-xl-base (ACE_XL_BASE=1 ./scripts/download_models.sh music)"
+      },
+      "files": [],
+      "download_group": "music",
+      "credit": null,
+      "notes": "Optional vocal separation. ACE-Step 1.5's 'extract' task runs only on the base / XL base models, not on the XL Turbo model the song step uses, so OpenSoul ships without stem separation by default and lip-sync uses the full mix. Weights: ACE-Step/acestep-v15-xl-base at the pinned revision (MIT, about 20 GB), off by default in the download group. Runner is a stub (opensoul/music/ace_extract.py); VRAM and max length are unknown. Untested until the GPU smoke."
+    },
+    {
+      "id": "demucs",
+      "name": "Demucs (Hybrid Transformer)",
+      "role": "stems",
+      "status": "blocked",
+      "enabled": false,
+      "preview_only": false,
+      "license": "research-only (weights)",
+      "license_url": "https://github.com/adefossez/demucs",
+      "confirmed_by": null,
+      "revision": null,
+      "gpu_validated": false,
+      "vram_gb": null,
+      "max_seconds": null,
+      "vocals": null,
+      "lyrics_input": null,
+      "prompt_input": null,
+      "runner": {
+        "kind": "runner",
+        "module": null,
+        "workflow": null
+      },
+      "files": [],
+      "download_group": null,
+      "credit": null,
+      "notes": "Blocked for the contest: the code is MIT but the pretrained weights are for research / personal use only (their training data, MUSDB18, is non-commercial). Kept here for the record; never offered, never enabled, never downloaded, not credited."
+    }
+  ]
+}

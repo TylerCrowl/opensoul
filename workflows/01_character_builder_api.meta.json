@@ -1,0 +1,5 @@
+{
+  "note": "Stage 1: turnaround sheet via Qwen-Image-Edit-2511. Wire LoadImage into the official Qwen edit conditioning nodes from ComfyUI templates (node class names vary by ComfyUI version). This stub uses a generic sampler graph as a placeholder.",
+  "status": "TEMPLATE \u2014 verify node class_types against your ComfyUI version on Spark",
+  "format": "ComfyUI API (prompt) dict"
+}

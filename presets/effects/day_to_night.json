@@ -1,0 +1,32 @@
+{
+  "order": 3,
+  "id": "day_to_night",
+  "kind": "effect",
+  "label": "Day to night",
+  "glyph": "day_night",
+  "blurb": "Sun sets in seconds",
+  "prompt": "Locked camera time-lapse transition from bright midday to deep blue night in one shot: shadows rotate and lengthen, golden hour glow, sky turns indigo, warm practical lights switch on, subject stays still and lit consistently.",
+  "lora": {
+    "name": "ltx-2.3-ic-lora-day-to-night.safetensors",
+    "strength": 0.8,
+    "verified_on": "unverified"
+  },
+  "expect_motion": "static",
+  "experimental": false,
+  "verified": {
+    "model": "LTX-2.5 22B distilled",
+    "path": "prompt",
+    "result": "works",
+    "checked_by": "eye",
+    "evidence": "production/motion_check/confusion.md set 15"
+  },
+  "defaults": {
+    "duration_s": 6,
+    "fps": 24,
+    "cfg": 3.0,
+    "steps": 8,
+    "width": 704,
+    "height": 1280
+  },
+  "thumbnail": "/assets/preset_thumbs/effects/day_to_night.mp4"
+}

@@ -1,0 +1,5 @@
+{
+  "note": "Song from lyrics (Music tab > Generate song, studio mode): ACE-Step 1.5 XL Turbo (ACE-Step, MIT) via Comfy-Org/ace_step_1.5_ComfyUI_files split files, ComfyUI core nodes only: UNETLoader acestep_v1.5_xl_turbo_bf16, DualCLIPLoader qwen_0.6b_ace15 + qwen_4b_ace15 (type ace), VAELoader ace_1.5_vae; ModelSamplingAuraFlow shift 3, KSampler 8 steps cfg 1 euler/simple. opensoul/music/song.py sets node 5 tags/lyrics/seed/bpm/duration/keyscale/timesignature/language, node 7 seconds, node 8 seed, and reads node 10 (presets/music_models.json runner.nodes). Download group: ./scripts/download_models.sh music.",
+  "status": "Same graph as the ComfyUI ACE-Step 1.5 XL Turbo template; not yet run from OpenSoul on a GPU (gpu_validated false in presets/music_models.json)",
+  "format": "ComfyUI API (prompt) dict"
+}

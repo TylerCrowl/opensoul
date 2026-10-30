@@ -1,0 +1,21 @@
+How to open OpenSoul on a Mac (Apple chip, macOS 13 or newer)
+
+1. Disk image (.dmg): double-click it. Drag OpenSoul onto the Applications folder in the window.
+   Zip: if the zip is not open yet, double-click it. Then drag OpenSoul into your Applications folder.
+   If you open OpenSoul from Downloads, it asks one time to move to Applications. It does not move without your click.
+2. First time only: right-click (or Control-click) OpenSoul. Choose Open. Then click Open again.
+
+   If your Mac shows only "Done" or "Move to Trash", open System Settings > Privacy & Security.
+   Scroll to OpenSoul. Click "Open Anyway". Confirm.
+   Your Mac shows this message because OpenSoul is not from the App Store.
+3. The first time, OpenSoul needs about one minute to get ready.
+   Then OpenSoul opens in its own window. Its icon is in the Dock and in Launchpad.
+   If the window cannot open, your web browser shows OpenSoul.
+4. Pick "Try it now" to explore with sample results.
+   Or pick "Connect my studio". Type the address of your studio, for example http://my-studio.local:8188.
+   Then click Test connection. "Is this safe?" on that page tells you what OpenSoul sends, and where.
+5. To close OpenSoul, close the window or press Command-Q.
+   To open it again, click OpenSoul in the Dock, in Launchpad or in Applications.
+
+Still blocked? Open Terminal. Run this command: xattr -dr com.apple.quarantine /Applications/OpenSoul.app
+OpenSoul keeps your work in: your home folder > Library > Application Support > OpenSoul.

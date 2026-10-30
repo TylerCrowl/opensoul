@@ -1,0 +1,118 @@
+{
+ "film": {
+  "file": "MV_v2_2.mp4",
+  "sha256": "bbdb223bdfc0feeb6011db066c5087c2a2e991027a03cb903e223e200364ea6c"
+ },
+ "clips": [
+  {
+   "file": "clip_folding.mp4",
+   "poster": "clip_folding.jpg",
+   "from": "MV_v2_2.mp4",
+   "start_s": 16.68,
+   "seconds": 3.0,
+   "shows": "Juno folds a towel at the laundromat table (wide)."
+  },
+  {
+   "file": "clip_disco_wide.mp4",
+   "poster": "clip_disco_wide.jpg",
+   "from": "MV_v2_2.mp4",
+   "start_s": 27.62,
+   "seconds": 2.9,
+   "shows": "The laundromat turns into a disco; Juno dances (wide)."
+  },
+  {
+   "file": "clip_sock.mp4",
+   "poster": "clip_sock.jpg",
+   "from": "MV_v2_2.mp4",
+   "start_s": 43.97,
+   "seconds": 3.0,
+   "shows": "Juno sings and holds up a lost sock (medium)."
+  },
+  {
+   "file": "clip_tangerine.mp4",
+   "poster": "clip_tangerine.jpg",
+   "from": "MV_v2_2.mp4",
+   "start_s": 79.67,
+   "seconds": 3.0,
+   "shows": "Juno sings in the tangerine suit, disco lights (close)."
+  },
+  {
+   "file": "clip_washer_wall.mp4",
+   "poster": "clip_washer_wall.jpg",
+   "from": "MV_v2_2.mp4",
+   "start_s": 109.41,
+   "seconds": 3.0,
+   "shows": "Juno in the tangerine suit by the glowing washers (wide)."
+  }
+ ],
+ "stills": [
+  {
+   "file": "still_folding.jpg",
+   "from": "MV_v2_2.mp4",
+   "time_s": 18.5
+  },
+  {
+   "file": "still_washer.jpg",
+   "from": "MV_v2_2.mp4",
+   "time_s": 26.0
+  },
+  {
+   "file": "still_disco.jpg",
+   "from": "MV_v2_2.mp4",
+   "time_s": 29.0
+  },
+  {
+   "file": "still_basket.jpg",
+   "from": "MV_v2_2.mp4",
+   "time_s": 34.5
+  },
+  {
+   "file": "still_sock.jpg",
+   "from": "MV_v2_2.mp4",
+   "time_s": 45.5
+  },
+  {
+   "file": "still_door.jpg",
+   "from": "MV_v2_2.mp4",
+   "time_s": 60.8
+  },
+  {
+   "file": "still_tangerine.jpg",
+   "from": "MV_v2_2.mp4",
+   "time_s": 81.5
+  },
+  {
+   "file": "still_washer_wall.jpg",
+   "from": "MV_v2_2.mp4",
+   "time_s": 111.0
+  }
+ ],
+ "juno": {
+  "reference": {
+   "file": "juno_ref_00.jpg",
+   "from": "singer/portrait_s303.png",
+   "sha256": "f93af81139c088288239b31bea270f9d3e949fa43e0d430ef97920e9aef998d4"
+  },
+  "sheet": {
+   "file": "juno_character_sheet_v1.jpg",
+   "from": [
+    {
+     "file": "singer/portrait_s303.png",
+     "sha256": "f93af81139c088288239b31bea270f9d3e949fa43e0d430ef97920e9aef998d4"
+    },
+    {
+     "file": "singer/juno_v2/SH_threequarter_s7.png",
+     "sha256": "3631682e09b11245636d92f0629b6fdddc8ae1be61db6a4f66031aac1f0edaeb"
+    },
+    {
+     "file": "singer/juno_v2/SH_fullbody_s7.png",
+     "sha256": "cdd3106c538b58d78ff3d9b6a8781d5fe4a30b957599a8dd9380ad8f4cd94dc8"
+    },
+    {
+     "file": "singer/juno_v2/SH_outfitB_s7.png",
+     "sha256": "f07a911c239b39174ca73f38f987e6f746a35e9ed479c8d983fc567e84df6b01"
+    }
+   ]
+  }
+ }
+}

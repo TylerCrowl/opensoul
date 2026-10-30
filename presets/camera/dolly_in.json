@@ -1,0 +1,33 @@
+{
+  "order": 1,
+  "id": "dolly_in",
+  "kind": "camera",
+  "label": "Dolly in",
+  "glyph": "in",
+  "blurb": "Slow push toward the face",
+  "prompt": "Smooth motorized dolly push-in along the lens axis, 35mm lens, starting at a medium shot and ending on a clean close-up; constant speed, no rotation, no zoom, subject stays centered, background parallax increases naturally, shallow depth of field holds focus on the eyes.",
+  "phrase": "the camera dollies in slowly toward the subject",
+  "lora": {
+    "name": "ltx-2-19b-lora-camera-control-dolly-in.safetensors",
+    "strength": 0.9,
+    "verified_on": "LTX-2 19B (unverified on LTX-2.5 22B)"
+  },
+  "expect_motion": "zoom_in",
+  "experimental": false,
+  "verified": {
+    "model": "LTX-2.5 22B distilled",
+    "path": "prompt",
+    "result": "works",
+    "checked_by": "eye+motion_check",
+    "evidence": "production/motion_check/confusion.md set 15"
+  },
+  "defaults": {
+    "duration_s": 5,
+    "fps": 24,
+    "cfg": 3.0,
+    "steps": 8,
+    "width": 704,
+    "height": 1280
+  },
+  "thumbnail": "/assets/preset_thumbs/camera/dolly_in.mp4"
+}

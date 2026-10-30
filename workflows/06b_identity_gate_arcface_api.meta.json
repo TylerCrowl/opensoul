@@ -1,0 +1,5 @@
+{
+  "note": "Optional ArcFace backend for the identity gate. InsightFace buffalo_l weights are non-commercial research only; not part of the Open Weights default path.",
+  "status": "Same graph as the Oct 16 SDK evidence run (threshold 0.45).",
+  "format": "ComfyUI API (prompt) dict"
+}

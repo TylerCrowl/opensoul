@@ -1,0 +1,51 @@
+{
+  "name": "Ren",
+  "pronoun": "he",
+  "status": "story character (Lumi – Night Shift): the other half of the tipsy couple",
+  "origin": "Original AI character (no photo of any person). The look was developed from couple concept images made with a closed (non-open) image generator; it is being replaced by a text-only rebuild with open models. No name, outfit, prop, pose or line from any existing work is used.",
+  "rights": "All rights reserved until the project decides (see README.md and /ASSETS_LICENSE).",
+  "identity_lock": "Japanese man (locked 2026-10-17: the earlier couple concepts disagreed on his face; the story is set in Tokyo and Mio is Japanese, so Ren is Japanese in every prompt from now on).",
+  "prompt_lock": "Ren, a Japanese man in his early twenties, tall and broad-shouldered, messy short red hair, warm brown eyes, goofy nervous grin, red bomber jacket worn over a grey hoodie, dark blue jeans, white sneakers",
+  "persona": {
+    "one_liner": "Big, warm, a little too loud when happy; brave about dragons, nervous about baristas.",
+    "voice": "Bright, eager, slightly too loud; cracks a little when nervous.",
+    "never": [
+      "sloppy drunk",
+      "mean to anyone",
+      "anything not wholesome"
+    ]
+  },
+  "look": {
+    "hair": "messy short red",
+    "eyes": "warm brown",
+    "build": "tall, broad-shouldered, early twenties",
+    "outfit": "red bomber jacket over a grey hoodie, dark blue jeans, white sneakers"
+  },
+  "reference": {
+    "file": "ren_ref_00.jpg",
+    "workflow": "workflows/07t_character_from_text_api.json",
+    "model": "Qwen-Image-Edit-2511 bf16 + Lightning 4-step LoRA (no input image)",
+    "seed": 22,
+    "candidates_seeds": [
+      21,
+      22,
+      23,
+      24
+    ],
+    "picked_by": "eye (messiest red hair, goofiest grin, clear face)",
+    "date": "2026-10-17"
+  },
+  "sheet": {
+    "file": "ren_character_sheet_v1.jpg",
+    "workflow": "workflows/07_character_sheet_api.json (+07b back fallback)",
+    "driver": "scripts/sheet_run.py --gate local (auto-fix on)",
+    "result": "5/6 views pass every check; close_back keeps one VLM flag ('bomber jacket') after 3 tries, by eye the red bomber is there (false flag). The grin reads happy more than nervous."
+  },
+  "approved": {
+    "by": "project",
+    "at": "2026-10-18T08:23:00-04:00",
+    "what": "photoreal v1 look (this sheet + reference)",
+    "sheet": "ren_character_sheet_v1.jpg",
+    "review_copy": "production/takes/ren_v1_sheet.jpg (same image, re-encoded)"
+  }
+}

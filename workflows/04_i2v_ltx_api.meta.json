@@ -1,0 +1,5 @@
+{
+  "note": "Stage 4: LTX-2.5 distilled (Comfy int8-convrot) image-to-video, two-stage (half-res + 2x latent upsampler), 9:16 704x1280 (stage 1 at 352x640), 169 frames @24fps (~7 s) with generated audio. Flattened from the ComfyUI video_ltx2_5_i2v template without the optional Gemma prompt-enhancer. App sets node 1 image, node 20 text, nodes 35/43 seed.",
+  "status": "see docs/MODEL_STACK.md Spark findings",
+  "format": "ComfyUI API (prompt) dict"
+}

@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light dark" />
+  <script>/* theme before first paint (theme.js) */(function(){try{var t=localStorage.getItem("opensoul.theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+  <title>OpenSoul</title>
+  <link rel="icon" href="/static/opensoul-icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/static/theme.css" />
+  <link rel="stylesheet" href="/static/app.css" />
+  <link rel="stylesheet" href="/static/storyboard.css" />
+  <link rel="stylesheet" href="/static/music.css" />
+  <link rel="stylesheet" href="/static/hardware.css" />
+  <link rel="stylesheet" href="/static/models.css" />
+  <link rel="stylesheet" href="/static/launcher.css" />
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-shuffle" viewBox="0 0 24 24"><path d="M4 7h3.5c2 0 3 1 4.5 3.5S14.5 17 16.5 17H20M4 17h3.5c1.2 0 2-.4 2.8-1.3M14 8.3c.7-.9 1.5-1.3 2.5-1.3H20M17 4l3 3-3 3M17 14l3 3-3 3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="11" height="12" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M5 15V6.5A2.5 2.5 0 0 1 7.5 4H14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 4v11M7 10.5 12 15.5l5-5M5 20h14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M5 7h14M10 7V5h4v2M7 7l1 12h8l1-12" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-left" viewBox="0 0 24 24"><path d="M14.5 6 8.5 12l6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-right" viewBox="0 0 24 24"><path d="m9.5 6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-subject" viewBox="0 0 40 72"><circle cx="20" cy="30" r="7" fill="currentColor"/><path d="M6 60c0-9 6-15 14-15s14 6 14 15z" fill="currentColor"/></symbol>
+  </svg>
+  <div class="shell">
+    <header class="topbar">
+      <p class="logo">OpenSoul<span class="shell-tag shell-quick">Shorts</span></p>
+      <nav class="view-switch flow" aria-label="Create, then Storyboard, then Export">
+        <button class="vs-btn active" data-view="create" type="button" aria-pressed="true"><span class="flow-n">1</span>Create</button>
+        <span class="flow-sep" aria-hidden="true">›</span>
+        <button class="vs-btn" data-view="storyboard" type="button" aria-pressed="false"><span class="flow-n">2</span>Storyboard</button>
+        <span class="flow-sep" aria-hidden="true">›</span>
+        <button class="vs-btn" data-view="export" type="button" aria-pressed="false"><span class="flow-n">3</span>Export</button>
+      </nav>
+      <nav class="uf-tabs" id="ufTabs" aria-label="Make a story in six steps" hidden>
+        <button type="button" data-tab="characters"><span class="flow-n">1</span>Characters</button>
+        <button type="button" data-tab="stages"><span class="flow-n">2</span>Stages</button>
+        <button type="button" data-tab="shots"><span class="flow-n">3</span>Shots</button>
+        <button type="button" data-tab="render"><span class="flow-n">4</span>Render</button>
+        <button type="button" data-tab="review"><span class="flow-n">5</span>Review</button>
+        <button type="button" data-tab="export"><span class="flow-n">6</span>Export</button>
+      </nav>
+      <!-- Music videos and Shorts: not steps of the timeline, so they sit apart on the right, after a hairline. Models lives in Settings. -->
+      <nav class="uf-tools shell-full" id="ufTools" aria-label="Music videos and Shorts">
+        <button type="button" class="uf-tool uf-music" id="ufMusicBtn"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M9 18V6l10-2v12M9 18a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Zm10-2a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Music videos</button>
+        <a class="uf-tool" id="toQuickShot" href="./?quick=1"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M13 3 5 13.5h6L10 21l8-10.5h-6L13 3Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>Shorts</a>
+      </nav>
+      <a class="shell-link shell-quick" id="toFullStudio" href="./">Open the full studio</a>
+      <button class="btn-status" id="settingsLink" type="button" aria-expanded="false" aria-controls="settingsView">Settings</button>
+      <button class="btn-status" id="advancedLink" type="button" aria-expanded="false" aria-controls="statusPanel">System status</button>
+    </header>
+    <main id="appMain">  <!-- the one main landmark (P2-09): every view sits in it -->
+    <div class="stale-banner" id="staleBanner" role="status" aria-live="polite" hidden></div>
+    <div class="hw-intro" id="hwIntro" role="status" hidden></div>
+
+    <section class="status-panel" id="statusPanel" hidden aria-label="System status">
+      <div class="status-head">
+        <h2>System status</h2>
+        <button class="btn btn-ghost btn-sm" id="statusClose" type="button">Close</button>
+      </div>
+      <ul class="status-lines" id="statusLines"><li>Checking…</li></ul>
+      <button class="btn-toggle" id="statusDetailsToggle" type="button" aria-expanded="false" aria-controls="advancedBox">Show details</button>
+      <pre class="advanced-box" id="advancedBox" hidden></pre>
+    </section>
+
+    <section class="hero">
+      <p class="hero-lead">Open models. Your own computer. Your characters.</p>
+      <h1>Shorts: direct a short video starring your character</h1>
+      <p class="hero-qual">Preview mode runs on any computer. Real renders need a studio.</p>
+      <p>Pick your cast. Choose a shot. Share a vertical clip.</p>
+      <p class="hero-story">Telling a story in several shots? Make your characters here. Then <button class="sb-link sb-goto" type="button">open the Storyboard</button>: start blank, from a template or from a script.</p>
+    </section>
+
+    <nav class="steps" aria-label="Steps">
+      <button class="step-chip active" data-step="1" type="button"><strong>1 · Character</strong>Who’s in the shot</button>
+      <button class="step-chip" data-step="2" type="button"><strong>2 · Shot</strong>Camera, effect, voice</button>
+      <button class="step-chip" data-step="3" type="button"><strong>3 · Share</strong>Vertical video + caption</button>
+    </nav>
+
+    <!-- Six-tab shell (unified.js): Characters tab = first-run card + the cast grid; the character editor below is Create's -->
+    <section class="uf-chars" id="ufCharacters" hidden aria-labelledby="ufCharsH">
+      <div class="uf-first" id="ufFirst" hidden>
+        <div class="uf-first-text">
+          <p class="hero-lead">Open models. Your own computer. Your characters.</p>
+          <h1>Make a short story with your own characters</h1>
+          <p class="hero-qual">Preview mode runs on any computer. Real renders need a studio.</p>
+          <p>Characters, then stages, then shots.</p>
+          <div class="uf-first-acts">
+            <button class="btn btn-primary btn-md" id="ufDescribe" type="button">Describe your character</button>
+            <button class="btn btn-ghost btn-md" id="ufTryDemo" type="button">Try the demo story</button>
+            <button class="btn btn-ghost btn-md" id="ufQuick" type="button">Make a short</button>
+            <button class="btn btn-ghost btn-md" id="ufScript" type="button">Start a story from a script</button>
+          </div>
+        </div>
+        <div class="uf-examples"><p class="uf-ex-title" id="ufExTitle"></p><div class="uf-ex-row" id="ufExRow"></div></div>
+        <button class="sb-close uf-first-x" id="ufFirstClose" type="button" aria-label="Hide">&times;</button>
+      </div>
+      <div class="uf-head"><div><h2 id="ufCharsH">Characters</h2><p>Your cast, shared by every story. Pick one to edit it, or add someone new.</p></div>
+        <button class="btn btn-primary btn-md uf-next" data-next="stages" type="button">Next: Stages</button></div>
+      <ul class="uf-cast" id="ufCast" aria-label="Your characters"></ul>
+      <div class="uf-more-ex" id="ufMoreEx" hidden><button type="button" class="uf-more-btn" id="ufMoreBtn" aria-expanded="false" aria-controls="ufMoreList">More examples</button>
+        <ul class="uf-cast" id="ufMoreList" aria-label="More example characters" hidden></ul></div>
+    </section>
+
+    <div class="card create-card">
+      <!-- Step 1: Character -->
+      <section class="panel active" id="step1" data-step="1">
+        <div class="panel-head">
+          <div>
+            <h2 id="charHeading">New character</h2>
+            <p class="help" id="charIntro">Give your character a name. Describe how they look. Then click <strong>1 · Make 4 options</strong>. No photo needed.</p>
+          </div>
+          <div class="demo-pick"><button class="btn btn-ghost" id="btnLoadDemo" type="button">Use the demo character (Lumi)</button>
+            <button class="btn-link" id="btnLoadDemo2" type="button">or try Pixel</button></div>
+        </div>
+        <div class="row">
+          <div>
+            <div class="field">
+              <label for="name">Name</label>
+              <input id="name" type="text" value="" placeholder="e.g. Lumi" autocomplete="off" />
+              <div class="char-pick" id="charPick" role="group" aria-label="Your characters" hidden><span class="hint">Your characters:</span> <span id="charPickList"></span></div>
+            </div>
+            <div class="segmented char-mode" role="tablist" aria-label="How to make your character">
+              <button role="tab" class="seg active" data-cmode="describe" aria-selected="true" type="button">Describe your character</button>
+              <button role="tab" class="seg" data-cmode="photo" aria-selected="false" type="button">Start from a photo</button>
+            </div>
+            <div class="field">
+              <label for="prompt" id="promptLabel">Look</label>
+              <textarea id="prompt" rows="5" placeholder="e.g. a young barista with silver hair in a bun and a calm, sleepy gaze"></textarea>
+              <span class="hint">Use plain words: face, hair, build. OpenSoul removes smiles and grins because they fail the talking-shot check.</span>
+            </div>
+            <div class="field">
+              <label for="mOutfit">Outfit</label>
+              <textarea id="mOutfit" rows="2" placeholder="e.g. green apron over a cream sweater" autocomplete="off"></textarea>
+            </div>
+            <div class="field">
+              <label for="mStyle">Style</label>
+              <select id="mStyle"><option value="">Not set (photo)</option><option value="natural">Photo</option>
+                <option value="cinematic">Film still</option><option value="editorial">Editorial</option>
+                <option value="anime">Anime (2000s cel-shaded TV look)</option><option value="toon3d">3D cartoon</option>
+                <option value="illustration">Painted illustration</option></select>
+              <span class="hint">The sheet and the pictures follow this style. For a drawn picture, pick a drawn style.</span>
+            </div>
+            <div class="field" id="voiceField" hidden>
+              <label for="charVoice">Voice</label>
+              <select id="charVoice" aria-describedby="charVoiceHint"></select>
+              <button class="btn-link" id="btnVoiceSample" type="button">Play a sample</button>
+              <audio id="voiceSampleAudio" hidden></audio>
+              <span class="hint" id="charVoiceHint">This character speaks with this voice in every shot.</span>
+            </div>
+            <div id="describeFields">
+              <div class="field-row">
+                <div class="field">
+                  <label for="mAge">Age range</label>
+                  <select id="mAge"><option value="">Not set</option><option value="18-25">18–25</option><option value="26-35">26–35</option>
+                    <option value="36-50">36–50</option><option value="51-65">51–65</option><option value="65+">65+</option></select>
+                </div>
+                <div class="field field-seed">
+                  <label for="mSeed">Seed <span class="seed-note" id="mSeedNote" hidden>not drawn</span></label>
+                  <input id="mSeed" type="number" min="0" step="1" value="7" inputmode="numeric" />
+                </div>
+              </div>
+              <div class="actions master-actions">
+                <button class="btn btn-primary" id="btnMasterOptions" type="button">1 · Make 4 options</button>
+                <button class="btn-link" id="btnMaster" type="button">Generate one</button>
+              </div>
+              <div class="master-row" id="masterRow" hidden></div>
+              <span class="hint">The master is your character’s first picture, drawn from these words. No photo needed.</span>
+            </div>
+            <div class="field" id="photoField" hidden>
+              <label for="photos">Photo</label>
+              <input id="photos" type="file" accept="image/*" multiple />
+              <label class="file-btn" for="photos">Add a photo</label>
+              <span class="file-name" id="fileName">No photo chosen</span>
+              <button class="btn-link" id="clearPhotos" type="button" hidden>Remove photo</button>
+              <button class="btn-link" id="toDescribe" type="button">No photo? Describe your character instead</button>
+            </div>
+            <label class="consent" id="consentRow" hidden>
+              <input id="consent" type="checkbox" />
+              <span>I own this picture or have permission. Original characters or your own photos only.</span>
+            </label>
+            <div class="actions">
+              <button class="btn btn-primary" id="btnSheet" type="button" disabled aria-describedby="sheetReason">2 · Make character sheet</button>
+              <button class="btn btn-outline" id="btnSaveCharacter" type="button">Save without a sheet</button>
+            </div>
+            <p class="reason" id="sheetReason" role="status"></p>
+            <div class="progress" id="sheetProgress" hidden>
+              <div class="bar"><span id="sheetBar"></span></div>
+              <p id="sheetText">Starting…</p>
+              <ul class="view-chips" id="sheetViews" aria-label="Sheet views"></ul>
+            </div>
+            <p class="note-inline" id="libraryNote" hidden>Found <strong id="libraryName"></strong> in your saved characters: using their <span id="libraryUsing">picture and description</span>.<span id="libraryVariants"></span> <button class="btn-link" id="btnStartFresh" type="button">Start a new version instead</button></p>
+            <div class="note-inline new-look" id="newLookNote" hidden>
+              <p id="newLookText"></p>
+              <label for="newLookName">Or give the new look its own name</label>
+              <div class="new-look-row"><input id="newLookName" type="text" placeholder="e.g. Ava Night" autocomplete="off" />
+              <button class="btn btn-outline btn-sm" id="btnNewLookName" type="button">Use this name</button></div>
+            </div>
+            <p class="status" id="charStatus" role="status"></p>
+          </div>
+          <div class="preview-col">
+            <div class="master-progress" id="masterProgress" role="status" aria-live="polite" hidden>
+              <span class="spinner" aria-hidden="true"></span>
+              <p id="masterProgressText">Drawing your master…</p>
+              <button class="btn btn-outline btn-sm" id="btnMasterStop" type="button">Stop</button>
+            </div>
+            <div class="preview" id="sheetPreview"><div class="empty">Your character sheet appears here</div></div>
+            <p class="preview-label" id="sheetLabel"></p>
+            <a class="btn btn-secondary btn-icon download" id="sheetDownload" href="#" download hidden><svg><use href="#i-down"/></svg>Download sheet</a>
+          </div>
+        </div>
+        <div class="actions spread">
+          <span></span>
+          <span class="right"><span class="reason" id="shotReason"></span>
+          <button class="btn btn-primary" id="toStep2" type="button" aria-describedby="shotReason">Choose a shot</button></span>
+        </div>
+      </section>
+
+      <!-- Step 2: Shot -->
+      <section class="panel" id="step2" data-step="2">
+        <div class="panel-head">
+          <div>
+            <h2>Choose a shot</h2>
+            <p class="help">Pick <strong>one</strong> camera move <em>or</em> one viral effect. Add a line if you want them to talk.</p>
+          </div>
+          <div class="head-actions">
+            <div class="starring" id="starring"></div>
+            <button class="btn btn-secondary btn-icon" id="btnShuffle" type="button"><svg><use href="#i-shuffle"/></svg>Shuffle</button>
+          </div>
+        </div>
+
+        <div class="segmented" role="tablist" aria-label="Shot type">
+          <button role="tab" class="seg active" data-tab="camera" aria-selected="true" type="button">Camera moves</button>
+          <button role="tab" class="seg" data-tab="effects" aria-selected="false" type="button">Viral effects</button>
+          <button role="tab" class="seg" data-tab="speak" aria-selected="false" type="button">Speak</button>
+        </div>
+
+        <div class="tabpane active" data-pane="camera"><div class="tiles" id="cameraTiles" role="radiogroup" aria-label="Camera moves"></div></div>
+        <div class="tabpane" data-pane="effects">
+          <p class="note-inline" id="effectNote">An effect replaces the camera move. Click the effect again to clear it and use None / static.</p>
+          <div class="tiles" id="effectTiles" role="radiogroup" aria-label="Viral effects"></div>
+        </div>
+        <div class="tabpane" data-pane="speak">
+          <div class="speak">
+            <div class="field">
+              <label for="line">What should they say?</label>
+              <textarea id="line" rows="3" maxlength="280" placeholder="Morning, folks. The hens beat me up again."></textarea>
+              <span class="hint"><span id="lineCount">0</span>/280 · Short lines look the most natural.</span>
+              <div class="tagbar" id="tagBar" role="group" aria-label="Add an emotion where the cursor is">
+                <span class="hint">Add a sound where the cursor is:</span>
+                <button type="button" class="chip chip-sm" data-tag="sigh">sigh</button>
+                <button type="button" class="chip chip-sm" data-tag="laugh">laugh</button>
+                <button type="button" class="chip chip-sm" data-tag="chuckle">chuckle</button>
+                <button type="button" class="chip chip-sm" data-tag="gasp">gasp</button>
+                <button type="button" class="chip chip-sm" data-tag="groan">groan</button>
+                <button type="button" class="chip chip-sm" data-tag="yawn">yawn</button>
+                <button type="button" class="chip chip-sm" data-tag="cough">cough</button>
+                <button type="button" class="chip chip-sm" data-tag="sniffle">sniffle</button>
+              </div>
+              <p class="hint" id="tagNote">e.g. <code>&lt;sigh&gt; No. Anything hotter is an apology. &lt;chuckle&gt;</code> · Orpheus voice engine; other engines skip the sounds.</p>
+            </div>
+            <div class="field">
+              <span class="label">Voice</span>
+              <div class="chips" id="voiceChips" role="radiogroup" aria-label="Voice"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="shot-bar">
+          <div class="field era">
+            <span class="label">Look</span>
+            <div class="toggle" id="eraToggle" role="radiogroup" aria-label="Look"></div>
+          </div>
+          <p class="summary" id="shotSummary"></p>
+        </div>
+
+        <div class="result-box" id="shotResult" hidden>
+          <div class="phone small" id="shotPreview"></div>
+          <div>
+            <p class="result-title" id="shotResultTitle"></p>
+            <p class="status" id="shotResultNote"></p>
+            <div class="actions">
+              <button class="btn btn-primary" id="toStep3" type="button">Next: Share</button>
+              <button class="btn btn-ghost" id="btnRegenerate" type="button">Try again</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="drawer" id="advancedDrawer">
+          <button class="btn-toggle" id="advancedToggle" type="button" aria-expanded="false" aria-controls="advancedBody">Advanced <span id="advancedToggleText">· Show</span></button>
+          <div class="drawer-body" id="advancedBody" hidden>
+          <div class="drawer-grid">
+            <div class="field"><label for="advSeed">Seed</label><input id="advSeed" type="number" value="42" min="1" /></div>
+            <div class="field"><label for="advDuration">Length (seconds)</label><input id="advDuration" type="number" min="2" max="10" step="1" /></div>
+            <div class="field"><label for="advSteps">Quality steps</label><input id="advSteps" type="number" min="4" max="40" /></div>
+            <div class="field"><label for="advCfg">Prompt strength</label><input id="advCfg" type="number" min="1" max="10" step="0.5" aria-describedby="advCfgNote" /><span class="hint" id="advCfgNote" hidden>Not used for talking shots (except with LatentSync)</span></div>
+          </div>
+          <div class="drawer-grid" id="backendPickers" hidden>
+            <div class="field"><label for="advTts">Voice engine</label><select id="advTts" data-stage="voice"></select></div>
+            <div class="field"><label for="advLipsync">Lip-sync engine</label><select id="advLipsync" data-stage="lipsync"></select></div>
+          </div>
+          <div class="field"><span class="label">Video prompt</span><p class="prompt-view" id="promptView">Generate once to see the exact prompt sent to the video model.</p></div>
+          <div class="field" id="lineViewRow" hidden><span class="label">Spoken line (voice engine, with sounds)</span><p class="prompt-view" id="lineView"></p></div>
+          </div>
+        </div>
+
+        <div class="progress" id="progress" hidden>
+          <div class="bar"><span id="progressBar"></span></div>
+          <p id="progressText">Locking identity…</p>
+        </div>
+
+        <div class="actions spread">
+          <button class="btn btn-ghost" id="back1" type="button">Back</button>
+          <button class="btn btn-primary btn-lg" id="btnGenerate" type="button">Generate</button>
+        </div>
+      </section>
+
+      <!-- Step 3: Share -->
+      <section class="panel" id="step3" data-step="3">
+        <h2>Share it</h2>
+        <p class="help">Download a vertical video for Reels, Shorts and TikTok. Then paste the caption.</p>
+        <div class="row share">
+          <div class="phone" id="resultPreview"><div class="empty">Generate a shot to see it here</div></div>
+          <div>
+            <p class="result-title" id="resultTitle"></p>
+            <p class="status" id="resultNote"></p>
+            <div class="field">
+              <label for="caption">Caption</label>
+              <textarea id="caption" rows="4"></textarea>
+            </div>
+            <div class="actions stack">
+              <button class="btn btn-primary btn-icon" id="btnExport" type="button"><svg><use href="#i-down"/></svg><span id="btnExportText">Export vertical MP4</span></button>
+              <button class="btn btn-secondary btn-icon" id="btnCopy" type="button"><svg><use href="#i-copy"/></svg>Copy caption</button>
+            </div>
+            <p class="note-inline" id="exportNotice" hidden>Preview mode: this exports the placeholder clip, not a real render. Connect a studio to render real clips.</p>
+            <p class="status" id="shareStatus" role="status"></p>
+            <div class="actions"><button class="btn btn-ghost" id="back2" type="button">Make another shot</button></div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Storyboard + Export (app/web/static/storyboard.js) -->
+    <section class="sb" id="storyboardView" hidden aria-label="Storyboard">
+      <header class="sb-head">
+        <div class="sb-titles">
+          <div class="sb-picker-row">
+            <label class="sb-picker"><span class="visually-hidden">Story</span><select id="sbProject"></select></label>
+            <button class="sb-link" id="sbNewStory" type="button">New story</button>
+            <label class="sb-look" title="Every picture and take in this story uses this look.">Look
+              <select id="sbLook"><option value="">Photo (live action)</option><option value="anime">Anime (2000s cel-shaded TV look)</option>
+                <option value="toon3d">3D cartoon</option><option value="illustration">Painted illustration</option></select></label>
+              <label class="sb-look" title="When a take's camera move looks wrong, render it again (up to 2 more times, about 2–3 min each on the studio). Off: keep the take and show a note."><input type="checkbox" id="sbFixCam" /> Fix camera moves</label>
+              <div class="sb-avoid" id="sbAvoidBox"><button type="button" class="sb-avoid-btn" id="sbAvoidBtn" aria-expanded="false" aria-controls="sbAvoidPop">Avoid</button>
+                <div class="sb-avoid-pop" id="sbAvoidPop" hidden>
+                  <label for="sbAvoid">Things the pictures must not show (commas between them)</label>
+                  <textarea id="sbAvoid" rows="2" maxlength="400" placeholder="e.g. horns on the helmet, a red scarf"></textarea>
+                  <label class="sb-check" for="sbAvoidDefaults"><input type="checkbox" id="sbAvoidDefaults" checked /> Also avoid famous design traits</label>
+                  <p class="sb-hint" id="sbAvoidList"></p>
+                  <p class="sb-hint">OpenSoul makes original designs. It adds this list to every start frame and take of this story.</p>
+                </div></div>
+          </div>
+          <h1 class="sb-title"><input id="sbTitle" type="text" maxlength="80" aria-label="Story name" autocomplete="off" spellcheck="false" /></h1>
+          <p class="sb-sub" id="sbSub"></p>
+        </div>
+        <div class="sb-head-actions" id="sbBoardActions">
+          <button class="btn btn-ghost btn-md" id="sbFromSong" type="button" title="Write or pick a song in Music videos. OpenSoul cuts it into shots for this story.">Start from a song</button>
+          <button class="btn btn-ghost btn-md" id="sbFromScript" type="button">Add from a script</button>
+          <button class="btn btn-primary btn-md" id="sbToExport" type="button">Review &amp; export</button>
+        </div>
+        <div class="sb-head-actions" id="sbExportActions" hidden>
+          <button class="btn btn-ghost btn-md" id="sbBackToBoard" type="button">Back to storyboard</button>
+          <button class="btn btn-primary btn-md" id="sbExport" type="button" disabled>Export story</button>
+        </div>
+      </header>
+
+      <div id="sbBoard">
+        <div class="sb-empty" id="sbEmpty" hidden>
+          <div class="sb-empty-art" aria-hidden="true"><span></span><span></span><span></span></div>
+          <h2>No shots yet</h2>
+          <p>Each shot is one moment of your story. Add them one by one, or paste a script and we’ll split it into shots for you.</p>
+          <div class="sb-empty-actions">
+            <button class="btn btn-primary btn-md" id="sbAddFirst" type="button">Add a shot</button>
+            <button class="btn btn-ghost btn-md" id="sbScriptFirst" type="button">Paste a script</button>
+          </div>
+        </div>
+        <div class="sb-strip-wrap" id="sbStripWrap"><ol class="sb-strip" id="sbStrip" aria-label="Shots in order"></ol>
+          <button class="sb-strip-arrow left" id="sbStripL" type="button" aria-label="Earlier shots" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button>
+          <button class="sb-strip-arrow right" id="sbStripR" type="button" aria-label="More shots" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button></div>
+        <p class="sb-hint" id="sbHint">Click a shot’s name to rename it. Drag to reorder (or Alt + ← / →). Open a shot to pick its cast. You can also make a start frame and takes there.</p>
+        <section class="sb-stages" aria-labelledby="sbStagesH">
+          <div class="sb-stages-head"><h2 id="sbStagesH">Stages</h2><p>A stage sheet keeps a place looking the same in every shot: a master plate plus a few angles.</p></div>
+          <ul class="sb-stage-list" id="sbStageList"></ul>
+        </section>
+      </div>
+
+      <div class="sb-export" id="sbExportPane" hidden>
+        <p class="sb-export-lead" id="sbExportLead"></p>
+        <div class="sb-song" id="sbSongRow">
+          <label for="sbSong">Add the song</label>
+          <select id="sbSong"><option value="">No song</option></select>
+          <label class="sb-song-level" for="sbSongLevel">Level <input id="sbSongLevel" type="range" min="10" max="100" step="5" value="45" /></label>
+          <p class="sb-song-hint" id="sbSongHint">The song plays under the shots. It goes quieter when someone talks. Make a song in Music videos.</p>
+        </div>
+        <label class="sb-check sb-fill" for="sbFillGaps" hidden><input type="checkbox" id="sbFillGaps" checked /> Show black for shots with no keeper (the cut keeps their length)</label>
+        <p class="sb-export-total" id="sbExportTotal" aria-live="polite"></p>
+        <ol class="sb-reel" id="sbReel" aria-label="Shots in the export, in order"></ol>
+        <div class="sb-export-result" id="sbExportResult" hidden></div>
+      </div>
+      <p class="sb-toast" id="sbToast" role="status" hidden></p>
+    </section>
+    <section class="mu" id="musicView" hidden aria-labelledby="muH"></section>
+    <section class="hw" id="settingsView" hidden aria-labelledby="hwH"></section>
+    <section class="hw md" id="modelsView" hidden aria-labelledby="mdH"></section>
+
+    </main>
+
+    <div class="sb-scrim" id="sbScrim" hidden></div>
+    <section class="sb-sheet" id="sbSheet" role="dialog" aria-modal="true" aria-labelledby="sbSheetTitle" hidden>
+      <div class="sb-sheet-head">
+        <div><p class="sb-eyebrow" id="sbSheetEyebrow"></p><h2 id="sbSheetTitle"></h2></div>
+        <button class="sb-close" id="sbClose" type="button" aria-label="Close">&times;</button>
+      </div>
+      <div class="sb-sheet-body" id="sbSheetBody"></div>
+    </section>
+
+    <p class="legal" id="demoLegal" hidden>The demo character’s pictures are all rights reserved. The app is open source. <!-- origin:demo_legal -->We are rebuilding the demo character from text with open models.<!-- /origin:demo_legal --></p>
+    <p class="legal"><button class="btn-link" id="btnCredits" type="button" aria-haspopup="dialog">Credits &amp; licenses</button></p>
+    <dialog class="credits" id="creditsCard" aria-labelledby="creditsTitle">
+      <form method="dialog" class="credits-x"><button class="sb-close" type="submit" aria-label="Close">&times;</button></form>
+      <h2 id="creditsTitle">Credits</h2>
+      <p class="credits-ai">Videos made with OpenSoul are AI-generated. Lumi, Mio, Ren and Pixel are AI-generated characters.</p>
+      <h3>Open models</h3>
+      <ul>
+        <li><a href="https://huggingface.co/Qwen/Qwen-Image-Edit-2511" target="_blank" rel="noopener">Qwen-Image-Edit-2511</a> · pictures and character sheets · Apache-2.0</li>
+        <li><a href="https://huggingface.co/Tongyi-MAI/Z-Image-Turbo" target="_blank" rel="noopener">Z-Image-Turbo</a> · the master picture made from your words · Apache-2.0 · with its Qwen3-4B text encoder (qwen_3_4b) · Apache-2.0 · and the FLUX.1 autoencoder (ae) — Black Forest Labs, Apache-2.0</li>
+        <li><a href="https://huggingface.co/Lightricks/LTX-2.5" target="_blank" rel="noopener">LTX-2.5</a> · video and joint audio + video · LTX-2.x Community License (open weights)</li>
+        <li>Gemma 4 text encoder (in the LTX-2.5 release) · Apache-2.0</li>
+        <li><a href="https://huggingface.co/Lightricks/LTX-2.3-22b-IC-LoRA-Union-Control" target="_blank" rel="noopener">LTX-2.3 IC-LoRA Union Control</a> · pose-guided re-perform · LTX-2 Community License · with <a href="https://github.com/IDEA-Research/DWPose" target="_blank" rel="noopener">DWPose</a> + YOLOX-L (ONNX) pose guide · Apache-2.0</li>
+        <li><a href="https://huggingface.co/Qwen/Qwen3-VL-8B-Instruct" target="_blank" rel="noopener">Qwen3-VL-8B-Instruct</a> · checks each sheet angle · Apache-2.0</li>
+        <li><a href="https://huggingface.co/canopylabs/orpheus-3b-0.1-ft" target="_blank" rel="noopener">Orpheus 3B</a> · voices · Apache-2.0, Built with Llama (Llama 3.2 Community License) · <a href="https://huggingface.co/hubertsiuzdak/snac_24khz" target="_blank" rel="noopener">SNAC</a> · MIT</li>
+        <li>Music: <a href="https://github.com/ace-step/ACE-Step-1.5" target="_blank" rel="noopener">ACE-Step 1.5</a> (ACE Studio &amp; StepFun) · songs and vocal stems · MIT, with its Qwen3 0.6B text encoder · Apache-2.0 and its 4B text encoder · MIT / Apache-2.0 (Qwen3 base) · <a href="https://github.com/HeartMuLa/heartlib" target="_blank" rel="noopener">HeartMuLa-oss-3B</a> · Apache-2.0 (pinned revision) · <a href="https://github.com/CPJKU/beat_this" target="_blank" rel="noopener">beat_this</a> · beats and bars · MIT</li>
+        <li>Lip-sync face tracking: <a href="https://ai.google.dev/edge/mediapipe/solutions/vision/face_landmarker" target="_blank" rel="noopener">MediaPipe face landmarker</a> · Apache-2.0 · <a href="https://github.com/hysts/anime-face-detector" target="_blank" rel="noopener">hysts anime-face-detector</a> · MIT</li>
+        <li>Optional: <a href="https://github.com/bytedance/LatentSync" target="_blank" rel="noopener">LatentSync 1.6</a> lip-sync · code Apache-2.0, weights OpenRAIL++, with <a href="https://github.com/openai/whisper" target="_blank" rel="noopener">Whisper tiny</a> · MIT · <a href="https://huggingface.co/hexgrad/Kokoro-82M" target="_blank" rel="noopener">Kokoro-82M</a> · Apache-2.0 · <a href="https://huggingface.co/ResembleAI/chatterbox" target="_blank" rel="noopener">Chatterbox</a> · MIT · <a href="https://huggingface.co/openbmb/VoxCPM2" target="_blank" rel="noopener">VoxCPM2</a> · Apache-2.0 · <a href="https://github.com/deepinsight/insightface" target="_blank" rel="noopener">InsightFace ArcFace</a> (optional identity score) · code MIT, model weights non-commercial</li>
+      </ul>
+      <h3>Runs on</h3>
+      <ul>
+        <li><a href="https://github.com/Comfy-Org/ComfyUI" target="_blank" rel="noopener">ComfyUI</a> · GPL-3.0 (a separate process) · <a href="https://github.com/Comfy-Org/comfy-python-sdk" target="_blank" rel="noopener">comfy-sdk</a> · MIT</li>
+      </ul>
+      <h3>Characters</h3>
+      <ul>
+        <li>Lumi, Mio and Ren are original characters made for OpenSoul. Their pictures are all rights reserved. <!-- origin:credits_characters -->Their current look comes from concept images from a closed (non-open) image generator. We are rebuilding it from text with open models.<!-- /origin:credits_characters --></li>
+        <li>Pixel is an original placeholder drawn for OpenSoul · Apache-2.0.</li>
+        <li>Characters you make stay on your computer.</li>
+      </ul>
+      <p class="credits-foot">OpenSoul is open source (Apache-2.0). The full list with every license is in the README and NOTICE that come with the app.</p>
+    </dialog>
+  </div>
+  <script src="/static/tiles.js"></script>
+  <script src="/static/app.js"></script>
+  <script src="/static/storyboard.js"></script>
+  <script src="/static/unified.js"></script>
+  <script src="/static/music.js"></script>
+  <script src="/static/hardware.js"></script>
+  <script src="/static/models.js"></script>
+  <script src="/static/theme.js"></script>
+  <script src="/static/launcher.js"></script>
+</body>
+</html>

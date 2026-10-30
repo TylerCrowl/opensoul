@@ -1,0 +1,20 @@
+{
+  "_doc": "Preview mode samples (P0-01). Preview mode can't render, so every Draft or Final take it makes is one of these clips from a real OpenSoul render, clearly labelled as a sample. The start card shows the first three clips. Files live in assets/demo_preview/; provenance in assets/demo_preview/PROVENANCE.md. Remove an entry to stop using it.",
+  "title": "Samples from a real render",
+  "label": "Preview sample from a real render",
+  "note": "Preview mode can't render, so this take is a sample clip from a real OpenSoul render (Juno Pell in 'Spin Cycle'). Studio mode renders your own take.",
+  "credit": "Juno Pell in 'Spin Cycle', made with OpenSoul and open models",
+  "cast": "Juno Pell",
+  "clips": [
+    {"video": "assets/demo_preview/clip_folding.mp4", "poster": "assets/demo_preview/clip_folding.jpg", "title": "Laundromat, 2 a.m."},
+    {"video": "assets/demo_preview/clip_disco_wide.mp4", "poster": "assets/demo_preview/clip_disco_wide.jpg", "title": "The disco turns on"},
+    {"video": "assets/demo_preview/clip_tangerine.mp4", "poster": "assets/demo_preview/clip_tangerine.jpg", "title": "Close-up, lip-synced"},
+    {"video": "assets/demo_preview/clip_sock.mp4", "poster": "assets/demo_preview/clip_sock.jpg", "title": "The lost sock"},
+    {"video": "assets/demo_preview/clip_washer_wall.mp4", "poster": "assets/demo_preview/clip_washer_wall.jpg", "title": "Washer wall"}
+  ],
+  "stills": [
+    "assets/demo_preview/still_folding.jpg", "assets/demo_preview/still_washer.jpg", "assets/demo_preview/still_disco.jpg",
+    "assets/demo_preview/still_basket.jpg", "assets/demo_preview/still_sock.jpg", "assets/demo_preview/still_door.jpg",
+    "assets/demo_preview/still_tangerine.jpg", "assets/demo_preview/still_washer_wall.jpg"
+  ]
+}

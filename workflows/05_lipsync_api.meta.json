@@ -1,0 +1,5 @@
+{
+  "note": "Stage 3c: LatentSync 1.6 lip-sync (default) via the OpenSoul node pack. App uploads node 1 video and node 2 audio as SDK assets; output node 9.",
+  "status": "See docs/evidence/",
+  "format": "ComfyUI API (prompt) dict"
+}

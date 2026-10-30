@@ -1,0 +1,62 @@
+# Release zips / tarballs (git archive) leave these out: concept images and files that descend from a
+# closed (non-open) image generator, and internal files that never go public.
+# Source of truth: opensoul/export_guard.py (a test keeps the two in sync).
+**/concepts/** export-ignore
+**/concept/** export-ignore
+assets/demo_audited/konbini_master.jpg export-ignore
+assets/demo_audited/konbini_register.jpg export-ignore
+assets/demo_audited/konbini_window_side.jpg export-ignore
+assets/demo_audited/lumi_card_v8e_f24.jpg export-ignore
+assets/demo_audited/lumi_card_v8f_f18.jpg export-ignore
+assets/demo_audited/lumi_talk_l04_s171_f13_c318.jpg export-ignore
+assets/demo_audited/shot01_cold_open_v8e_f24.jpg export-ignore
+assets/demo_audited/shot01_cold_open_v8f_f28.jpg export-ignore
+assets/demo_audited/shot01_doodling_v8f.mp4 export-ignore
+assets/demo_audited/stage_konbini_sheet_v6.jpg export-ignore
+assets/demo_audited/tile_still_v8e_f24.jpg export-ignore
+assets/demo_audited/tile_still_v8f_f24.jpg export-ignore
+assets/demo_samples/lumi_pack/** export-ignore
+assets/demo_samples/lumi_pack/refs/ref_00.png export-ignore
+assets/demo_samples/lumi_pack/refs/ref_01.png export-ignore
+assets/demo_samples/lumi_pack/refs/ref_02.png export-ignore
+assets/demo_samples/lumi_sheet_preview.jpg export-ignore
+assets/demo_samples/lumi_still_01_front.png export-ignore
+assets/demo_samples/lumi_still_02_side.png export-ignore
+assets/demo_samples/lumi_still_03_close.png export-ignore
+assets/demo_samples/lumi_video_poster.png export-ignore
+assets/lumi/lumi_character_sheet_v3.jpg export-ignore
+assets/lumi/lumi_character_sheet_v3_trimmed.jpg export-ignore
+assets/lumi/lumi_ref_v3.jpg export-ignore
+assets/lumi/lumi_ref_v3_full_trim.jpg export-ignore
+assets/lumi/lumi_ref_v3_trim.jpg export-ignore
+assets/preset_thumbs/camera/crash_zoom.mp4 export-ignore
+assets/preset_thumbs/camera/dolly_in.mp4 export-ignore
+assets/preset_thumbs/camera/dolly_left.mp4 export-ignore
+assets/preset_thumbs/camera/dolly_out.mp4 export-ignore
+assets/preset_thumbs/camera/dolly_right.mp4 export-ignore
+assets/preset_thumbs/camera/dolly_zoom.mp4 export-ignore
+assets/preset_thumbs/camera/fpv.mp4 export-ignore
+assets/preset_thumbs/camera/jib_down.mp4 export-ignore
+assets/preset_thumbs/camera/jib_up.mp4 export-ignore
+assets/preset_thumbs/camera/push_in_gentle.mp4 export-ignore
+assets/preset_thumbs/camera/static.mp4 export-ignore
+assets/preset_thumbs/effects/day_to_night.mp4 export-ignore
+assets/preset_thumbs/effects/earth_zoom_out.mp4 export-ignore
+assets/preset_thumbs/effects/outfit_switch.mp4 export-ignore
+# pre-rebuild character art (the live app keeps it until the text-only rebuild assets land)
+assets/demo_samples/lumi_still_reject_demo.png export-ignore
+assets/lumi/lumi_character_sheet_v1.jpg export-ignore
+assets/lumi/lumi_ref_00.jpg export-ignore
+assets/lumi/lumi_still_01.jpg export-ignore
+assets/mio/mio_character_sheet_v1.jpg export-ignore
+assets/mio/mio_ref_00.jpg export-ignore
+assets/ren/ren_character_sheet_v1.jpg export-ignore
+assets/ren/ren_ref_00.jpg export-ignore
+docs/media/credits/credits_card.png export-ignore
+docs/media/opensoul_demo.gif export-ignore
+# not public (GATE_TRIAGE)
+docs/OWNER_ASKS.md export-ignore
+docs/WIN_CHECKLIST.md export-ignore
+docs/drafts/** export-ignore
+notes/** export-ignore
+scripts/box_bootstrap.sh export-ignore

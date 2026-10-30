@@ -1,0 +1,33 @@
+{
+  "order": 5,
+  "id": "jib_up",
+  "kind": "camera",
+  "label": "Jib up",
+  "glyph": "up",
+  "blurb": "Rise above the subject",
+  "prompt": "Crane/jib rising vertically from chest height to high angle, camera tilts down slightly to keep the subject framed, slow ease-in ease-out, reveals the ground and setting beneath, no lateral drift.",
+  "phrase": "the camera cranes up to a high angle, tilting down to keep the subject framed",
+  "lora": {
+    "name": "ltx-2-19b-lora-camera-control-jib-up.safetensors",
+    "strength": 0.9,
+    "verified_on": "LTX-2 19B (unverified on LTX-2.5 22B)"
+  },
+  "expect_motion": "crane_up",
+  "experimental": false,
+  "verified": {
+    "model": "LTX-2.5 22B distilled",
+    "path": "prompt",
+    "result": "works",
+    "checked_by": "eye+motion_check",
+    "evidence": "production/motion_check/confusion.md set 15"
+  },
+  "defaults": {
+    "duration_s": 5,
+    "fps": 24,
+    "cfg": 3.0,
+    "steps": 8,
+    "width": 704,
+    "height": 1280
+  },
+  "thumbnail": "/assets/preset_thumbs/camera/jib_up.mp4"
+}

@@ -1,0 +1,34 @@
+{
+  "order": 2,
+  "id": "push_in_gentle",
+  "kind": "camera",
+  "label": "Gentle push-in",
+  "glyph": "in_soft",
+  "blurb": "Short, slow drift in; stays a medium shot",
+  "prompt": "Short, slow camera drift forward, 35mm lens, like a dolly moving only half a step. It starts on a medium shot from the waist up and ends on a medium shot from the chest up, never any closer. The top of the head and the hair stay inside the frame with clear space above them, and the hands stay in frame. The subject stays seated and in place. Constant, unhurried speed, no rotation, no zoom, subtle background parallax.",
+  "phrase": "the camera eases in gently toward the subject's face",
+  "lora": {
+    "name": "ltx-2-19b-lora-camera-control-dolly-in.safetensors",
+    "strength": 0.45,
+    "verified_on": "LTX-2 19B (unverified on LTX-2.5 22B); only used with OPENSOUL_APPLY_LORAS=1"
+  },
+  "expect_motion": "zoom_in",
+  "experimental": false,
+  "verified": {
+    "model": "LTX-2.5 22B distilled",
+    "path": "prompt",
+    "result": "works",
+    "checked_by": "eye",
+    "evidence": "production/motion_check/confusion.md set 15"
+  },
+  "defaults": {
+    "duration_s": 5,
+    "fps": 24,
+    "cfg": 3.0,
+    "steps": 8,
+    "width": 704,
+    "height": 1280
+  },
+  "thumbnail": "/assets/preset_thumbs/camera/push_in_gentle.mp4",
+  "notes": "d2 (18 Oct): the earlier wording ('ends on a medium close-up') pushed in to a head-and-shoulders close-up and cropped the hair in 12 of 12 takes. Avoid the words 'close-up' and 'push-in' in the shot text with this preset."
+}

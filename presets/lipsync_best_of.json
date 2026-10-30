@@ -1,0 +1,149 @@
+{
+  "_doc": "Best-of-N seeds for ltx_a2v_artic talking shots of rebuilt characters (opensoul.lipsync.best_of_config, docs/LIPSYNC_SCORER.md). Calibrated on 74 takes (lip-sync G3, eye ruling 19 Oct). 'fields' maps each metric to the key in the external scorer's JSON result. Rejects: |offset| >= abs_offset_min, open_frac <= open_frac_max, grin v2: grin_frac > grin_frac_max or grin_win_max > grin_win_max (MediaPipe mouthSmile blendshape, highest mean over any 0.5 s window). Eyes never reject: eyes_open_frac only breaks ties among passing ltx_av seeds within tiebreak.eyes_open_frac_lse_c_window of the best LSE-C (a seed with eyes_shut_flag loses ties to an unflagged one), eyes_shut_flag is a needs_review reason (never the LatentSync fallback), and a start-frame eyeBlink >= start_frame.eye_blink_warn is a warning. Lines in grin_review_only (line id: explicit line field, else lNN in the take/shot name, else in the wav name) get grin as a review flag instead of a reject. Env overrides: see docs/LIPSYNC_SCORER.md. 'recipe' picks how a talking shot of a rebuilt character is made: 'L1c' (default, the 'l1c' block: base gated on look + camera lock, then the LatentSync mouth pass) or 'best_of_fallback' (the older pick: highest LSE-C, LatentSync only when every seed is rejected). Env OPENSOUL_LIPSYNC_RECIPE overrides.",
+  "seeds": 3,
+  "seed_step": 1,
+  "recipe": "L1c",
+  "fields": {
+    "lse_c": "lse_c",
+    "lse_d": "lse_d",
+    "offset": "offset",
+    "open_frac": "open_frac",
+    "grin_frac": "grin_frac",
+    "grin_win_max": "grin_win_max",
+    "grin_def": "grin_def",
+    "eyes_open_frac": "eyes_open_frac",
+    "eyes_shut_flag": "eyes_shut_flag",
+    "eyes_shut_max_s": "eyes_shut_max_s",
+    "eye_blink_frames": "eye_blink_frames",
+    "eye_look_down_frames": "eye_look_down_frames",
+    "fps": "fps",
+    "start_eye_blink": "start_eye_blink",
+    "start_face_h_frac": "start_face_h_frac",
+    "start_yaw": "start_yaw",
+    "start_eye_look_listener": "start_eye_look_listener",
+    "end_eye_look_listener": "end_eye_look_listener",
+    "eye_look_listener_frames": "eye_look_listener_frames",
+    "eyeline_drift_warn": "eyeline_drift_warn"
+  },
+  "reject": {
+    "abs_offset_min": 3,
+    "open_frac_max": 0.0,
+    "grin_frac_max": 0.3,
+    "grin_win_max": 0.15
+  },
+  "tiebreak": {
+    "eyes_open_frac_lse_c_window": 0.3
+  },
+  "eyes_rules_apply_to": [
+    "ltx_av"
+  ],
+  "eyes_shut": {
+    "_doc": "Review flag, never a reject (provisional). A face frame is shut when mean(eyeBlinkLeft, eyeBlinkRight) >= eye_blink_min AND mean(eyeLookDownLeft, eyeLookDownRight) < look_down_max; eyes_shut_max_s = the longest continuous run of shut face frames (a frame without a face breaks it); eyes_shut_flag = that run > min_duration_s. The scorer's eyes_shut_flag / eyes_shut_max_s are used when present; per-frame series (fields.eye_blink_frames, eye_look_down_frames, fps) are the fallback.",
+    "provisional": true,
+    "eye_blink_min": 0.6,
+    "look_down_max": 0.3,
+    "min_duration_s": 1.0
+  },
+  "start_frame": {
+    "_doc": "Warning only, never a reject: start-frame mean eyeBlink >= eye_blink_warn -> 'Eyes look closed in the start frame'.",
+    "eye_blink_warn": 0.5
+  },
+  "eyeline": {
+    "_doc": "Warn only, provisional (never a reject, a review reason or a fallback). Look score = how much the eyes look at the listener (1) rather than drift to the lens (0): the scorer's start_eye_look_listener / end_eye_look_listener, else the mean of fields.eye_look_listener_frames over the first / last window_s (one frame without fps; frames without a face left out). Warn 'eyeline drifts to lens at end' when the end is below end_warn or falls by drop_warn or more from the start (0.68 -> 0.19 warns). The scorer's eyeline_drift_warn (bool), when present, decides the warning instead (scorer wins); its per-frame values may be 1/0 (look >= 0.3 or not) with null for no face, and the group is omitted when the shot has no listener. No data -> skipped.",
+    "window_s": 0.25,
+    "drop_warn": 0.3,
+    "end_warn": 0.3
+  },
+  "grin_review_only": [
+    "l07"
+  ],
+  "info": {
+    "grin_def": "v2_blendshape_smile",
+    "grin_smile_on": 0.3
+  },
+  "report_fields": [
+    "eyes_open_frac",
+    "eyes_closed_max_s",
+    "eyes_shut_flag",
+    "eyes_shut_max_s",
+    "grin_smile_p90",
+    "grin_base_smile",
+    "grin_def",
+    "grin_geom_frac",
+    "grin_geom_win_max",
+    "start_eye_blink"
+  ],
+  "l1c": {
+    "summary": "grin-gated + camera-locked a2v base (eyes open, looking at the listener) \u2192 LatentSync, MediaPipe only",
+    "_doc": "L1c, two stages for talking shots (docs/LIPSYNC_SCORER.md). Stage 1 (base): a2v best-of-N gated on look only: base_reject rules (grin_frac, grin_win_max, open_frac; never offset or lse_c), eyes_shut_flag a review flag; passing bases ranked by base_rank (an eyes_shut_flag base ranks after unflagged ones). The talk prompt keeps the eyes open and on the listener in the scene (the camera only when the shot has no listener). Stage 2 (mouth): LatentSync 1.6 through the OpenSoul wrapper with the MediaPipe face detector only. The output is scored with output_reject; a grin in the output means the base was wrong, so the next passing base is used (LatentSync is never re-run with other settings). The base is trimmed to the voice length, never looped; a base shorter than the voice is flagged base_short. Stage 2 runs by default for rebuilt characters (stage2.default_on_rebuilt, whatever the voice id) and for the voices in stage2.default_on_voices (with their stage2.voice_aliases); otherwise it is skipped when the stage-1 pick already passes every output_reject rule. The inner-mouth pass is optional (experimental, off by default). Framing and cost are hints only.",
+    "base_reject": [
+      "open_frac",
+      "grin_frac",
+      "grin_win_max"
+    ],
+    "base_rank": [
+      "eyes_open_frac",
+      "lse_c"
+    ],
+    "output_reject": [
+      "offset",
+      "open_frac",
+      "grin_frac",
+      "grin_win_max"
+    ],
+    "repick_on_output": [
+      "grin_frac",
+      "grin_win_max"
+    ],
+    "base_length": "trim",
+    "stage2": {
+      "backend": "latentsync",
+      "version": "1.6",
+      "face_detector": "mediapipe",
+      "face_style": "real",
+      "guidance": 2.0,
+      "steps": 50,
+      "seed": 1247,
+      "default_on_rebuilt": true,
+      "default_on_voices": [
+        "F"
+      ],
+      "voice_aliases": {
+        "_doc": "Other ids for the same voice (case-insensitive): a shot whose voice id is an alias counts as its canonical voice for default_on_voices; records keep the id as given and add voice_canonical.",
+        "F": [
+          "clip_F",
+          "revoice_F",
+          "qwen3_F"
+        ]
+      },
+      "skip_when_stage1_passes": true,
+      "inner_mouth": {
+        "enabled": false,
+        "experimental": true,
+        "runner": "custom_nodes/opensoul_nodes/runners/ls_inner_mouth.py",
+        "settings": "L1c2",
+        "args": [],
+        "_doc": "Optional, experimental, off by default (setting OPENSOUL_L1C_INNER_MOUTH=on). It can leave black voids in the mouth and hold the mouth open into a pause. When on it runs with no flags: the runner's own defaults are L1c2 (Config in ls_inner_mouth.py: lip_color_fix on, lip_fix_mode blend, mask_erode 1.0, open_thr 0.06, dilate 1, face_style auto)."
+      }
+    },
+    "framing": {
+      "_doc": "Warning only, talk shots: start-frame face height over face_h_frac_warn of the frame height, or |yaw| over abs_yaw_warn. Runs only when the data is there (the shot's face_box, or the scorer's start_face_h_frac / start_yaw).",
+      "face_h_frac_warn": 0.35,
+      "abs_yaw_warn": 0.15,
+      "recommend_face_h_frac": [
+        0.25,
+        0.3
+      ]
+    },
+    "cost": {
+      "_doc": "LatentSync runs in 16-frame chunks; about 35.3 s per chunk measured on a DGX Spark. Estimate = ceil(frames / 16) * 35.3 s.",
+      "latentsync_chunk_frames": 16,
+      "latentsync_s_per_chunk": 35.3
+    },
+    "cam": {
+      "_doc": "Camera-creep gate: after a2v and again after LatentSync. REJECT when max |scale-1| > scale_drift_max_pct OR max centre translation > trans_max_px. A stage-1 fail re-seeds (never LatentSync); a post-LS fail re-picks the next base like a grin. Env OPENSOUL_A2V_CAMLOCK=off disables the AddGuide graph wiring and this gate.",
+      "scale_drift_max_pct": 0.5,
+      "trans_max_px": 1.0
+    }
+  }
+}

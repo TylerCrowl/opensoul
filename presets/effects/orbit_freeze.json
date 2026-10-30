@@ -1,0 +1,28 @@
+{
+  "order": 2,
+  "id": "orbit_freeze",
+  "kind": "effect",
+  "label": "Orbit freeze",
+  "glyph": "orbit_freeze",
+  "blurb": "Time stops, camera keeps moving",
+  "prompt": "Bullet-time freeze: the moment stops mid-action while the camera orbits 180 degrees around the frozen subject; dust, hair and fabric suspended in the air, crisp detail, cinematic lighting, smooth constant orbit speed.",
+  "lora": null,
+  "expect_motion": "orbit",
+  "experimental": true,
+  "verified": {
+    "model": "LTX-2.5 22B distilled",
+    "path": "prompt",
+    "result": "not working yet",
+    "checked_by": "eye",
+    "evidence": "production/motion_check/confusion.md set 15"
+  },
+  "defaults": {
+    "duration_s": 6,
+    "fps": 24,
+    "cfg": 3.0,
+    "steps": 8,
+    "width": 704,
+    "height": 1280
+  },
+  "thumbnail": "/assets/preset_thumbs/effects/orbit_freeze.mp4"
+}

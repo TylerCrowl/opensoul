@@ -1,0 +1,440 @@
+# OpenSoul hardware-to-model picker (opensoul/hardware.py, docs/HARDWARE_MEMORY.md "Hardware picker").
+#
+# Honesty rules (tests/test_hardware_profiles.py enforces them):
+# - Only one tier is tested: one DGX Spark (GB10, 128 GB unified memory). Every other tier is "untested (estimate)".
+# - A memory number is either `measured_gb` (measured on the Spark, source docs/HARDWARE_MEMORY.md) or `est_gb`
+#   (source: estimate, with the basis written next to it). An untested tier never carries `measured_gb`.
+# - Model ids are the backend ids in presets/models.yaml (and the model id in presets/music_models.json for music).
+# - Licences come in three allowed classes (license_classes): open (license_allowlist), LTX-2.x with the
+#   AI-generated label, and open weights with use restrictions (OpenRAIL++-M, Llama Community Licence), shown with
+#   their own amber badge. Anything else is never recommended. Licence tags and file sizes were read from the Hugging Face Hub (read-only) on 2026-10-22 and
+#   are cited as hf:<repo>@<revision>. `weights_gb` is the download size of the files, not a memory measurement.
+# - Detection is local and read-only: nvidia-smi / torch.cuda (with timeouts) and /proc/meminfo. The machine count
+#   is never discovered over the network; it comes from OPENSOUL_MACHINES or the saved setting (default 1).
+schema: 1
+checked: "2026-10-22"
+
+license_allowlist: [Apache-2.0, MIT, BSD-2-Clause, BSD-3-Clause, CC0-1.0, CC-BY-4.0]
+license_rules:
+  needs_credit: [CC-BY-4.0]
+  needs_ai_label: [LTX-2.x Community License]
+  blocked_patterns: ['\bNC\b', 'non-?commercial', 'research', 'gated', 'no[- ]redistribution', 'unlicensed', 'proprietary']
+# How the picker labels each allowed licence. `use_restricted.licenses` is the allowlist tier for open weights whose
+# licence allows commercial use but lists uses that are not allowed (an acceptable-use policy).
+license_classes:
+  open: {label: "Open license", explain: "Free to use, change and share, including commercially."}
+  ai_label: {label: "Open weights, AI-generated label", explain: "Free under $10M yearly revenue; every video carries the AI-generated label."}
+  use_restricted:
+    label: "Open weights, use-restricted"
+    explain: "Commercial use allowed; some uses prohibited."
+    licenses: [OpenRAIL++-M, Llama 3.2 Community License]
+
+stages:
+  - {id: stills, label: Pictures, plain: "Character sheets and scene pictures"}
+  - {id: video, label: Video, plain: "Moving shots made from your pictures"}
+  - {id: lipsync, label: Lip-sync, plain: "Mouth moves in time with the voice"}
+  - {id: tts, label: Voice, plain: "Spoken lines from your script"}
+  - {id: music, label: Music, plain: "Songs and backing music"}
+
+# One entry per model the picker can name. `registry` points at the entry this reuses.
+models:
+  qwen_edit_bf16:
+    label: Qwen-Image-Edit-2511 (bf16)
+    stage: stills
+    registry: {file: presets/models.yaml, stage: sheet, backend: qwen_edit_bf16}
+    precision: bf16
+    license: Apache-2.0
+    license_verified: true
+    license_source: "hf:Qwen/Qwen-Image-Edit-2511@6f3ccc0b56e431dc6a0c2b2039706d7d26f22cb9 (license: apache-2.0); hf:Comfy-Org/Qwen-Image-Edit_ComfyUI@f68ace85e60b4a02a323e394253731947657b7d2 (license: apache-2.0)"
+    url: https://huggingface.co/Qwen/Qwen-Image-Edit-2511
+    weights_gb: 51.4
+    weights_source: "hf file sizes: qwen_image_edit_2511_bf16 40.9 GB (hf:Comfy-Org/Qwen-Image-Edit_ComfyUI@f68ace85e60b4a02a323e394253731947657b7d2) + qwen_2.5_vl_7b_fp8_scaled 9.4 GB + qwen_image_vae 0.25 GB (hf:Comfy-Org/Qwen-Image_ComfyUI@1f12b17be14c89b026c51a91d67c32f84bb047bc) + Lightning 4-step LoRA bf16 0.85 GB (hf:lightx2v/Qwen-Image-Edit-2511-Lightning@107d238d68b8387e32843d0b4a2e24ceb0d3ad86)"
+  qwen_edit_fp8mixed:
+    label: Qwen-Image-Edit-2511 (fp8 mixed)
+    stage: stills
+    registry: {file: presets/models.yaml, stage: stills, backend: qwen_edit_fp8mixed}
+    precision: fp8 mixed
+    license: Apache-2.0
+    license_verified: true
+    license_source: "hf:Comfy-Org/Qwen-Image-Edit_ComfyUI@f68ace85e60b4a02a323e394253731947657b7d2 (license: apache-2.0)"
+    url: https://huggingface.co/Qwen/Qwen-Image-Edit-2511
+    weights_gb: 31.0
+    weights_source: "hf file sizes: qwen_image_edit_2511_fp8mixed 20.5 GB (hf:Comfy-Org/Qwen-Image-Edit_ComfyUI@f68ace85e60b4a02a323e394253731947657b7d2) + qwen_2.5_vl_7b_fp8_scaled 9.4 GB + qwen_image_vae 0.25 GB + Lightning LoRA 0.85 GB"
+  zimage:
+    label: Z-Image-Turbo (bf16)
+    stage: stills
+    registry: {file: presets/models.yaml, stage: master, backend: zimage}
+    precision: bf16
+    license: Apache-2.0
+    license_verified: true
+    license_source: "hf:Tongyi-MAI/Z-Image-Turbo@f332072aa78be7aecdf3ee76d5c247082da564a6 (license: apache-2.0); hf:Comfy-Org/z_image_turbo@6fc90a3b1b653e935a0d175e260736de25b84df5 (license: apache-2.0)"
+    url: https://huggingface.co/Tongyi-MAI/Z-Image-Turbo
+    weights_gb: 20.6
+    weights_source: "hf file sizes: z_image_turbo_bf16 12.3 GB + qwen_3_4b 8.0 GB + ae 0.34 GB (hf:Comfy-Org/z_image_turbo@6fc90a3b1b653e935a0d175e260736de25b84df5)"
+  ltx25_bf16:
+    label: LTX-2.5 distilled (bf16)
+    stage: video
+    registry: {file: presets/models.yaml, stage: video, backend: ltx25_bf16}
+    precision: bf16
+    license: LTX-2.x Community License
+    ai_label: true
+    license_verified: true
+    license_source: "hf:Lightricks/LTX-2.5@49b093a39c19169a8a81721dcc541e07e945232f (license: other, license_name: ltx-2.x-community-license-agreement, license_link: https://github.com/Lightricks/LTX-2/blob/main/LICENSE-2_x)"
+    license_note: "Open weights. Every video carries the AI-generated label. The download asks you to accept the license on Hugging Face first. Companies with $10M or more in yearly revenue need a paid license for commercial use (LICENSE-2_x, section 2.1)."
+    url: https://huggingface.co/Lightricks/LTX-2.5
+    weights_gb: 71.2
+    weights_source: "hf file sizes (hf:Lightricks/LTX-2.5@49b093a39c19169a8a81721dcc541e07e945232f): ltx-2.5-22b-distilled-transformer-bf16 42.0 GB + gemma4-12b-with-proj-ltx-2.5-bf16 26.3 GB + video VAE 1.5 GB + audio VAE 0.36 GB + spatial upscaler x2 1.0 GB"
+  ltx25_int8:
+    label: LTX-2.5 distilled (int8, compressed)
+    stage: video
+    registry: {file: presets/models.yaml, stage: video, backend: ltx25_int8}
+    precision: int8 (convrot)
+    license: LTX-2.x Community License
+    ai_label: true
+    license_verified: true
+    license_source: "hf:Lightricks/LTX-2.5@49b093a39c19169a8a81721dcc541e07e945232f (license: other, license_name: ltx-2.x-community-license-agreement)"
+    license_note: "Same license as the bf16 files. Every video carries the AI-generated label; companies with $10M or more in yearly revenue need a paid license."
+    url: https://huggingface.co/Lightricks/LTX-2.5
+    weights_gb: 39.8
+    weights_source: "hf file sizes (hf:Lightricks/LTX-2.5@49b093a39c19169a8a81721dcc541e07e945232f): ltx-2.5-22b-distilled-transformer-comfy-int8-convrot 21.5 GB + gemma4-12b-with-proj-ltx-2.5-comfy-int8-convrot 15.4 GB + video VAE 1.5 GB + audio VAE 0.36 GB + spatial upscaler x2 1.0 GB"
+  ltx_av:
+    label: LTX-2.5 a2v, camera-locked
+    stage: lipsync
+    registry: {file: presets/models.yaml, stage: lipsync, backend: ltx_av}
+    precision: same as the video model
+    license: LTX-2.x Community License
+    ai_label: true
+    license_verified: true
+    license_source: "hf:Lightricks/LTX-2.5@49b093a39c19169a8a81721dcc541e07e945232f (license: other, license_name: ltx-2.x-community-license-agreement)"
+    url: https://huggingface.co/Lightricks/LTX-2.5
+    weights_gb: 0
+    weights_source: "no extra files: it is the video model run with the voice as input (workflows/04b_a2v_ltx_api.json; camera lock is the native LTXVAddGuide last-frame pin, on by default in opensoul/lipsync.py)"
+  latentsync:
+    label: LatentSync 1.6
+    stage: lipsync
+    registry: {file: presets/models.yaml, stage: lipsync, backend: latentsync}
+    precision: fp16 (own env)
+    license: OpenRAIL++-M
+    license_verified: true
+    license_source: "hf:ByteDance/LatentSync-1.6@c42c7e6c8e9c213626389fa7d9a3c444b8536353 (license: openrail++); code Apache-2.0"
+    license_note: "Weights under OpenRAIL++-M: commercial use is allowed, but the license lists uses that are not (for example deceiving people or harming them)."
+    url: https://huggingface.co/ByteDance/LatentSync-1.6
+    weights_gb: 6.7
+    weights_source: "hf file sizes (hf:ByteDance/LatentSync-1.6@c42c7e6c8e9c213626389fa7d9a3c444b8536353): latentsync_unet.pt 5.1 GB + stable_syncnet.pt 1.6 GB"
+  chatterbox:
+    label: Chatterbox
+    stage: tts
+    registry: {file: presets/models.yaml, stage: voice, backend: chatterbox}
+    precision: fp32 (safetensors)
+    license: MIT
+    license_verified: true
+    license_source: "hf:ResembleAI/chatterbox@5bb1f6ee58e50c3b8d408bc82a6d3740c2db6e18 (license: mit)"
+    license_note: "Audio carries the model maker's built-in inaudible watermark."
+    url: https://huggingface.co/ResembleAI/chatterbox
+    weights_gb: 3.2
+    weights_source: "hf file sizes (hf:ResembleAI/chatterbox@5bb1f6ee58e50c3b8d408bc82a6d3740c2db6e18): t3_cfg.safetensors 2.1 GB + s3gen.safetensors 1.1 GB + ve.safetensors 0.006 GB"
+  orpheus:
+    label: Orpheus 3B
+    stage: tts
+    registry: {file: presets/models.yaml, stage: voice, backend: orpheus}
+    precision: Q4_K_M (GGUF)
+    license: Llama 3.2 Community License
+    license_verified: true
+    license_source: "hf:lex-au/Orpheus-3b-FT-Q4_K_M.gguf@51079fc5f7de3e137cdb453398baa1d4bc1614dc (license: apache-2.0); base model hf:canopylabs/orpheus-3b-0.1-pretrained@bf0cce99761b2f5857b3d85829691f696bf20cb0 lists base_model meta-llama/Llama-3.2-3B-Instruct, so the Llama 3.2 Community License applies; the official fine-tune repo hf:canopylabs/orpheus-3b-0.1-ft is a click-through download"
+    license_note: "The Orpheus files are tagged Apache-2.0, but Orpheus is built on Llama 3.2, so the Llama 3.2 Community License and its acceptable-use policy apply. Credit: Built with Llama."
+    url: https://huggingface.co/canopylabs/orpheus-3b-0.1-ft
+    weights_gb: 2.4
+    weights_source: "hf file size: Orpheus-3b-FT-Q4_K_M.gguf 2.4 GB (hf:lex-au/Orpheus-3b-FT-Q4_K_M.gguf@51079fc5f7de3e137cdb453398baa1d4bc1614dc); the SNAC decoder (hf:hubertsiuzdak/snac_24khz@d73ad176a12188fcf4f360ba3bf2c2fbbe8f58ec, MIT, pytorch_model.bin 79 MB) is not counted"
+  kokoro:
+    label: Kokoro-82M
+    stage: tts
+    registry: {file: presets/models.yaml, stage: voice, backend: kokoro}
+    precision: fp32
+    license: Apache-2.0
+    license_verified: true
+    license_source: "hf:hexgrad/Kokoro-82M@f3ff3571791e39611d31c381e3a41a3af07b4987 (license: apache-2.0; same revision scripts/download_models.sh pins)"
+    url: https://huggingface.co/hexgrad/Kokoro-82M
+    weights_gb: 0.33
+    weights_source: "hf file size: kokoro-v1_0.pth 327.2 MB (hf:hexgrad/Kokoro-82M@f3ff3571791e39611d31c381e3a41a3af07b4987)"
+  ace_step:
+    label: ACE-Step 1.5 XL Turbo
+    stage: music
+    registry: {file: presets/music_models.json, model: ace_step}
+    precision: bf16
+    license: MIT
+    license_verified: true
+    license_source: "hf:ACE-Step/acestep-v15-xl-turbo@d4a0b288b83ebb7e25a8c0b32c573c22e134e8ee (license: mit); the licence check in docs/MUSIC.md (Oct 19 2026)"
+    license_note: "Not yet run on a graphics card from the app (presets/music_models.json gpu_validated: false). Credit line in docs/MUSIC.md."
+    url: https://github.com/ace-step/ACE-Step-1.5
+    weights_gb: 19.9
+    weights_source: "hf file sizes (hf:Comfy-Org/ace_step_1.5_ComfyUI_files@6707deb277e9e0907fd9c14ce6b6f1d695c6a3fc, the revision presets/music_models.json pins): acestep_v1.5_xl_turbo_bf16 9.97 GB + qwen_4b_ace15 8.38 GB + qwen_0.6b_ace15 1.19 GB + ace_1.5_vae 0.34 GB"
+
+  voxcpm2:
+    label: VoxCPM2
+    stage: tts
+    registry: {file: presets/models.yaml, stage: voice, backend: voxcpm2}
+    precision: bf16 (safetensors)
+    license: Apache-2.0
+    license_verified: true
+    license_source: "hf:openbmb/VoxCPM2@32279effe8c19989596f05d353d1447f51d9e915 (license: apache-2.0, not gated)"
+    license_note: "The model card asks that AI-generated audio be clearly labeled and forbids impersonation, fraud and disinformation: clone only voices you made or have permission to use."
+    url: https://huggingface.co/openbmb/VoxCPM2
+    weights_gb: 5.0
+    weights_source: "hf file sizes (hf:openbmb/VoxCPM2@32279effe8c19989596f05d353d1447f51d9e915): model.safetensors 4.6 GB + audiovae.pth 0.38 GB (2.29B parameters)"
+
+# Voice engines the picker lists under the Voice card. `app_default` must match presets/models.yaml (voice
+# default_backend): the Speak tab, older stories and the no-clip fallback use it. The `new_stories_default` option
+# must match presets/voice_engine.json tts_default_new. `recommended` is the picker's pick.
+voice_options:
+  app_default: orpheus
+  recommended: chatterbox
+  options:
+    - model: chatterbox
+      status: recommended
+      note: "MIT license. Pick it per story; each character speaks in their own voice clip (consent required), else one shared voice. Workflows 03b / 03b_ref."
+    - model: orpheus
+      status: app_default
+      note: "Named voices (Lumi Tara, Mio Leah, Ren Zac, Pixel Jess) and emotion tags like <sigh>. Older stories keep it unchanged; a character with no voice clip speaks with it; rollback for new stories: OPENSOUL_TTS_DEFAULT=orpheus."
+    - model: kokoro
+      status: in_app
+      note: "Small and fast; reads the words without the emotion tags (OPENSOUL_TTS=kokoro)."
+    - model: voxcpm2
+      status: new_stories_default
+      note: "Apache-2.0. The default for new stories: each character speaks in their own voice clip (consent required); without a clip the line uses Orpheus, with a note. Own venv: scripts/setup_tts_voxcpm2.sh."
+
+# Named so the picker can say why they are not offered. Never recommended.
+not_recommended:
+  demucs:
+    label: Demucs (vocal separation)
+    stage: music
+    registry: {file: presets/music_models.json, model: demucs}
+    license: research-only (weights)
+    license_verified: false
+    license_source: "presets/music_models.json (status: blocked)"
+    reason: "Blocked: the pretrained weights are for research and personal use only."
+  arcface:
+    label: InsightFace buffalo_l
+    stage: identity
+    registry: {file: presets/models.yaml, stage: identity_gate, backend: arcface}
+    license: non-commercial (weights)
+    license_verified: false
+    license_source: "presets/models.yaml (license: non-commercial (weights))"
+    reason: "Blocked: non-commercial weights."
+
+# Tiers are matched top to bottom; the first match wins. `match` keys:
+#   gpu_class: spark | discrete | none;  min_memory_gb (unified memory) / min_vram_gb, max_vram_gb (discrete);
+#   min_machines / max_machines (from OPENSOUL_MACHINES or the saved setting, never the network).
+tiers:
+  - id: spark_x1
+    label: "1 × DGX Spark (128 GB unified memory)"
+    short: "1 × Spark"
+    tested: true
+    status: tested
+    status_label: "tested (measured on Spark)"
+    match: {gpu_class: spark, min_memory_gb: 100, max_machines: 1}
+    summary: "The full-quality stack OpenSoul was built and measured on. One stage runs at a time; the video model is the biggest at about 68-71 GB."
+    machines:
+      - {id: a, label: "Spark", stages: [stills, video, lipsync, tts, music]}
+    picks:
+      - stage: stills
+        model: qwen_edit_bf16
+        machine: a
+        tested: true
+        memory: {measured_gb: 28.8, detail: "28.7 GiB GPU process, 28.8 GB drop in available memory (one clean run, Oct 17 2026)", source: docs/HARDWARE_MEMORY.md}
+        why: "Full-precision picture editing keeps the character's face the same from shot to shot."
+      - stage: video
+        model: ltx25_bf16
+        machine: a
+        tested: true
+        memory: {measured_gb: 70.7, detail: "68.0 GiB GPU process, 70.7 GB drop in available memory, 1024×1792, 97 frames (one clean run, Oct 17 2026)", source: docs/HARDWARE_MEMORY.md}
+        why: "Full-precision video at full size. This is the stage that sets the hardware bar."
+      - stage: lipsync
+        model: ltx_av
+        machine: a
+        tested: true
+        memory: {measured_gb: 70.7, detail: "Same run as the video: the voice goes into the video model (1024×1792, 97 frames, Oct 17 2026)", source: docs/HARDWARE_MEMORY.md}
+        why: "The mouth is made together with the picture from the voice, with the camera held still."
+        stage2:
+          model: latentsync
+          tested: true
+          memory: {measured_gb: 21.6, measured_low_gb: 17.0, detail: "17.0 GiB GPU process, 21.6 GB drop in available memory, same 97-frame take, run after the video model was unloaded (one clean run, Oct 17 2026)", source: docs/HARDWARE_MEMORY.md}
+          why: "Optional, off by default: 'Mouth refine (LatentSync), may pale lips' re-draws the mouth after a camera-locked take when LatentSync is installed and the face is clear. It can pale the lips."
+      - stage: tts
+        model: chatterbox
+        machine: a
+        tested: false
+        memory: {est_gb: 6, source: estimate, basis: "3.2 GB of weights (Hugging Face file sizes) plus working memory; not measured on the Spark"}
+        why: "Expressive voices under the MIT license. Small next to the video model."
+      - stage: music
+        model: ace_step
+        machine: a
+        tested: false
+        memory: {est_gb: 24, source: estimate, basis: "19.9 GB of weights plus working memory; presets/music_models.json lists 24 GB with no offload. Not run on the GPU from the app yet"}
+        why: "Full songs with vocals from your own lyrics, MIT license."
+
+  - id: spark_x2
+    label: "2 × DGX Spark"
+    short: "2 × Spark"
+    tested: false
+    status: planned
+    status_label: "planned"
+    planned_reason: "Planned: the app talks to one ComfyUI address today, so it can't send stages to a second computer yet."
+    match: {gpu_class: spark, min_memory_gb: 100, min_machines: 2}
+    summary: "Video on one Spark; pictures, voices and music on the other, so they can run while a video renders. Not tried on two machines yet."
+    note: "The app sends work to one ComfyUI address today (COMFY_BASE_URL). Splitting stages means starting ComfyUI on both machines and pointing each stage's runs at its machine yourself; OpenSoul never looks for the second machine on the network. A third or later machine is not used."
+    machines:
+      - {id: a, label: "Spark A (video)", stages: [video, lipsync]}
+      - {id: b, label: "Spark B (pictures and sound)", stages: [stills, tts, music]}
+    picks:
+      - stage: video
+        model: ltx25_bf16
+        machine: a
+        tested: false
+        memory: {est_gb: 71, source: estimate, basis: "taken from the single-Spark measurement (docs/HARDWARE_MEMORY.md); not measured in a two-machine setup"}
+        why: "The video model gets a whole Spark to itself."
+      - stage: lipsync
+        model: ltx_av
+        machine: a
+        tested: false
+        memory: {est_gb: 71, source: estimate, basis: "same pass as the video model"}
+        why: "The mouth is made inside the video run, so it stays on the video machine."
+        stage2:
+          model: latentsync
+          tested: false
+          memory: {est_gb: 22, source: estimate, basis: "taken from the single-Spark measurement (17.0 GiB GPU process, 21.6 GB); not measured in a two-machine setup"}
+          why: "Optional, off by default (may pale lips). Runs after the video on the same machine."
+      - stage: stills
+        model: qwen_edit_bf16
+        machine: b
+        tested: false
+        memory: {est_gb: 29, source: estimate, basis: "taken from the single-Spark measurement; not measured in a two-machine setup"}
+        why: "Pictures for the next shot can be made while the other Spark renders video."
+      - stage: tts
+        model: chatterbox
+        machine: b
+        tested: false
+        memory: {est_gb: 6, source: estimate, basis: "3.2 GB of weights plus working memory"}
+        why: "Voices sit next to the pictures and never wait for a video."
+      - stage: music
+        model: ace_step
+        machine: b
+        tested: false
+        memory: {est_gb: 24, source: estimate, basis: "19.9 GB of weights; presets/music_models.json lists 24 GB"}
+        why: "Songs render on the second machine without slowing the video."
+
+  - id: rtx_32gb
+    label: "RTX 5090 or another 32 GB NVIDIA card"
+    short: "32 GB card"
+    tested: false
+    status: untested
+    status_label: "untested (estimate)"
+    match: {gpu_class: discrete, min_vram_gb: 30}
+    summary: "Compressed video model plus low-memory mode. Expect slower renders than the Spark and, for long shots, a smaller size or fewer frames."
+    launch_flags: "Start ComfyUI with --lowvram for video. Plan on 64 GB or more of system memory for the parts that move off the card (estimate)."
+    machines:
+      - {id: a, label: "This computer", stages: [stills, video, lipsync, tts, music]}
+    picks:
+      - stage: stills
+        model: qwen_edit_fp8mixed
+        machine: a
+        tested: false
+        memory: {est_gb: 24, source: estimate, basis: "20.5 GB picture model on the card; the 9.4 GB text encoder is moved off the card after it runs"}
+        why: "The fp8 picture model fits on the card; the full bf16 file (40.9 GB) does not."
+      - stage: video
+        model: ltx25_int8
+        machine: a
+        tested: false
+        memory: {est_gb: 30, source: estimate, basis: "21.5 GB int8 video model resident with --lowvram; the 15.4 GB text encoder is offloaded after encoding; the rest is working memory for the frames"}
+        why: "The compressed video model is about half the size of bf16 (21.5 GB vs 42.0 GB)."
+      - stage: lipsync
+        model: ltx_av
+        machine: a
+        tested: false
+        memory: {est_gb: 30, source: estimate, basis: "same pass as the video model"}
+        why: "The mouth is made in the same video run, with the camera held still."
+        stage2:
+          model: latentsync
+          tested: false
+          memory: {est_gb: 22, source: estimate, basis: "the Spark measurement (17.0 GiB GPU process) plus headroom; not run on a 32 GB card"}
+          why: "Optional, off by default (may pale lips). Fits on the card once the video model is unloaded."
+      - stage: tts
+        model: chatterbox
+        machine: a
+        tested: false
+        memory: {est_gb: 6, source: estimate, basis: "3.2 GB of weights plus working memory"}
+        why: "Expressive voices that fit easily next to everything else."
+      - stage: music
+        model: ace_step
+        machine: a
+        tested: false
+        memory: {est_gb: 24, source: estimate, basis: "19.9 GB of weights; presets/music_models.json lists 24 GB"}
+        why: "Fits on a 32 GB card when nothing else is loaded."
+
+  - id: rtx_24gb
+    label: "24 GB NVIDIA card (RTX 3090, 4090 and similar)"
+    short: "24 GB card"
+    tested: false
+    status: untested
+    status_label: "untested (estimate)"
+    match: {gpu_class: discrete, min_vram_gb: 22, max_vram_gb: 30}
+    summary: "The lightest stack. Every stage is tight on 24 GB: close other apps, run one stage at a time, and expect smaller or shorter video shots."
+    launch_flags: "Start ComfyUI with --lowvram. Plan on 64 GB or more of system memory (estimate)."
+    machines:
+      - {id: a, label: "This computer", stages: [stills, video, lipsync, tts, music]}
+    picks:
+      - stage: stills
+        model: qwen_edit_fp8mixed
+        machine: a
+        tested: false
+        memory: {est_gb: 23, source: estimate, basis: "20.5 GB picture model with --lowvram; tight on 24 GB"}
+        why: "The smallest picture model that keeps the character the same across shots."
+      - stage: video
+        model: ltx25_int8
+        machine: a
+        tested: false
+        memory: {est_gb: 24, source: estimate, basis: "21.5 GB int8 model with --lowvram offload; may need a smaller size or fewer frames than the Spark's 1024×1792, 97 frames"}
+        why: "The compressed video model is the only LTX option that can come close to fitting."
+      - stage: lipsync
+        model: ltx_av
+        machine: a
+        tested: false
+        memory: {est_gb: 24, source: estimate, basis: "same pass as the video model"}
+        why: "The mouth is made in the same video run, with the camera held still."
+        stage2:
+          model: latentsync
+          tested: false
+          memory: {est_gb: 22, source: estimate, basis: "the Spark measurement (17.0 GiB GPU process); tight on 24 GB, not run on such a card"}
+          why: "Optional, off by default (may pale lips). Tight on 24 GB: skip it if the card runs out of memory."
+      - stage: tts
+        model: kokoro
+        machine: a
+        tested: false
+        memory: {est_gb: 1, source: estimate, basis: "0.33 GB of weights; small enough to run on the processor"}
+        why: "A tiny voice model that leaves the card free for pictures and video."
+      - stage: music
+        model: ace_step
+        machine: a
+        tested: false
+        memory: {est_gb: 24, source: estimate, basis: "19.9 GB of weights; presets/music_models.json lists 24 GB, so this is at the limit"}
+        why: "Songs fit only with nothing else on the card."
+
+  - id: fallback
+    label: "Not enough graphics memory"
+    short: "Not enough"
+    tested: false
+    status: none
+    status_label: "no recommendation"
+    fallback: true
+    match: {}
+    summary: "Real renders need an NVIDIA card with at least 24 GB of memory, or a DGX Spark-class computer. OpenSoul does not suggest models for this computer because we have no setup we can stand behind."
+    note: "Preview mode still works here: the whole app runs with placeholder pictures and videos, no graphics card needed."
+    machines: []
+    picks: []
+
+# Simulated computers for preview mode (OPENSOUL_DRY_RUN) and tests only: ?simulate=<id>. Never used in studio mode.
+simulations:
+  spark: {label: "1 × DGX Spark", gpus: [{name: "NVIDIA GB10", vram_gb: null}], memory_gb: 121.7, unified_memory: true, machines: 1}
+  spark_x2: {label: "2 × DGX Spark", gpus: [{name: "NVIDIA GB10", vram_gb: null}], memory_gb: 121.7, unified_memory: true, machines: 2}
+  rtx5090: {label: "RTX 5090 (32 GB)", gpus: [{name: "NVIDIA GeForce RTX 5090", vram_gb: 31.8}], memory_gb: 62.6, unified_memory: false, machines: 1}
+  rtx24: {label: "24 GB card", gpus: [{name: "NVIDIA GeForce RTX 4090", vram_gb: 23.99}], memory_gb: 62.6, unified_memory: false, machines: 1}
+  cpu: {label: "No graphics card", gpus: [], memory_gb: 15.5, unified_memory: false, machines: 1}

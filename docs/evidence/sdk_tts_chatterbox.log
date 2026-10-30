@@ -1,0 +1,17 @@
+2026-10-16 14:21:37,820 INFO root: comfy_sdk version 0.5.0, status {'COMFY_BASE_URL': 'http://127.0.0.1:8191', 'has_api_key': False, 'comfy_sdk_importable': True, 'version': '0.5.0', 'note': 'Local open weights: ComfyUI on :8188 + `comfy-api-proxy` on :8189 (COMFY_BASE_URL).'}
+2026-10-16 14:21:37,842 INFO opensoul.comfy: comfy_sdk submit 03b_tts_chatterbox_api.json -> http://127.0.0.1:8191
+2026-10-16 14:21:37,845 INFO httpx: HTTP Request: POST http://127.0.0.1:8191/api/v2/jobs "HTTP/1.1 201 Created"
+2026-10-16 14:21:37,846 INFO opensoul.comfy: comfy_sdk job id=c1bf064b-faeb-4121-b0f2-8e2adef1e07a
+2026-10-16 14:21:37,847 INFO httpx: HTTP Request: GET http://127.0.0.1:8191/api/v2/jobs/c1bf064b-faeb-4121-b0f2-8e2adef1e07a "HTTP/1.1 200 OK"
+2026-10-16 14:21:38,351 INFO httpx: HTTP Request: GET http://127.0.0.1:8191/api/v2/jobs/c1bf064b-faeb-4121-b0f2-8e2adef1e07a "HTTP/1.1 200 OK"
+2026-10-16 14:21:39,103 INFO httpx: HTTP Request: GET http://127.0.0.1:8191/api/v2/jobs/c1bf064b-faeb-4121-b0f2-8e2adef1e07a "HTTP/1.1 200 OK"
+2026-10-16 14:21:40,230 INFO httpx: HTTP Request: GET http://127.0.0.1:8191/api/v2/jobs/c1bf064b-faeb-4121-b0f2-8e2adef1e07a "HTTP/1.1 200 OK"
+2026-10-16 14:21:41,919 INFO httpx: HTTP Request: GET http://127.0.0.1:8191/api/v2/jobs/c1bf064b-faeb-4121-b0f2-8e2adef1e07a "HTTP/1.1 200 OK"
+2026-10-16 14:21:44,454 INFO httpx: HTTP Request: GET http://127.0.0.1:8191/api/v2/jobs/c1bf064b-faeb-4121-b0f2-8e2adef1e07a "HTTP/1.1 200 OK"
+2026-10-16 14:21:48,254 INFO httpx: HTTP Request: GET http://127.0.0.1:8191/api/v2/jobs/c1bf064b-faeb-4121-b0f2-8e2adef1e07a "HTTP/1.1 200 OK"
+2026-10-16 14:21:53,258 INFO httpx: HTTP Request: GET http://127.0.0.1:8191/api/v2/jobs/c1bf064b-faeb-4121-b0f2-8e2adef1e07a "HTTP/1.1 200 OK"
+2026-10-16 14:21:53,259 INFO opensoul.comfy: comfy_sdk job c1bf064b-faeb-4121-b0f2-8e2adef1e07a finished status=succeeded in 15.4s
+2026-10-16 14:21:53,262 INFO httpx: HTTP Request: GET http://127.0.0.1:8191/api/v2/assets/eyJqIjogImMxYmYwNjRiLWZhZWItNDEyMS1iMGYyLThlMmFkZWYxZTA3YSIsICJmIjogIm9wZW5zb3VsX3R0c19jaGF0dGVyYm94XzAwMDAxLmZsYWMiLCAicyI6ICIiLCAidCI6ICJvdXRwdXQifQ.KlL8bjBVyaOtguHpFJ9x3ldiCYbBlSOgPN_of5Q-u-s/content "HTTP/1.1 200 OK"
+2026-10-16 14:21:53,263 INFO opensoul.comfy: comfy_sdk output node=2 -> ../out/tts_cb/opensoul_tts_chatterbox_00001.flac
+2026-10-16 14:21:53,263 INFO root: DONE 1 output(s) in 15.4s: ['../out/tts_cb/opensoul_tts_chatterbox_00001.flac']
+EXIT 0

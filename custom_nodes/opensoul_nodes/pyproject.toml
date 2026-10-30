@@ -1,0 +1,10 @@
+[project]
+name = "opensoul-nodes"
+description = "OpenSoul: Kokoro/Chatterbox TTS, LatentSync lip-sync and an identity-consistency gate (weight-free patch backend, optional ArcFace) for ComfyUI."
+version = "0.1.0"
+license = { file = "LICENSE" }
+dependencies = []
+
+[tool.comfy]
+PublisherId = "opensoul"
+DisplayName = "OpenSoul Nodes"

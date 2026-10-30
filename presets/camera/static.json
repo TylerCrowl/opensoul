@@ -1,0 +1,34 @@
+{
+  "order": 7,
+  "id": "static",
+  "kind": "camera",
+  "label": "Static",
+  "glyph": "still",
+  "blurb": "Locked-off tripod shot",
+  "prompt": "Locked-off tripod shot, zero camera movement: the framing, zoom and focus stay exactly as in the first frame for the whole clip, no push-in, no reframing, no refocus. The background stays still and sharp; only the subject and small ambient details move, gently and naturally.",
+  "phrase": "the camera holds still on a locked-off tripod",
+  "lora": {
+    "name": "ltx-2-19b-lora-camera-control-static.safetensors",
+    "strength": 0.9,
+    "verified_on": "LTX-2 19B (unverified on LTX-2.5 22B)"
+  },
+  "expect_motion": "static",
+  "experimental": false,
+  "verified": {
+    "model": "LTX-2.5 22B distilled",
+    "path": "prompt",
+    "result": "works",
+    "checked_by": "eye+motion_check",
+    "evidence": "production/motion_check/confusion.md set 15"
+  },
+  "defaults": {
+    "duration_s": 5,
+    "fps": 24,
+    "cfg": 3.0,
+    "steps": 8,
+    "width": 704,
+    "height": 1280
+  },
+  "thumbnail": "/assets/preset_thumbs/camera/static.mp4",
+  "notes": "18 Oct (Lumi rough cut): the old prompt asked for a 'medium close-up, 50mm', and LTX-2.5 read that as a push-in from a wider start frame (the Cold open drifted in and refocused, so the background pumped and smeared around her head). This prompt names no framing and pins the first frame instead."
+}

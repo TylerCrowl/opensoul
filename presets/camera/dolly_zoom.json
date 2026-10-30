@@ -1,0 +1,29 @@
+{
+  "order": 11,
+  "id": "dolly_zoom",
+  "kind": "camera",
+  "label": "Dolly zoom",
+  "glyph": "vertigo",
+  "blurb": "The vertigo effect",
+  "prompt": "Dolly zoom (vertigo effect): camera dollies backward while the lens zooms in, field of view 84\u00b0\u219229\u00b0, subject's face stays exactly the same size in frame while the background stretches and compresses dramatically, no parallax on the subject.",
+  "phrase": "a dolly zoom: the camera pulls back while zooming in, the background stretching behind the subject",
+  "lora": null,
+  "expect_motion": "any",
+  "experimental": false,
+  "verified": {
+    "model": "LTX-2.5 22B distilled",
+    "path": "prompt",
+    "result": "works",
+    "checked_by": "eye",
+    "evidence": "production/motion_check/confusion.md set 15"
+  },
+  "defaults": {
+    "duration_s": 5,
+    "fps": 24,
+    "cfg": 3.0,
+    "steps": 8,
+    "width": 704,
+    "height": 1280
+  },
+  "thumbnail": "/assets/preset_thumbs/camera/dolly_zoom.mp4"
+}

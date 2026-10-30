@@ -1,0 +1,9 @@
+comfy-sdk>=0.5
+numpy>=1.26
+opencv-python-headless>=4.8
+Pillow>=10.0
+pydantic>=2.0
+fastapi>=0.115
+uvicorn>=0.30
+python-multipart>=0.0.9
+pytest>=8.0

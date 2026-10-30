@@ -1,0 +1,36 @@
+{
+  "order": 4,
+  "id": "dolly_right",
+  "kind": "camera",
+  "label": "Dolly right",
+  "glyph": "right",
+  "blurb": "Glide sideways to the right",
+  "prompt": "Lateral track to the right on a level slider, camera at eye level, parallel to the subject, smooth parallax with foreground passing faster than background, no pan, steady speed.",
+  "phrase": "the camera trucks right, parallel to the subject",
+  "lora": {
+    "name": "ltx-2-19b-lora-camera-control-dolly-right.safetensors",
+    "strength": 0.9,
+    "verified_on": "LTX-2 19B (unverified on LTX-2.5 22B)"
+  },
+  "expect_motion": [
+    "truck_right",
+    "orbit_right"
+  ],
+  "experimental": false,
+  "verified": {
+    "model": "LTX-2.5 22B distilled",
+    "path": "prompt",
+    "result": "works",
+    "checked_by": "eye",
+    "evidence": "production/motion_check/confusion.md set 15"
+  },
+  "defaults": {
+    "duration_s": 5,
+    "fps": 24,
+    "cfg": 3.0,
+    "steps": 8,
+    "width": 704,
+    "height": 1280
+  },
+  "thumbnail": "/assets/preset_thumbs/camera/dolly_right.mp4"
+}

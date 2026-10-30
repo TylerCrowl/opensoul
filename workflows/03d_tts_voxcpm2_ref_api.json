@@ -1,0 +1,32 @@
+{
+  "1": {
+    "class_type": "OpenSoulVoxCPM2TTS",
+    "inputs": {
+      "text": "Whole milk. Sixty-five degrees.",
+      "cfg_value": 2.0,
+      "inference_timesteps": 10,
+      "seed": 0,
+      "ref_text": "",
+      "voice_reference": [
+        "3",
+        0
+      ]
+    }
+  },
+  "2": {
+    "class_type": "SaveAudio",
+    "inputs": {
+      "audio": [
+        "1",
+        0
+      ],
+      "filename_prefix": "opensoul_tts_voxcpm2"
+    }
+  },
+  "3": {
+    "class_type": "LoadAudio",
+    "inputs": {
+      "audio": "opensoul_voice_ref.wav"
+    }
+  }
+}

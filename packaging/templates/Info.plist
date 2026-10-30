@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>CFBundleInfoDictionaryVersion</key><string>6.0</string>
+  <key>CFBundleName</key><string>OpenSoul</string>
+  <key>CFBundleDisplayName</key><string>OpenSoul</string>
+  <key>CFBundleIdentifier</key><string>@BUNDLE_ID@</string>
+  <key>CFBundleShortVersionString</key><string>@SHORT@</string>
+  <key>CFBundleVersion</key><string>@SHORT@</string>
+  <key>OpenSoulBuild</key><string>@VERSION@</string>
+  <key>CFBundlePackageType</key><string>APPL</string>
+  <key>CFBundleExecutable</key><string>OpenSoul</string>
+  <key>CFBundleIconFile</key><string>OpenSoul</string>
+  <key>CFBundleDevelopmentRegion</key><string>en</string>
+  <key>LSMinimumSystemVersion</key><string>13.0</string>
+  <key>LSApplicationCategoryType</key><string>public.app-category.video</string>
+  <key>NSHighResolutionCapable</key><true/>
+  <key>NSSupportsAutomaticGraphicsSwitching</key><true/>
+  <key>NSAppTransportSecurity</key>
+  <dict>
+    <!-- the window only loads OpenSoul's own server on 127.0.0.1 -->
+    <key>NSAllowsLocalNetworking</key><true/>
+  </dict>
+  <key>NSHumanReadableCopyright</key><string>OpenSoul contributors · Apache-2.0</string>
+</dict>
+</plist>

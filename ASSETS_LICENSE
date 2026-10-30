@@ -1,0 +1,35 @@
+OpenSoul Demo Assets License
+============================
+
+Story and demo characters Lumi, Mio and Ren — ALL RIGHTS RESERVED (until the project decides)
+-------------------------------------------------------------------------------
+Files under `assets/lumi/`, `assets/mio/` and `assets/ren/` (reference portraits, character
+sheets, stills, concept images, character.json persona/look files), the Lumi demo files in
+`assets/demo_samples/` (`lumi_pack/`, `lumi_*`) and the Lumi preset tiles in `assets/preset_thumbs/` are NOT licensed under
+Apache-2.0 or any open-source license in this repository. All rights reserved until the
+project decides on a license.
+
+Contest feature grant (Lumi, Mio, Ren): notwithstanding the reservation above, the rights holder grants Comfy
+Organization, Inc. (ComfyUI), NVIDIA, Runpod, Lightricks (LTX), Black Forest Labs, MiniMax,
+and any other model partner of the "Open Source Higgsfield" competition a worldwide,
+royalty-free, non-exclusive, irrevocable license to reproduce, display, publicly perform,
+distribute, and make reasonable edits (cropping, trimming, captioning, resizing, re-encoding,
+thumbnails) to the Lumi, Mio and Ren assets and any images, videos, and audio produced with
+them (including the short film "Lumi – Night Shift") for this OpenSoul submission, in order
+to feature, showcase, and promote the submission, with credit, across their websites
+(including comfy.org/hub), social channels, blog posts, newsletters, livestreams, and event
+presentations. This grant does not permit using Lumi, Mio or Ren as a mascot or brand for
+any other product, or training models on these assets.
+
+Example character "Pixel"
+-------------------------
+Files under `assets/example_character/` (and the Pixel demo pack built from them,
+`assets/demo_samples/pixel_pack/`) are original geometric placeholders created for OpenSoul
+documentation. They are licensed under the same
+Apache-2.0 terms as the repository code (see LICENSE).
+
+Third-party model weights
+-------------------------
+Model checkpoints are NOT shipped in this repository. Each model remains
+under its own license (see docs/MODEL_STACK.md). Download them yourself
+and comply with those terms.

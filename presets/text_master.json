@@ -1,0 +1,31 @@
+{
+  "note": "Text-only master (Create > Describe). Backend zimage = workflow 07z, Z-Image-Turbo (Tongyi-MAI/Z-Image-Turbo, Apache-2.0); qwen07t = workflow 07t (the sheet's Qwen-Image-Edit model as text-to-image, fallback). Model files are names under ComfyUI's models/ folders (no machine paths); override with OPENSOUL_ZIMAGE_UNET / OPENSOUL_ZIMAGE_CLIP / OPENSOUL_ZIMAGE_VAE, the backend with OPENSOUL_MASTER_BACKEND, the ComfyUI address with OPENSOUL_COMFYUI_URL. typical_s: the 'about N s' estimate before any run here (about 12 s per image warm on a DGX Spark, plus model load).",
+  "backend": "zimage",
+  "workflow": "workflows/07z_master_from_text_zimage_api.json",
+  "model": {
+    "name": "Z-Image-Turbo",
+    "repo": "Tongyi-MAI/Z-Image-Turbo",
+    "license": "Apache-2.0"
+  },
+  "files": {
+    "unet": "z_image_turbo_bf16.safetensors",
+    "clip": "qwen_3_4b.safetensors",
+    "clip_type": "lumina2",
+    "vae": "ae.safetensors"
+  },
+  "sampler": {
+    "steps": 9,
+    "cfg": 1.0,
+    "sampler_name": "res_multistep",
+    "scheduler": "simple",
+    "shift": 3.0
+  },
+  "width": 1024,
+  "height": 1536,
+  "prompt": "Photorealistic three-quarter-length reference photo of {description}. Standing upright, facing the camera directly, arms relaxed at the sides, full figure from the top of the head down to just below the knees, with a little space above the head. {expression}, eyes looking into the lens, the whole face clearly visible{hair}. Plain light grey studio background, soft even light.{outfit_line}",
+  "negative": "extra people, cropped head, busy background, props, text, watermark, logo, CGI, 3D render, cartoon, anime, illustration, plastic skin, deformed hands, extra fingers, extra limbs, nudity",
+  "timeout_s": 900,
+  "typical_s": 45,
+  "prompt_note": "{description}, {expression}, {hair} and {outfit_line} come from opensoul/text_master.py master_parts(): the outfit verbatim right after the subject and one short repeat at the end in the user's own words; no smile, grin or smirk word anywhere ('Serious calm face, mouth relaxed and closed at the corners', plus ', lips just slightly apart' with a teeth trait, which stays in the description only); both ears clearly visible on every master, and with ears mentioned or long/braided/tied/bun hair 'hair slicked straight back from the forehead and temples, both ears completely exposed' (a braid or ponytail hidden behind the back, not over the shoulder; a bun at the back of the head). cfg is pinned at 1 (opensoul/zimage_master.py CFG_PIN): the negative below is never evaluated, so nothing relies on it.",
+  "master_batch": 4
+}

@@ -1,0 +1,16 @@
+{
+  "id": "ugc-ad",
+  "title": "UGC ad / talking head (experimental)",
+  "blurb": "Vertical: a hook to camera, the product in use, and a call to action. Pre-fills shots only.",
+  "order": 61,
+  "flag": "OPENSOUL_FEATURE_UGC_TEMPLATES",
+  "mode": "ugc_ad",
+  "aspect": "9:16",
+  "status": "stub: pre-fills shots only. The 9:16 aspect, handheld look and ad-variant batches are not applied yet.",
+  "shots": [
+    {"beat": "Hook to camera", "camera": "static", "prompt": "{lead} looks straight into a phone camera and says the one line that makes you stop scrolling."},
+    {"beat": "Product B-roll", "camera": "push_in_gentle", "prompt": "Close on the product in {lead}'s hands, natural light, real surroundings."},
+    {"beat": "In use", "camera": "dolly_right", "prompt": "{lead} uses the product the way a real person would, relaxed and unposed."},
+    {"beat": "Call to action", "camera": "static", "prompt": "{lead} back to camera, smiling, one short line telling the viewer what to do next."}
+  ]
+}

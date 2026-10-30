@@ -1,0 +1,12 @@
+{
+  "id": "character-intro",
+  "title": "Meet the character",
+  "blurb": "Four shots that introduce one character: place, face, signature move, sign-off.",
+  "order": 30,
+  "shots": [
+    {"beat": "Where they are", "camera": "static", "prompt": "Wide establishing shot of {lead}'s place, {lead} small in the frame."},
+    {"beat": "Face", "camera": "push_in_gentle", "prompt": "Close-up of {lead} looking up, a hint of their personality."},
+    {"beat": "Signature move", "camera": "orbit", "prompt": "{lead} does the thing they're known for."},
+    {"beat": "Sign-off", "camera": "static", "prompt": "{lead} looks into the camera and says goodbye."}
+  ]
+}

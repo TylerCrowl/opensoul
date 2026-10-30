@@ -1,0 +1,18 @@
+{
+  "id": "music-video",
+  "title": "Music video (experimental)",
+  "blurb": "Verse, chorus, bridge: sung shots with the camera held still, plus wide moments. Pre-fills shots only.",
+  "order": 60,
+  "flag": "OPENSOUL_FEATURE_MUSIC_VIDEO_TEMPLATE",
+  "mode": "music_video",
+  "aspect": "16:9",
+  "status": "stub: pre-fills shots only. The song -> beat map -> bar-aligned shots -> sung a2v takes -> auto-pick pipeline is not in the app yet (the demo music video was made with standalone scripts).",
+  "shots": [
+    {"beat": "Intro", "camera": "push_in_gentle", "prompt": "{lead} alone in the space before the music starts, waiting for the first note."},
+    {"beat": "Verse (sung, close)", "camera": "static", "prompt": "{lead} sings the verse to camera, close, face clear and well lit."},
+    {"beat": "Chorus (wide)", "camera": "orbit", "prompt": "{lead} moves with the chorus, the whole space visible around them."},
+    {"beat": "Bridge", "camera": "dolly_in", "prompt": "The light changes; {lead} slows down and the camera comes closer."},
+    {"beat": "Final chorus (sung, close)", "camera": "static", "prompt": "{lead} sings the last chorus to camera, close, full energy."},
+    {"beat": "Outro", "camera": "dolly_out", "prompt": "{lead} lets the last note go; pull back to the whole scene."}
+  ]
+}

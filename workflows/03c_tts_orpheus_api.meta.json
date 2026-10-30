@@ -1,0 +1,5 @@
+{
+  "note": "Stage 3a (default): Orpheus 3B expressive TTS with inline emotion tags via the OpenSoul node pack. Output node 2.",
+  "status": "Tested on the agent box CPU (Lumi Night Shift dialogue, Oct 18 2026).",
+  "format": "ComfyUI API (prompt) dict"
+}

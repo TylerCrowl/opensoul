@@ -1,0 +1,15 @@
+{
+  "id": "product-shots",
+  "title": "Product shots (experimental)",
+  "blurb": "A product photo placed into a few scenes, then gentle camera moves. Pre-fills shots only.",
+  "order": 62,
+  "flag": "OPENSOUL_FEATURE_UGC_TEMPLATES",
+  "mode": "product_shots",
+  "aspect": "1:1",
+  "status": "stub: pre-fills shots only. Using an uploaded product photo as the reference for every shot is not wired yet.",
+  "shots": [
+    {"beat": "Hero", "camera": "orbit", "prompt": "The product alone on a clean surface, soft studio light, slow turn."},
+    {"beat": "In context", "camera": "push_in_gentle", "prompt": "The product where it is used every day, morning light."},
+    {"beat": "With a person", "camera": "dolly_left", "prompt": "{lead} reaches for the product and picks it up."}
+  ]
+}

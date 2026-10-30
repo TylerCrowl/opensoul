@@ -1,0 +1,175 @@
+{
+  "id": "character_sheet",
+  "label": "Character sheet",
+  "blurb": "One photo in, a six-view turnaround out: full body and close-up, front, side and back.",
+  "workflow": "workflows/07_character_sheet_api.json",
+  "policy": "Original characters or your own photos only. The user must confirm they own the image or have permission. No face or person replacement in videos.",
+  "subject_default": "the same person",
+  "style": "Plain clean light gray seamless studio background (solid #D8D8D8), soft even diffused studio lighting from the front, identical lighting and white balance in every view, no props, no text. Photorealistic photo, natural skin texture, sharp focus.",
+  "keep": "Keep 100% of the identity from the reference photo: exactly the same face, facial features, skin tone, hair, facial hair, glasses, headwear and accessories, exactly the same body proportions, and exactly the same clothing with the same colors, materials, fit and details. Headwear, glasses and accessories stay in exactly the same position and orientation as in the reference, also when seen from the side or from behind. Do not change, add or remove anything about the person or the outfit.",
+  "negative": "different person, changed face, changed clothing, extra people, cropped feet, busy background, outdoor scene, harsh shadows, colored light, text, watermark, logo, CGI, 3D render, cartoon, plastic skin, deformed hands, extra fingers",
+  "grid": {
+    "cols": 3,
+    "rows": 2,
+    "cell_width": 832,
+    "cell_height": 1248,
+    "background": "#D8D8D8",
+    "labels": true
+  },
+  "gate": {
+    "backend": "patch",
+    "threshold": 0.7,
+    "retries": 2,
+    "retry_seed_offset": 1009
+  },
+  "sampler": {
+    "steps": 4,
+    "cfg": 1.0,
+    "seed": 4242
+  },
+  "views": [
+    {
+      "id": "full_front",
+      "label": "Full body · front",
+      "seed_offset": 0,
+      "prompt": "Full-body studio reference photo of {subject}, standing upright facing the camera, arms relaxed at the sides, entire body visible from the top of the head to the shoes with space above and below.",
+      "framing": "full",
+      "width": 832,
+      "height": 1248
+    },
+    {
+      "id": "full_side",
+      "label": "Full body · side",
+      "seed_offset": 1,
+      "prompt": "Full-body studio reference photo of {subject} in exact side profile, facing the LEFT edge of the image, standing upright, arms relaxed, entire body visible from the top of the head to the shoes.",
+      "framing": "full",
+      "width": 832,
+      "height": 1248
+    },
+    {
+      "id": "full_back",
+      "label": "Full body · back",
+      "seed_offset": 2,
+      "prompt": "Full-body studio reference photo of {subject} seen from directly behind, back to the camera, standing upright, arms relaxed, the back of the head, headwear and outfit visible, face not visible, entire body visible from the top of the head to the shoes.",
+      "framing": "full",
+      "width": 832,
+      "height": 1248
+    },
+    {
+      "id": "close_front",
+      "label": "Close-up · front",
+      "seed_offset": 3,
+      "prompt": "Chest-up close-up studio portrait of {subject} facing the camera directly, neutral relaxed expression, eyes looking into the lens. Natural 85mm portrait lens perspective, no wide-angle distortion. Framing: close-up crop, the frame is cut at the upper chest. Only the head, neck and top of the shoulders are in frame; no waist, legs or shoes.",
+      "framing": "close",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "close_side",
+      "label": "Close-up · side",
+      "seed_offset": 4,
+      "prompt": "Chest-up close-up studio portrait of {subject} in exact side profile, facing the LEFT edge of the image, neutral expression; ear, jawline and profile clearly visible. Natural 85mm portrait lens perspective. Framing: close-up crop, the frame is cut at the upper chest. Only the head, neck and top of the shoulders are in frame; no waist, legs or shoes.",
+      "framing": "close",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "close_back",
+      "label": "Close-up · back",
+      "seed_offset": 5,
+      "prompt": "Chest-up close-up studio photo of {subject} seen from directly behind: the back of the head, hair, headwear and collar are visible, face not visible. Natural 85mm portrait lens perspective. Framing: close-up crop, the frame is cut at the upper chest. Only the head, neck and top of the shoulders are in frame; no waist, legs or shoes.",
+      "framing": "close",
+      "width": 1024,
+      "height": 1024
+    }
+  ],
+  "close_drop_terms": [
+    "pants",
+    "trousers",
+    "jeans",
+    "shorts",
+    "skirt",
+    "shoes",
+    "boots",
+    "sneakers",
+    "socks",
+    "belt",
+    "legs"
+  ],
+  "close_ref_crop": {
+    "note": "Close-ups from a full-body reference (checklist saw footwear, or height/width >= min_aspect without a checklist) start from this crop of the reference: box = left, top, right, bottom as fractions (head and shoulders of a standing figure). Gives the edit model a large face; on the Lumi sheet it did not by itself fix waist-up close-ups (close_post_crop did).",
+    "box": [
+      0.18,
+      0.0,
+      0.82,
+      0.34
+    ],
+    "min_aspect": 1.4
+  },
+  "close_post_crop": {
+    "note": "Last auto-fix step for a close-up that still fails ONLY its crop check after the retries: cut the best try to chest-up with this box (left, top, right, bottom fractions; square in, square out), scale back to the view size and re-check.",
+    "box": [
+      0.14,
+      0.0,
+      0.86,
+      0.72
+    ],
+    "only_when_failed": [
+      "framing_waist"
+    ]
+  },
+  "autofix": {
+    "vlm": "Qwen/Qwen3-VL-8B-Instruct",
+    "license": "Apache-2.0",
+    "face_backend": "arcface (optional, non-commercial weights) else patch",
+    "face_thresholds": {
+      "close": 0.5,
+      "full": 0.4
+    },
+    "max_retries": 2
+  },
+  "back_fallback": {
+    "note": "When a back view fails its checks this many times, re-render it from the sheet's already-correct side view (workflow 07b: picture 1 = side view, picture 2 = reference) with wording that avoids 'backwards cap' semantics. Strategy order per framing: on the cap-wearing test sheet, rotating from the side view fixed the close-up back (3/3 visors right), while the visor wording fixed the full-body back (rotating from the full side view kept the strap, 0/3).",
+    "workflow": "workflows/07b_character_sheet_back_from_side_api.json",
+    "after_failed_tries": 2,
+    "source_view": {
+      "full_back": "full_side",
+      "close_back": "close_side"
+    },
+    "strategies": {
+      "close": [
+        "side",
+        "side",
+        "wording"
+      ],
+      "full": [
+        "wording",
+        "wording",
+        "side"
+      ]
+    },
+    "subject_drop": [
+      "worn backwards",
+      "worn backward",
+      "backwards",
+      "backward",
+      "turned around"
+    ],
+    "side_prompt": "Picture 1 shows {subject} in side profile; picture 2 shows the same person from the front. Rotate the camera 90 degrees around the person to directly behind them. {framing} Back to the camera, face not visible. {headwear} Keep exactly the same person, hair, clothing, colors and accessories as in picture 1 and picture 2.",
+    "wording_prompt": "Studio photo of {subject} seen from directly behind, back to the camera, face not visible. {framing} {headwear} Keep exactly the same person, hair, clothing, colors and accessories as in the reference.",
+    "headwear_backward": "The {color} baseball cap's visor points toward the viewer, the cap sitting on the back of the head: the visor (bill) covers the back of the neck and points at the camera. The visor is visible; no strap or closure is visible.",
+    "sunglasses": "Dark sunglasses rest on top of the cap.",
+    "framing": {
+      "full": "Full-body view, standing upright, arms relaxed, entire body visible from the top of the head to the shoes.",
+      "close": "Chest-up close-up, cut at the upper chest; only the head, neck and top of the shoulders are in frame; no waist, legs or shoes."
+    }
+  },
+  "from_text": {
+    "note": "Text-only start (workflow 07t): one front reference portrait from the character description, then the normal six-view sheet from that image. Knee-up framing keeps the face large enough for the identity checks while still showing the outfit.",
+    "prompt": "Photorealistic three-quarter-length reference photo of {description}. Standing upright, facing the camera directly, arms relaxed at the sides, full figure from the top of the head down to just below the knees, with a little space above the head. Calm neutral expression, eyes looking into the lens, the whole face and both ears clearly visible. {style}",
+    "negative": "extra people, cropped head, busy background, props, text, watermark, logo, CGI, 3D render, cartoon, anime, illustration, plastic skin, deformed hands, extra fingers, extra limbs, nudity",
+    "seed": 7,
+    "width": 832,
+    "height": 1248
+  }
+}

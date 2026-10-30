@@ -1,0 +1,36 @@
+{
+  "order": 6,
+  "id": "jib_down",
+  "kind": "camera",
+  "label": "Jib down",
+  "glyph": "down",
+  "blurb": "Descend to eye level",
+  "prompt": "Crane/jib descending from a high angle to eye level, gentle tilt up to keep the subject framed, slow ease-out landing on a medium close-up, no lateral drift.",
+  "phrase": "the camera cranes down from a high angle to eye level",
+  "reverse": true,
+  "render_prompt": "Crane/jib rising vertically from eye level to a high angle, camera tilts down to keep the subject framed, slow ease-in ease-out, reveals the ground and setting beneath, no lateral drift.",
+  "lora": {
+    "name": "ltx-2-19b-lora-camera-control-jib-up.safetensors",
+    "strength": 0.9,
+    "verified_on": "LTX-2 19B (unverified on LTX-2.5 22B)",
+    "note": "rendered as a jib up and reversed (reverse: true); the jib-down LoRA is not on disk and prompt-only jib down renders pushed in"
+  },
+  "expect_motion": "crane_down",
+  "experimental": true,
+  "verified": {
+    "model": "LTX-2.5 22B distilled",
+    "path": "prompt",
+    "result": "not working yet",
+    "checked_by": "eye",
+    "evidence": "production/motion_check/confusion.md set 15"
+  },
+  "defaults": {
+    "duration_s": 5,
+    "fps": 24,
+    "cfg": 3.0,
+    "steps": 8,
+    "width": 704,
+    "height": 1280
+  },
+  "thumbnail": "/assets/preset_thumbs/camera/jib_down.mp4"
+}

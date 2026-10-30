@@ -1,0 +1,33 @@
+{
+  "order": 2,
+  "id": "dolly_out",
+  "kind": "camera",
+  "label": "Dolly out",
+  "glyph": "out",
+  "blurb": "Pull back to reveal the scene",
+  "prompt": "Smooth dolly pull-back along the lens axis from a close-up to a wide shot revealing the surroundings, 35mm lens, constant speed, no tilt, subject stays centered, environment unfolds with natural parallax, focus stays on the subject.",
+  "phrase": "the camera dollies back, widening the frame around the subject",
+  "lora": {
+    "name": "ltx-2-19b-lora-camera-control-dolly-out.safetensors",
+    "strength": 0.9,
+    "verified_on": "LTX-2 19B (unverified on LTX-2.5 22B)"
+  },
+  "expect_motion": "zoom_out",
+  "experimental": false,
+  "verified": {
+    "model": "LTX-2.5 22B distilled",
+    "path": "prompt",
+    "result": "works",
+    "checked_by": "eye+motion_check",
+    "evidence": "production/motion_check/confusion.md set 15"
+  },
+  "defaults": {
+    "duration_s": 5,
+    "fps": 24,
+    "cfg": 3.0,
+    "steps": 8,
+    "width": 704,
+    "height": 1280
+  },
+  "thumbnail": "/assets/preset_thumbs/camera/dolly_out.mp4"
+}

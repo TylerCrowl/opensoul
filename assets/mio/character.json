@@ -1,0 +1,51 @@
+{
+  "name": "Mio",
+  "pronoun": "she",
+  "status": "story character (Lumi – Night Shift): one half of the tipsy couple",
+  "origin": "Original AI character (no photo of any person). The look was developed from couple concept images made with a closed (non-open) image generator; it is being replaced by a text-only rebuild with open models. No name, outfit, prop, pose or line from any existing work is used.",
+  "rights": "All rights reserved until the project decides (see README.md and /ASSETS_LICENSE).",
+  "prompt_lock": "Mio, a Japanese woman in her early twenties, fair skin, slender build, calm composed expression, dark brown eyes, long straight lavender-purple hair falling past the waist with straight blunt bangs, long dark navy wool coat worn open over a white blouse, black knee-length skirt, black ankle boots",
+  "persona": {
+    "one_liner": "Calm, composed, quietly amused; the one holding the umbrella and the boyfriend upright.",
+    "voice": "Soft, dry, a half-smile in every line. Short sentences.",
+    "never": [
+      "sloppy drunk",
+      "mean to anyone",
+      "anything not wholesome"
+    ]
+  },
+  "look": {
+    "hair": "long straight lavender-purple, past the waist, straight blunt bangs",
+    "eyes": "dark brown",
+    "skin": "fair",
+    "build": "slender, early twenties",
+    "outfit": "long dark navy wool coat worn open, white blouse, black knee-length skirt, black ankle boots"
+  },
+  "reference": {
+    "file": "mio_ref_00.jpg",
+    "workflow": "workflows/07t_character_from_text_api.json",
+    "model": "Qwen-Image-Edit-2511 bf16 + Lightning 4-step LoRA (no input image)",
+    "seed": 21,
+    "candidates_seeds": [
+      21,
+      22,
+      23,
+      24
+    ],
+    "picked_by": "eye (all-lavender hair incl. roots, blunt bangs, calm face; 22 and 24 had dark roots)",
+    "date": "2026-10-17"
+  },
+  "sheet": {
+    "file": "mio_character_sheet_v1.jpg",
+    "workflow": "workflows/07_character_sheet_api.json",
+    "driver": "scripts/sheet_run.py --gate local (auto-fix on)",
+    "result": "6/6 views pass every VLM check; full_side and close_side stay flagged on the face score only (profile ArcFace 0.42-0.46 after 3 tries; by eye the same person)"
+  },
+  "approved": {
+    "by": "project",
+    "at": "2026-10-18T08:23:00-04:00",
+    "what": "photoreal v1 look (this sheet + reference)",
+    "sheet": "mio_character_sheet_v1.jpg",
+    "review_copy": "production/takes/mio_v1_sheet.jpg (same image, re-encoded)"
+  }
+}

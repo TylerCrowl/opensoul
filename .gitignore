@@ -1,0 +1,67 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+dist/
+build/
+.venv/
+venv/
+.env
+.python-version
+
+# App / runtime
+data/
+outputs/
+*.mp4
+*.wav
+*.safetensors
+*.ckpt
+*.pt
+*.bin
+*.onnx
+models/
+ComfyUI/
+comfyui-env/
+
+# IDE / OS
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Test / coverage
+.coverage
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+
+# Keep demo stills that are intentionally small
+!assets/example_character/**
+# Preset tile loops (360 px, muted, ~100 KB each; Lumi placeholders, see assets/preset_thumbs/README.md)
+!assets/preset_thumbs/
+!assets/preset_thumbs/**
+
+# Secrets / SSH (never commit)
+.secrets/
+*_key
+*_key.pub
+*_ed25519
+*_ed25519.pub
+*_rsa
+*_rsa.pub
+id_*
+*.key
+*.pem
+
+# Demo runtime copies
+assets/demo_samples/*_pack/source_sheet.jpg
+
+# Private host snapshot
+docs/spark_baseline/
+
+# demo music audio (fetch with scripts/fetch_demo_music.sh)
+assets/music_candidates/*.ogg
+
+# Preview mode samples ship with the app (provenance: assets/demo_preview/PROVENANCE.md)
+!assets/demo_preview/*.mp4

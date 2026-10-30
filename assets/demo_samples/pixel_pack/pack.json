@@ -1,0 +1,14 @@
+{
+  "name": "Pixel",
+  "prompt_lock": "Pixel, a small friendly geometric robot: rounded square head with two round eyes, boxy body, short arms, flat pastel colours",
+  "negative_prompt": "deformed, lowres, watermark, text, logo",
+  "seed": 42,
+  "ref_images": [
+    "refs/ref_00.png"
+  ],
+  "lora_path": null,
+  "lora_strength": 0.8,
+  "notes": "Demo pack: assets/example_character/pixel_reference.png (Apache-2.0).",
+  "created_at": "2026-10-18T23:30:00+00:00",
+  "meta": {}
+}

@@ -1,0 +1,58 @@
+/* Models screen (models.js): reuses the Settings look (hardware.css .hw-*). Tokens only: no raw colours here. */
+/* Models is a top-level tab (#ufModelsBtn, before Characters): it takes the page like Music and Settings do. */
+body.models-on .hero, body.models-on .steps, body.models-on #ufCharacters, body.models-on .create-card,
+body.models-on #storyboardView, body.models-on .sb-sheet, body.models-on .sb-scrim,
+body.models-on #musicView, body.models-on #settingsView { display: none !important; }
+
+/* The small link to it in Settings */
+.md-entry { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 0 0 16px; padding: 12px 16px; border: 1px solid var(--border);
+  border-radius: 12px; background: var(--surface); color: var(--text-secondary); font-size: 14px; }
+.md-entry strong { color: var(--text); font-weight: 650; }
+.md-entry .btn { margin-left: auto; }
+.md-crumb { margin: 0 0 4px; font-size: 13px; color: var(--text-secondary); }
+.md-crumb .btn-link { font: inherit; color: var(--accent-text); }
+
+.md-head { position: relative; }
+.md-bar { padding-bottom: 8px; }
+.md-bar .hw-found { margin-bottom: 14px; }
+.md-bar .hw-controls { border-bottom: 0; padding-bottom: 12px; }
+.md-filtered { margin: 0 0 12px; padding: 10px 14px; border-radius: 12px; background: var(--warn-bg); color: var(--warn-text); font-size: 14px; }
+.md-filtered[hidden] { display: none; }
+
+.md-slot-h { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.md-slot-h h2 { font-size: 20px; margin: 0; letter-spacing: -0.01em; }
+.md-plain { margin: 4px 0 0; color: var(--text-secondary); max-width: 70ch; }
+.md-slot .hw-grid { margin-top: 14px; grid-template-columns: repeat(auto-fill, minmax(268px, 1fr)); }
+.md-slot .hw-lic { margin-top: 4px; }
+.md-opt { gap: 9px; }
+.md-opt .hw-badge { white-space: normal; max-width: 100%; }
+.md-active { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.md-active .hw-stage-name span:first-child { color: var(--accent-text); }
+.md-act { margin-top: auto; padding-top: 4px; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+.md-why { color: var(--text-secondary); font-size: 12.5px; }
+.hw-badge.md-bad { background: var(--neutral-bg); color: var(--danger-text); }
+
+/* Dry-run plan: a native dialog like the credits card */
+.md-plan { width: min(720px, calc(100vw - 32px)); max-height: min(86vh, 760px); border: 0; border-radius: 18px; padding: 24px 28px 20px;
+  background: var(--surface); color: var(--text); font-size: 14.5px; line-height: 1.45;
+  box-shadow: 0 20px 60px rgb(var(--shadow-rgb) / calc(0.25 * var(--shadow-k))); }
+.md-plan::backdrop { background: rgb(var(--scrim-rgb) / 0.35); }
+.md-plan h2 { margin: 0 40px 4px 0; font-size: 1.25rem; letter-spacing: -0.01em; }
+.md-plan h3 { margin: 16px 0 4px; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-tertiary); }
+.md-planid { margin: 0; color: var(--text-secondary); }
+.md-list { margin: 0; padding-left: 18px; }
+.md-list li { margin: 4px 0; }
+.md-row { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+.md-code, .md-plan code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.86em; }
+.md-code { display: block; margin: 4px 0 0; padding: 6px 10px; border-radius: 8px; background: var(--bg); overflow-x: auto; white-space: pre; }
+.md-errors { margin-top: 12px; padding: 10px 14px; border-radius: 12px; background: var(--bg); color: var(--danger-text); }
+.md-errors h3 { margin-top: 0; color: var(--danger-text); }
+.md-errors ul { margin: 0; padding-left: 18px; }
+.md-approve { margin-top: 18px; padding: 14px 16px; border-radius: 14px; background: var(--accent-wash); }
+.md-approve h3 { margin-top: 0; color: var(--accent-text); }
+.md-approve p { margin: 0 0 8px; }
+.md-cmd { display: flex; align-items: center; gap: 10px; padding: 8px 8px 8px 12px; border-radius: 10px; background: var(--surface); border: 1px solid var(--line-strong); }
+.md-cmd code { flex: 1; min-width: 0; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 13px; user-select: all; }
+.md-cmd .btn { flex: none; }
+.md-approve .hw-lic { margin: 8px 0 0; }
+@media (max-width: 760px) { .md-plan { padding: 20px; } }

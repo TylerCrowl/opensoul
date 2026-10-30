@@ -1,0 +1,29 @@
+{
+  "order": 8,
+  "id": "crash_zoom",
+  "kind": "camera",
+  "label": "Crash zoom",
+  "glyph": "crash",
+  "blurb": "Snap zoom into the face",
+  "prompt": "Sudden crash zoom-in from wide to an extreme close-up of the face in under half a second, optical zoom not dolly, 24mm\u2192120mm equivalent, slight overshoot and settle, mild motion blur during the snap, camera position fixed.",
+  "phrase": "a sudden crash zoom snaps to an extreme close-up of the face",
+  "lora": null,
+  "expect_motion": "zoom_in",
+  "experimental": false,
+  "verified": {
+    "model": "LTX-2.5 22B distilled",
+    "path": "prompt",
+    "result": "works",
+    "checked_by": "eye+motion_check",
+    "evidence": "production/motion_check/confusion.md set 15"
+  },
+  "defaults": {
+    "duration_s": 5,
+    "fps": 24,
+    "cfg": 3.0,
+    "steps": 8,
+    "width": 704,
+    "height": 1280
+  },
+  "thumbnail": "/assets/preset_thumbs/camera/crash_zoom.mp4"
+}

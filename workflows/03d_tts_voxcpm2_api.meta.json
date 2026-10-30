@@ -1,0 +1,5 @@
+{
+  "note": "Stage 3 (alt): VoxCPM2 TTS (Apache-2.0) via the OpenSoul node pack, own venv. Output node 2.",
+  "status": "Not yet run through ComfyUI: the node loads on the next ComfyUI restart. Runner tested directly in its venv (see docs/VOICE_ENGINE_PROPOSAL.md).",
+  "format": "ComfyUI API (prompt) dict"
+}

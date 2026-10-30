@@ -1,0 +1,19 @@
+2026-10-16 14:33:41,855 INFO root: comfy_sdk version 0.5.0, status {'COMFY_BASE_URL': 'http://127.0.0.1:8191', 'has_api_key': False, 'comfy_sdk_importable': True, 'version': '0.5.0', 'note': 'Local open weights: ComfyUI on :8188 + `comfy-api-proxy` on :8189 (COMFY_BASE_URL).'}
+2026-10-16 14:33:41,876 INFO opensoul.comfy: comfy_sdk submit 06_identity_gate_api.json -> http://127.0.0.1:8191
+2026-10-16 14:33:41,878 INFO httpx: HTTP Request: HEAD http://127.0.0.1:8191/api/v2/assets/by-hash/blake3:8a30c4f6d283e5736cf63b9f6b34506f193ed9ad75c7f1d5e9a1555100d1dfb2 "HTTP/1.1 200 OK"
+2026-10-16 14:33:41,879 INFO httpx: HTTP Request: POST http://127.0.0.1:8191/api/v2/assets/from-hash "HTTP/1.1 200 OK"
+2026-10-16 14:33:41,882 INFO httpx: HTTP Request: HEAD http://127.0.0.1:8191/api/v2/assets/by-hash/blake3:0e76ac145b722d74f3e0314214920e88b6a657d32014f8cdb9166bc5a21f67a9 "HTTP/1.1 200 OK"
+2026-10-16 14:33:41,882 INFO httpx: HTTP Request: POST http://127.0.0.1:8191/api/v2/assets/from-hash "HTTP/1.1 200 OK"
+2026-10-16 14:33:41,885 INFO httpx: HTTP Request: POST http://127.0.0.1:8191/api/v2/jobs "HTTP/1.1 201 Created"
+2026-10-16 14:33:41,885 INFO opensoul.comfy: comfy_sdk job id=30d49e67-ccab-49aa-b6da-ae4954a055ba
+2026-10-16 14:33:41,887 INFO httpx: HTTP Request: GET http://127.0.0.1:8191/api/v2/jobs/30d49e67-ccab-49aa-b6da-ae4954a055ba "HTTP/1.1 200 OK"
+2026-10-16 14:33:42,392 INFO httpx: HTTP Request: GET http://127.0.0.1:8191/api/v2/jobs/30d49e67-ccab-49aa-b6da-ae4954a055ba "HTTP/1.1 200 OK"
+2026-10-16 14:33:43,145 INFO httpx: HTTP Request: GET http://127.0.0.1:8191/api/v2/jobs/30d49e67-ccab-49aa-b6da-ae4954a055ba "HTTP/1.1 200 OK"
+2026-10-16 14:33:44,272 INFO httpx: HTTP Request: GET http://127.0.0.1:8191/api/v2/jobs/30d49e67-ccab-49aa-b6da-ae4954a055ba "HTTP/1.1 200 OK"
+2026-10-16 14:33:45,964 INFO httpx: HTTP Request: GET http://127.0.0.1:8191/api/v2/jobs/30d49e67-ccab-49aa-b6da-ae4954a055ba "HTTP/1.1 200 OK"
+2026-10-16 14:33:45,965 INFO opensoul.comfy: comfy_sdk job 30d49e67-ccab-49aa-b6da-ae4954a055ba finished status=succeeded in 4.1s
+2026-10-16 14:33:45,965 INFO opensoul.comfy: comfy_sdk job output node=9 type=image name=opensoul_gate_pass_00002_.png
+2026-10-16 14:33:45,968 INFO httpx: HTTP Request: GET http://127.0.0.1:8191/api/v2/assets/eyJqIjogIjMwZDQ5ZTY3LWNjYWItNDlhYS1iNmRhLWFlNDk1NGEwNTViYSIsICJmIjogIm9wZW5zb3VsX2dhdGVfcGFzc18wMDAwMl8ucG5nIiwgInMiOiAiIiwgInQiOiAib3V0cHV0In0.nzIMYUxb84jmQp733cGo6KrOJnqzBEglPleohzgEjns/content "HTTP/1.1 200 OK"
+2026-10-16 14:33:45,970 INFO opensoul.comfy: comfy_sdk output node=9 -> ../out/gate/opensoul_gate_pass_00002_.png
+2026-10-16 14:33:45,970 INFO root: DONE 1 output(s) in 4.1s: ['../out/gate/opensoul_gate_pass_00002_.png']
+EXIT 0

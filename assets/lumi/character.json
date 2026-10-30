@@ -1,0 +1,85 @@
+{
+  "name": "Lumi",
+  "pronoun": "she",
+  "status": "story lead (Lumi – Night Shift); photoreal live-action look since v3",
+  "origin": "Original AI character (no photo of any person; not based on any existing anime or game character). Her current v3 look descends from a concept image made with a closed (non-open) image generator (concepts/lumi_real_B.jpg); the v3 sheet, references, start frames and the demo film's stills come from it. It is being replaced by a text-only rebuild with open models. The v1 files (lumi_ref_00.jpg, lumi_character_sheet_v1.jpg, lumi_still_01.jpg) were drawn from text with open models (workflow 07t).",
+  "prompt_lock": "Lumi, a photorealistic young East Asian woman in her early twenties, natural skin texture, natural proportions, calm sleepy half-lidded dark brown eyes, calm deadpan expression, long silver-grey hair with soft straight bangs worn in two loose low twin tails, subtle elf ears: small, gently pointed tips, partly under hair, easy to miss, a cozy cream chunky-knit cardigan worn open over a navy convenience-store uniform shirt with a collar and a small plain white name tag, no logos and no brand names, slim black trousers, white canvas sneakers, live-action film still look",
+  "persona": {
+    "one_liner": "A 1,000-year-old elf who works as a barista in a modern coffee shop. Calm, deadpan, ageless.",
+    "voice": "Quiet, dry, unhurried. Short sentences. Deadpan delivery; the joke is how seriously she takes coffee.",
+    "obsessions": [
+      "single-origin beans (she can name the farm and the altitude)",
+      "roast dates (nothing older than three weeks off roast)",
+      "grind size dialled in by the gram and the second",
+      "real whole milk, steamed properly; she is a fan, not a skeptic"
+    ],
+    "never": [
+      "oat-milk jokes",
+      "villain or snob-shaming of customers: she is particular, not mean",
+      "anything not wholesome; she is an adult, fully clothed, cafe-safe"
+    ],
+    "sample_lines": [
+      "This was roasted eleven days ago. It is at its best. So am I.",
+      "Whole milk. Sixty-five degrees. Anything hotter and you are drinking an apology.",
+      "I have watched empires fall. I will not watch you use a blade grinder."
+    ]
+  },
+  "look": {
+    "hair": "long silver-grey, soft straight bangs, two loose low twin tails",
+    "ears": "short subtle pointed elf ears close to the head (owner note 2026-10-17)",
+    "eyes": "calm sleepy dark brown",
+    "skin": "natural",
+    "build": "young East Asian woman, early twenties, natural proportions",
+    "outfit": "cozy cream chunky-knit cardigan open over a navy convenience-store uniform shirt with a small plain white name tag (invented store Hoshikage Mart, no real brands), slim black trousers, white canvas sneakers",
+    "avoid": "anime-character outfits, mage robes, staffs, any real store brand"
+  },
+  "props": [
+    "glass bottle of whole milk",
+    "bag of whole coffee beans"
+  ],
+  "reference": {
+    "file": "lumi_ref_v3_full_trim.jpg",
+    "close_up": "lumi_ref_v3_trim.jpg",
+    "from": "v3.2 sheet full_front / close_front, ear tips shortened in post (scripts/ear_trim/), checked by eye",
+    "date": "2026-10-18"
+  },
+  "sheet": {
+    "file": "lumi_character_sheet_v3_trimmed.jpg",
+    "workflow": "workflows/07_character_sheet_api.json (+07b)",
+    "driver": "scripts/sheet_run.py --gate local --ears subtle, then scripts/ear_trim/ (post)"
+  },
+  "stills": [
+    {
+      "file": "lumi_still_01.jpg",
+      "use": "first video frame (portrait, 768x1344 ~9:16)",
+      "workflow": "workflows/02_consistent_stills_api.json",
+      "input": "lumi_ref_00.jpg",
+      "seed": 11,
+      "scene": "behind a wooden coffee counter, glass bottle of whole milk and a bag of whole beans",
+      "date": "2026-10-17"
+    }
+  ],
+  "versions": {
+    "v1": {
+      "reference": "lumi_ref_00.jpg",
+      "sheet": "lumi_character_sheet_v1.jpg",
+      "look": "barista (cream sweater, brown apron), silver-lavender hair, side braid",
+      "status": "kept for history"
+    },
+    "v2": {
+      "status": "rejected in review 2026-10-17 23:29 (anime-leaning, striped uniform + hoodie); not committed"
+    },
+    "v3": {
+      "reference": "lumi_ref_v3_full_trim.jpg",
+      "sheet": "lumi_character_sheet_v3_trimmed.jpg",
+      "concept": "concepts/lumi_real_B.jpg",
+      "look": "photoreal live-action; outfit B picked in review 2026-10-17 23:31",
+      "status": "current",
+      "known_gap": "The models alone kept drawing long sideways ear spikes on a studio background (prompt wording, auto-fix, v3.1/v3.2 sheets, per-view edits). Fixed in post on 2026-10-18: tips trimmed with scripts/ear_trim/ and signed off by eye.",
+      "untrimmed": {
+        "reference": "lumi_ref_v3.jpg",
+        "sheet": "lumi_character_sheet_v3.jpg"
+      }
+    }
+  }
+}

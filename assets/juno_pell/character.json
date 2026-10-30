@@ -1,0 +1,32 @@
+{
+  "name": "Juno Pell",
+  "pronoun": "she",
+  "status": "sample character (Preview mode samples: 'Spin Cycle', a short music video made with OpenSoul's open-model pipeline)",
+  "origin": "Original AI character, made from text only with open models (Z-Image-Turbo, Apache-2.0). No photo of any person, no reference image and no closed generator. An adult (early thirties). No name, outfit, prop, pose or line from any existing work is used.",
+  "rights": "All rights reserved until the project decides (see README.md and /ASSETS_LICENSE).",
+  "prompt_lock": "Juno Pell, a woman in her early thirties, light-medium brown skin, freckles, hazel eyes, big loose copper-auburn curls under a teal terry headband, small gold hoop earrings, mustard-yellow terry tracksuit over a white tank top, calm deadpan expression",
+  "persona": {
+    "one_liner": "Cool, unbothered and deadpan; does her laundry at 2 a.m. like it's a concert.",
+    "voice": "Dry, low-key, never shouts.",
+    "never": ["grins at the camera", "anything not wholesome"]
+  },
+  "look": {
+    "hair": "big loose copper-auburn curls, teal terry headband",
+    "eyes": "hazel",
+    "skin": "light-medium brown, freckles",
+    "build": "average, early thirties",
+    "outfit": "mustard-yellow terry tracksuit, white tank top, gold hoops; wardrobe B: tangerine two-piece suit"
+  },
+  "reference": {
+    "file": "juno_ref_00.jpg",
+    "workflow": "Z-Image-Turbo text-only master (OpenSoul 07z)",
+    "model": "Z-Image-Turbo bf16 (Apache-2.0)",
+    "seed": 303,
+    "picked_by": "eye (clearly early thirties, deadpan, no nose stud)"
+  },
+  "sheet": {
+    "file": "juno_character_sheet_v1.jpg",
+    "workflow": "Qwen-Image-Edit-2511 + Lightning 4-step (OpenSoul 02) from the master",
+    "result": "4 views: front (master), three-quarter, full body, wardrobe B"
+  }
+}

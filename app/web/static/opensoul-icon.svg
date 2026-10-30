@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-label="OpenSoul">
+  <!-- OpenSoul app icon (original artwork, made for this repo; Apache-2.0 like the code): a friendly little soul on the
+       OpenSoul blue, in the rounded-square desktop icon shape. packaging/make_icon.py turns it into .icns/.ico/.png. -->
+  <defs>
+    <linearGradient id="os-bg" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#45A6FF"/>
+      <stop offset="0.5" stop-color="#0071E3"/>
+      <stop offset="1" stop-color="#4A35D4"/>
+    </linearGradient>
+    <linearGradient id="os-gloss" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.30"/>
+      <stop offset="0.45" stop-color="#FFFFFF" stop-opacity="0.06"/>
+      <stop offset="0.46" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="os-body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#E4EEFF"/>
+    </linearGradient>
+    <filter id="os-tile" x="-10%" y="-10%" width="120%" height="125%">
+      <feDropShadow dx="0" dy="14" stdDeviation="16" flood-color="#000000" flood-opacity="0.28"/>
+    </filter>
+    <filter id="os-glyph" x="-25%" y="-20%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#14205E" flood-opacity="0.38"/>
+    </filter>
+    <clipPath id="os-clip"><rect x="100" y="100" width="824" height="824" rx="185"/></clipPath>
+  </defs>
+  <rect x="100" y="100" width="824" height="824" rx="185" fill="url(#os-bg)" filter="url(#os-tile)"/>
+  <g clip-path="url(#os-clip)">
+    <circle cx="300" cy="230" r="330" fill="#FFFFFF" opacity="0.08"/>
+    <rect x="100" y="100" width="824" height="824" fill="url(#os-gloss)"/>
+  </g>
+  <g filter="url(#os-glyph)">
+    <path fill="url(#os-body)" d="M312 525 C312 375 402 268 512 268 C622 268 712 375 712 525 L712 712
+      Q679 772 645 724 Q612 676 578 724 Q545 772 512 724 Q479 676 445 724 Q412 772 378 724 Q345 676 312 712 Z"/>
+  </g>
+  <ellipse cx="444" cy="498" rx="36" ry="48" fill="#1B2F8F"/>
+  <ellipse cx="580" cy="498" rx="36" ry="48" fill="#1B2F8F"/>
+  <circle cx="456" cy="482" r="11" fill="#FFFFFF"/>
+  <circle cx="592" cy="482" r="11" fill="#FFFFFF"/>
+  <circle cx="396" cy="580" r="26" fill="#FF7FAE" opacity="0.45"/>
+  <circle cx="628" cy="580" r="26" fill="#FF7FAE" opacity="0.45"/>
+  <path d="M470 584 Q512 626 554 584" fill="none" stroke="#1B2F8F" stroke-width="20" stroke-linecap="round"/>
+  <path fill="#FFFFFF" d="M770 236 Q778 290 832 298 Q778 306 770 360 Q762 306 708 298 Q762 290 770 236 Z" opacity="0.95"/>
+</svg>

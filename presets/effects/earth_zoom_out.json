@@ -1,0 +1,30 @@
+{
+  "order": 1,
+  "id": "earth_zoom_out",
+  "kind": "effect",
+  "label": "Earth zoom out",
+  "glyph": "globe_out",
+  "blurb": "From your face to outer space",
+  "prompt": "Continuous vertical zoom-out from a close-up of the subject straight up through the rooftops, the town, the region, the clouds, to Earth from orbit; one unbroken shot, photoreal satellite detail at each altitude, smooth exponential speed-up, no cuts.",
+  "reverse": true,
+  "render_prompt": "Continuous vertical zoom-in from high above straight down onto the subject: from the clouds over the region, down over the town and the rooftops, ending on a close-up of the subject's face; one unbroken shot, photoreal aerial detail at each altitude, smooth exponential slow-down as it lands on the face, no cuts.",
+  "lora": null,
+  "expect_motion": "zoom_out",
+  "experimental": true,
+  "verified": {
+    "model": "LTX-2.5 22B distilled",
+    "path": "prompt",
+    "result": "not working yet",
+    "checked_by": "eye",
+    "evidence": "production/motion_check/confusion.md set 15"
+  },
+  "defaults": {
+    "duration_s": 6,
+    "fps": 24,
+    "cfg": 3.0,
+    "steps": 8,
+    "width": 704,
+    "height": 1280
+  },
+  "thumbnail": "/assets/preset_thumbs/effects/earth_zoom_out.mp4"
+}

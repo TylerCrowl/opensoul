@@ -1,0 +1,4 @@
+{
+  "_comment": "Voice engine for NEW stories (opensoul/voice_engine.py). Existing stories keep the engine they were made with (none saved = orpheus). A VoxCPM2 line whose speaker has no usable voice clip (consent ticked) is spoken with Orpheus, with a note. Rollback: OPENSOUL_TTS_DEFAULT=orpheus (new stories) or OPENSOUL_TTS=orpheus (every line).",
+  "tts_default_new": "voxcpm2"
+}

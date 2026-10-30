@@ -1,0 +1,46 @@
+{
+  "_doc": "One switch for every origin / disclosure line about the demo characters (Lumi, Mio, Ren). The project's choice, pending: 'rebuild' (the look is being rebuilt from text with open models) or 'disclose' (keep the current look and say how it was made). Switch with: .venv/bin/python scripts/set_character_origin.py disclose (or rebuild), then commit. The files it rewrites are listed in opensoul/character_origin.py.",
+  "character_origin_mode": "rebuild",
+  "texts": {
+    "lumi_origin": {
+      "rebuild": "Original AI character (no photo of any person; not based on any existing anime or game character). Her current v3 look descends from a concept image made with a closed (non-open) image generator (concepts/lumi_real_B.jpg); the v3 sheet, references, start frames and the demo film's stills come from it. It is being replaced by a text-only rebuild with open models. The v1 files (lumi_ref_00.jpg, lumi_character_sheet_v1.jpg, lumi_still_01.jpg) were drawn from text with open models (workflow 07t).",
+      "disclose": "Original AI character (no photo of any person; not based on any existing anime or game character). Her current v3 look was made from a concept image by a closed (non-open) image generator (concepts/lumi_real_B.jpg); the v3 sheet, references, start frames and the demo film's stills come from it. The v1 files (lumi_ref_00.jpg, lumi_character_sheet_v1.jpg, lumi_still_01.jpg) were drawn from text with open models (workflow 07t)."
+    },
+    "couple_origin": {
+      "rebuild": "Original AI character (no photo of any person). The look was developed from couple concept images made with a closed (non-open) image generator; it is being replaced by a text-only rebuild with open models. No name, outfit, prop, pose or line from any existing work is used.",
+      "disclose": "Original AI character (no photo of any person). The current look was made from couple concept images by a closed (non-open) image generator. No name, outfit, prop, pose or line from any existing work is used."
+    },
+    "lumi_readme": {
+      "rebuild": "**Origin (corrected Oct 18 2026):** the current v3 look descends from a concept image made with a closed (non-open) image generator (`concepts/lumi_real_B.jpg`). The v3 sheet and references, the `concepts/v3_*` start frames and the demo film's stills all come from it. It is being replaced by a text-only rebuild with open models. Concept files and v3-derived files are left out of every export (`opensoul/export_guard.py`, `.gitattributes`). The v1 files below were drawn from text with open models.",
+      "disclose": "**Origin (corrected Oct 18 2026):** the current v3 look was made from a concept image by a closed (non-open) image generator (`concepts/lumi_real_B.jpg`). The v3 sheet and references, the `concepts/v3_*` start frames and the demo film's stills all come from it. Concept files and v3-derived files are left out of every export (`opensoul/export_guard.py`, `.gitattributes`). The v1 files below were drawn from text with open models."
+    },
+    "couple_readme": {
+      "rebuild": "**Origin (corrected Oct 18 2026):** the look was developed from couple concept images made with a closed (non-open) image generator. The reference below was then rendered with workflow `07t` from a text prompt. It is being replaced by a text-only rebuild with open models.",
+      "disclose": "**Origin (corrected Oct 18 2026):** the current look was made from couple concept images by a closed (non-open) image generator. The reference below was then rendered with workflow `07t` from a text prompt."
+    },
+    "readme_note": {
+      "rebuild": "comes from concept images from a closed (non-open) image generator. We are rebuilding it from text with open models. Those concept-derived files",
+      "disclose": "comes from concept images from a closed (non-open) image generator. Those concept-derived files"
+    },
+    "provenance_note": {
+      "rebuild": "The current demo looks are being rebuilt from text with open models.",
+      "disclose": "The current demo looks were made from those concepts by a closed (non-open) image generator."
+    },
+    "demo_legal": {
+      "rebuild": "We are rebuilding the demo character from text with open models.",
+      "disclose": "The demo characters’ look was made from concept images by a closed (non-open) image generator."
+    },
+    "credits_characters": {
+      "rebuild": "Their current look comes from concept images from a closed (non-open) image generator. We are rebuilding it from text with open models.",
+      "disclose": "Their current look was made from concept images by a closed (non-open) image generator."
+    },
+    "start_caption": {
+      "rebuild": "Demo frames are being redrawn. Lumi – Night Shift is being rebuilt from text with open models.",
+      "disclose": "Lumi – Night Shift · Shot 1, Cold open. The demo characters’ look was made from concept images by a closed (non-open) image generator."
+    },
+    "lumi_card_note": {
+      "rebuild": "Concept being rebuilt from text",
+      "disclose": "Look from closed-generator concept art"
+    }
+  }
+}

@@ -1,0 +1,28 @@
+2026-10-16 14:18:55,116 INFO root: comfy_sdk version 0.5.0, status {'COMFY_BASE_URL': 'http://127.0.0.1:8189', 'has_api_key': False, 'comfy_sdk_importable': True, 'version': '0.5.0', 'note': 'Local open weights: ComfyUI on :8188 + `comfy-api-proxy` on :8189 (COMFY_BASE_URL).'}
+2026-10-16 14:18:55,182 INFO opensoul.comfy: comfy_sdk submit 02_consistent_stills_api.json -> http://127.0.0.1:8189
+2026-10-16 14:18:55,188 INFO httpx: HTTP Request: HEAD http://127.0.0.1:8189/api/v2/assets/by-hash/blake3:8a30c4f6d283e5736cf63b9f6b34506f193ed9ad75c7f1d5e9a1555100d1dfb2 "HTTP/1.1 404 Not Found"
+2026-10-16 14:18:55,203 INFO httpx: HTTP Request: POST http://127.0.0.1:8189/api/v2/assets "HTTP/1.1 201 Created"
+2026-10-16 14:18:55,211 INFO httpx: HTTP Request: POST http://127.0.0.1:8189/api/v2/jobs "HTTP/1.1 201 Created"
+2026-10-16 14:18:55,212 INFO opensoul.comfy: comfy_sdk job id=5683aa34-0703-4afb-9f35-2a5c9265aa2d
+2026-10-16 14:18:55,223 INFO httpx: HTTP Request: GET http://127.0.0.1:8189/api/v2/jobs/5683aa34-0703-4afb-9f35-2a5c9265aa2d "HTTP/1.1 200 OK"
+2026-10-16 14:18:55,730 INFO httpx: HTTP Request: GET http://127.0.0.1:8189/api/v2/jobs/5683aa34-0703-4afb-9f35-2a5c9265aa2d "HTTP/1.1 200 OK"
+2026-10-16 14:18:56,487 INFO httpx: HTTP Request: GET http://127.0.0.1:8189/api/v2/jobs/5683aa34-0703-4afb-9f35-2a5c9265aa2d "HTTP/1.1 200 OK"
+2026-10-16 14:18:57,619 INFO httpx: HTTP Request: GET http://127.0.0.1:8189/api/v2/jobs/5683aa34-0703-4afb-9f35-2a5c9265aa2d "HTTP/1.1 200 OK"
+2026-10-16 14:18:59,313 INFO httpx: HTTP Request: GET http://127.0.0.1:8189/api/v2/jobs/5683aa34-0703-4afb-9f35-2a5c9265aa2d "HTTP/1.1 200 OK"
+2026-10-16 14:19:01,852 INFO httpx: HTTP Request: GET http://127.0.0.1:8189/api/v2/jobs/5683aa34-0703-4afb-9f35-2a5c9265aa2d "HTTP/1.1 200 OK"
+2026-10-16 14:19:05,666 INFO httpx: HTTP Request: GET http://127.0.0.1:8189/api/v2/jobs/5683aa34-0703-4afb-9f35-2a5c9265aa2d "HTTP/1.1 200 OK"
+2026-10-16 14:19:10,670 INFO httpx: HTTP Request: GET http://127.0.0.1:8189/api/v2/jobs/5683aa34-0703-4afb-9f35-2a5c9265aa2d "HTTP/1.1 200 OK"
+2026-10-16 14:19:15,674 INFO httpx: HTTP Request: GET http://127.0.0.1:8189/api/v2/jobs/5683aa34-0703-4afb-9f35-2a5c9265aa2d "HTTP/1.1 200 OK"
+2026-10-16 14:19:20,678 INFO httpx: HTTP Request: GET http://127.0.0.1:8189/api/v2/jobs/5683aa34-0703-4afb-9f35-2a5c9265aa2d "HTTP/1.1 200 OK"
+2026-10-16 14:19:25,683 INFO httpx: HTTP Request: GET http://127.0.0.1:8189/api/v2/jobs/5683aa34-0703-4afb-9f35-2a5c9265aa2d "HTTP/1.1 200 OK"
+2026-10-16 14:19:30,687 INFO httpx: HTTP Request: GET http://127.0.0.1:8189/api/v2/jobs/5683aa34-0703-4afb-9f35-2a5c9265aa2d "HTTP/1.1 200 OK"
+2026-10-16 14:19:35,692 INFO httpx: HTTP Request: GET http://127.0.0.1:8189/api/v2/jobs/5683aa34-0703-4afb-9f35-2a5c9265aa2d "HTTP/1.1 200 OK"
+2026-10-16 14:19:40,696 INFO httpx: HTTP Request: GET http://127.0.0.1:8189/api/v2/jobs/5683aa34-0703-4afb-9f35-2a5c9265aa2d "HTTP/1.1 200 OK"
+2026-10-16 14:19:45,706 INFO httpx: HTTP Request: GET http://127.0.0.1:8189/api/v2/jobs/5683aa34-0703-4afb-9f35-2a5c9265aa2d "HTTP/1.1 200 OK"
+2026-10-16 14:19:50,712 INFO httpx: HTTP Request: GET http://127.0.0.1:8189/api/v2/jobs/5683aa34-0703-4afb-9f35-2a5c9265aa2d "HTTP/1.1 200 OK"
+2026-10-16 14:19:55,719 INFO httpx: HTTP Request: GET http://127.0.0.1:8189/api/v2/jobs/5683aa34-0703-4afb-9f35-2a5c9265aa2d "HTTP/1.1 200 OK"
+2026-10-16 14:19:55,719 INFO opensoul.comfy: comfy_sdk job 5683aa34-0703-4afb-9f35-2a5c9265aa2d finished status=succeeded in 60.5s
+2026-10-16 14:19:55,732 INFO httpx: HTTP Request: GET http://127.0.0.1:8189/api/v2/assets/eyJqIjogIjU2ODNhYTM0LTA3MDMtNGFmYi05ZjM1LTJhNWM5MjY1YWEyZCIsICJmIjogIm9wZW5zb3VsX3N0aWxsXzAwMDI5Xy5wbmciLCAicyI6ICIiLCAidCI6ICJvdXRwdXQifQ.qEYjgbfRTNabJKOy56TayH6g9Ik6o_YQJaLUtcibx6g/content "HTTP/1.1 200 OK"
+2026-10-16 14:19:55,734 INFO opensoul.comfy: comfy_sdk output node=9 -> ../out/still/opensoul_still_00029_.png
+2026-10-16 14:19:55,734 INFO root: DONE 1 output(s) in 60.6s: ['../out/still/opensoul_still_00029_.png']
+EXIT 0

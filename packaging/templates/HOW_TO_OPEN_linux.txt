@@ -1,0 +1,12 @@
+How to open OpenSoul on Linux
+
+1. Unpack the archive in your home folder: tar xzf OpenSoul-*.tar.gz
+2. Double-click OpenSoul/OpenSoul. Or run ./OpenSoul/OpenSoul in a terminal.
+   Your browser opens the welcome page.
+3. Optional: run ./OpenSoul/install-desktop-entry.sh one time. This adds OpenSoul to your applications menu.
+4. Pick "Try it now" to use Preview mode. You do not need a graphics card.
+   Or pick "Connect my studio". Then type the address of your studio.
+5. To close OpenSoul, click Quit in the bottom-right corner of the page.
+   You can also run ./OpenSoul/OpenSoul stop.
+
+OpenSoul keeps your work in ~/.local/share/opensoul.

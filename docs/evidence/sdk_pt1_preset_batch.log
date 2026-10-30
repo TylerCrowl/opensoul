@@ -1,0 +1,65 @@
+2026-10-17T18:53:10-04:00 pt1_camera_crash_zoom via comfy-sdk
+2026-10-17 18:53:11,156 ERROR opensoul.sdk_batch: job pt1_camera_crash_zoom failed: 'metadata' must be a string (opaque label).
+2026-10-17T18:53:11-04:00 pt1_camera_crash_zoom SDK_FAIL, fallback batch3
+2026-10-17T18:56:49-04:00 pt1_camera_dolly_in via comfy-sdk
+2026-10-17 18:56:49,890 ERROR opensoul.sdk_batch: job pt1_camera_dolly_in failed: 'metadata' must be a string (opaque label).
+2026-10-17T18:56:49-04:00 pt1_camera_dolly_in SDK_FAIL, fallback batch3
+2026-10-17T19:00:18-04:00 pt1_camera_dolly_left via comfy-sdk
+2026-10-17 19:00:18,479 ERROR opensoul.sdk_batch: job pt1_camera_dolly_left failed: 'metadata' must be a string (opaque label).
+2026-10-17T19:00:18-04:00 pt1_camera_dolly_left SDK_FAIL, fallback batch3
+2026-10-17T19:03:54-04:00 pt1_camera_dolly_out via comfy-sdk
+2026-10-17 19:03:55,070 ERROR opensoul.sdk_batch: job pt1_camera_dolly_out failed: dictionary update sequence element #0 has length 1; 2 is required
+2026-10-17T19:03:55-04:00 pt1_camera_dolly_out SDK_FAIL, fallback batch3
+2026-10-17T19:07:27-04:00 pt1_camera_dolly_right via comfy-sdk
+2026-10-17 19:07:27,748 ERROR opensoul.sdk_batch: job pt1_camera_dolly_right failed: dictionary update sequence element #0 has length 1; 2 is required
+2026-10-17T19:07:27-04:00 pt1_camera_dolly_right SDK_FAIL, fallback batch3
+2026-10-17T19:11:02-04:00 pt1_camera_dolly_zoom via comfy-sdk
+2026-10-17 19:11:02,354 INFO opensoul.comfy: comfy_sdk job id=12301f84-41ff-49d7-95c8-449df663782b
+2026-10-17 19:14:38,011 INFO opensoul.comfy: comfy_sdk job 12301f84-41ff-49d7-95c8-449df663782b finished status=succeeded in 215.7s
+2026-10-17 19:14:38,011 INFO opensoul.comfy: comfy_sdk job output node=51 type=image name=v4_i2v_00020_.mp4
+2026-10-17 19:14:38,017 INFO opensoul.comfy: comfy_sdk output node=51 -> /tmp/sdk_batch_km3r0owa/pt1_camera_dolly_zoom/v4_i2v_00020_.mp4
+2026-10-17T19:14:38-04:00 pt1_camera_fpv via comfy-sdk
+2026-10-17 19:14:38,267 INFO opensoul.comfy: comfy_sdk job id=215f5ab1-67c4-4170-b401-3b1aa876e3db
+2026-10-17 19:18:13,880 INFO opensoul.comfy: comfy_sdk job 215f5ab1-67c4-4170-b401-3b1aa876e3db finished status=succeeded in 215.6s
+2026-10-17 19:18:13,880 INFO opensoul.comfy: comfy_sdk job output node=51 type=image name=v4_i2v_00021_.mp4
+2026-10-17 19:18:13,894 INFO opensoul.comfy: comfy_sdk output node=51 -> /tmp/sdk_batch_1pj1ppcp/pt1_camera_fpv/v4_i2v_00021_.mp4
+2026-10-17T19:18:13-04:00 pt1_camera_jib_down via comfy-sdk
+2026-10-17 19:18:14,148 INFO opensoul.comfy: comfy_sdk job id=12e99f3e-ef73-4934-83dc-39d5620066a6
+2026-10-17 19:21:44,809 INFO opensoul.comfy: comfy_sdk job 12e99f3e-ef73-4934-83dc-39d5620066a6 finished status=succeeded in 210.7s
+2026-10-17 19:21:44,809 INFO opensoul.comfy: comfy_sdk job output node=51 type=image name=v4_i2v_00022_.mp4
+2026-10-17 19:21:44,825 INFO opensoul.comfy: comfy_sdk output node=51 -> /tmp/sdk_batch_u5jtbbwd/pt1_camera_jib_down/v4_i2v_00022_.mp4
+2026-10-17T19:21:44-04:00 pt1_camera_jib_up via comfy-sdk
+2026-10-17 19:21:45,060 INFO opensoul.comfy: comfy_sdk job id=a2ab23a6-d22a-45d8-bcdb-292ab3bc1b50
+2026-10-17 19:25:30,802 INFO opensoul.comfy: comfy_sdk job a2ab23a6-d22a-45d8-bcdb-292ab3bc1b50 finished status=succeeded in 225.8s
+2026-10-17 19:25:30,802 INFO opensoul.comfy: comfy_sdk job output node=51 type=image name=v4_i2v_00023_.mp4
+2026-10-17 19:25:30,820 INFO opensoul.comfy: comfy_sdk output node=51 -> /tmp/sdk_batch_bdp3ebfs/pt1_camera_jib_up/v4_i2v_00023_.mp4
+2026-10-17T19:25:30-04:00 pt1_camera_orbit via comfy-sdk
+2026-10-17 19:25:31,066 INFO opensoul.comfy: comfy_sdk job id=5fb2923c-0c88-49e0-85ce-93b15060de09
+2026-10-17 19:29:01,662 INFO opensoul.comfy: comfy_sdk job 5fb2923c-0c88-49e0-85ce-93b15060de09 finished status=succeeded in 210.6s
+2026-10-17 19:29:01,662 INFO opensoul.comfy: comfy_sdk job output node=51 type=image name=v4_i2v_00024_.mp4
+2026-10-17 19:29:01,664 INFO opensoul.comfy: comfy_sdk output node=51 -> /tmp/sdk_batch_ednzr6_i/pt1_camera_orbit/v4_i2v_00024_.mp4
+2026-10-17T19:29:01-04:00 pt1_camera_static via comfy-sdk
+2026-10-17 19:29:01,898 INFO opensoul.comfy: comfy_sdk job id=db83402e-329f-4d81-8135-a76210c1a0ed
+2026-10-17 19:32:32,551 INFO opensoul.comfy: comfy_sdk job db83402e-329f-4d81-8135-a76210c1a0ed finished status=succeeded in 210.7s
+2026-10-17 19:32:32,551 INFO opensoul.comfy: comfy_sdk job output node=51 type=image name=v4_i2v_00025_.mp4
+2026-10-17 19:32:32,562 INFO opensoul.comfy: comfy_sdk output node=51 -> /tmp/sdk_batch_f026sdbc/pt1_camera_static/v4_i2v_00025_.mp4
+2026-10-17T19:32:32-04:00 pt1_effect_day_to_night via comfy-sdk
+2026-10-17 19:32:32,822 INFO opensoul.comfy: comfy_sdk job id=8d1d6d44-9c3b-4f67-9c3d-3ca99c527671
+2026-10-17 19:36:08,502 INFO opensoul.comfy: comfy_sdk job 8d1d6d44-9c3b-4f67-9c3d-3ca99c527671 finished status=succeeded in 215.7s
+2026-10-17 19:36:08,502 INFO opensoul.comfy: comfy_sdk job output node=51 type=image name=v4_i2v_00026_.mp4
+2026-10-17 19:36:08,515 INFO opensoul.comfy: comfy_sdk output node=51 -> /tmp/sdk_batch_ij3xw6l0/pt1_effect_day_to_night/v4_i2v_00026_.mp4
+2026-10-17T19:36:08-04:00 pt1_effect_earth_zoom_out via comfy-sdk
+2026-10-17 19:36:08,748 INFO opensoul.comfy: comfy_sdk job id=a589a7c2-0fd7-4db9-82c3-087ba08ff83c
+2026-10-17 19:39:39,367 INFO opensoul.comfy: comfy_sdk job a589a7c2-0fd7-4db9-82c3-087ba08ff83c finished status=succeeded in 210.6s
+2026-10-17 19:39:39,367 INFO opensoul.comfy: comfy_sdk job output node=51 type=image name=v4_i2v_00027_.mp4
+2026-10-17 19:39:39,385 INFO opensoul.comfy: comfy_sdk output node=51 -> /tmp/sdk_batch_9m7to9av/pt1_effect_earth_zoom_out/v4_i2v_00027_.mp4
+2026-10-17T19:39:39-04:00 pt1_effect_orbit_freeze via comfy-sdk
+2026-10-17 19:39:39,617 INFO opensoul.comfy: comfy_sdk job id=88083c2b-55a9-49aa-ae58-68e21f12845a
+2026-10-17 19:43:15,305 INFO opensoul.comfy: comfy_sdk job 88083c2b-55a9-49aa-ae58-68e21f12845a finished status=succeeded in 215.7s
+2026-10-17 19:43:15,306 INFO opensoul.comfy: comfy_sdk job output node=51 type=image name=v4_i2v_00028_.mp4
+2026-10-17 19:43:15,319 INFO opensoul.comfy: comfy_sdk output node=51 -> /tmp/sdk_batch_628ggfdb/pt1_effect_orbit_freeze/v4_i2v_00028_.mp4
+2026-10-17T19:43:15-04:00 pt1_effect_outfit_switch via comfy-sdk
+2026-10-17 19:43:15,566 INFO opensoul.comfy: comfy_sdk job id=491b2c7d-96a9-409f-97af-b49e2959976c
+2026-10-17 19:46:46,160 INFO opensoul.comfy: comfy_sdk job 491b2c7d-96a9-409f-97af-b49e2959976c finished status=succeeded in 210.6s
+2026-10-17 19:46:46,160 INFO opensoul.comfy: comfy_sdk job output node=51 type=image name=v4_i2v_00029_.mp4
+2026-10-17 19:46:46,173 INFO opensoul.comfy: comfy_sdk output node=51 -> /tmp/sdk_batch_ynqu6eeo/pt1_effect_outfit_switch/v4_i2v_00029_.mp4

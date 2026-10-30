@@ -1,0 +1,26 @@
+{
+  "demo_stills": [
+    {
+      "file": "lumi_still_01_front.png",
+      "score": 0.9529,
+      "passed": true
+    },
+    {
+      "file": "lumi_still_02_side.png",
+      "score": 0.8435,
+      "passed": true
+    },
+    {
+      "file": "lumi_still_03_close.png",
+      "score": 0.8569,
+      "passed": true
+    },
+    {
+      "file": "lumi_still_reject_demo.png",
+      "score": null,
+      "passed": false,
+      "note": "retired v1 look (long ears, apron), marked by hand as the 'Needs a redo' example"
+    }
+  ],
+  "pack": "assets/demo_samples/lumi_pack"
+}

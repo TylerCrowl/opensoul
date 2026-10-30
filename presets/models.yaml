@@ -1,0 +1,218 @@
+# OpenSoul stage / model registry (Spark-first).
+# Paths are relative to $COMFY_DIR/models unless they start with $OPENSOUL_HOME/
+# or $HOME/. COMFY_DIR defaults to $OPENSOUL_HOME/ComfyUI; OPENSOUL_HOME defaults
+# to ~/OpenSoul. download_group matches scripts/download_models.sh group names.
+# Local file checks only — no network calls. Hardware profiles (24/32 GB) are deferred.
+
+stages:
+  - id: sheet
+    label: Sheet
+    download_group: sheet stills   # bf16 edit model + shared TE/VAE/Lightning from stills
+    optional: false
+    default_backend: qwen_edit_bf16
+    workflows:
+      - workflows/07_character_sheet_api.json
+      - workflows/07b_character_sheet_back_from_side_api.json
+      - workflows/07t_character_from_text_api.json
+    backends:
+      - id: qwen_edit_bf16
+        label: Qwen-Image-Edit-2511 bf16
+        license: Apache-2.0
+        files:
+          - diffusion_models/qwen_image_edit_2511_bf16.safetensors
+          - text_encoders/qwen_2.5_vl_7b_fp8_scaled.safetensors
+          - vae/qwen_image_vae.safetensors
+          - loras/Qwen-Image-Edit-2511-Lightning-4steps-V1.0-bf16.safetensors
+
+  - id: master
+    label: Master (from text)
+    download_group: master
+    optional: false
+    default_backend: zimage
+    env_backend: OPENSOUL_MASTER_BACKEND
+    workflows:
+      - workflows/07z_master_from_text_zimage_api.json
+      - workflows/07t_character_from_text_api.json
+    backends:
+      - id: zimage
+        label: Z-Image-Turbo
+        license: Apache-2.0
+        files:
+          - diffusion_models/z_image_turbo_bf16.safetensors
+          - text_encoders/qwen_3_4b.safetensors
+          - vae/ae.safetensors
+      - id: qwen07t
+        label: Qwen-Image-Edit-2511 bf16 (text-to-image)
+        license: Apache-2.0
+        download_group: sheet stills
+        files:
+          - diffusion_models/qwen_image_edit_2511_bf16.safetensors
+          - text_encoders/qwen_2.5_vl_7b_fp8_scaled.safetensors
+          - vae/qwen_image_vae.safetensors
+          - loras/Qwen-Image-Edit-2511-Lightning-4steps-V1.0-bf16.safetensors
+
+  - id: stills
+    label: Stills
+    download_group: stills
+    optional: false
+    default_backend: qwen_edit_fp8mixed
+    workflows:
+      - workflows/01_character_builder_api.json
+      - workflows/02_consistent_stills_api.json
+    backends:
+      - id: qwen_edit_fp8mixed
+        label: Qwen-Image-Edit-2511 fp8mixed + Lightning
+        license: Apache-2.0
+        files:
+          - diffusion_models/qwen_image_edit_2511_fp8mixed.safetensors
+          - text_encoders/qwen_2.5_vl_7b_fp8_scaled.safetensors
+          - vae/qwen_image_vae.safetensors
+          - loras/Qwen-Image-Edit-2511-Lightning-4steps-V1.0-bf16.safetensors
+
+  - id: voice
+    label: Voice
+    download_group: tts
+    optional: false
+    default_backend: orpheus         # OPENSOUL_TTS
+    env_backend: OPENSOUL_TTS
+    workflows:
+      - workflows/03c_tts_orpheus_api.json
+      - workflows/03_tts_api.json
+      - workflows/03b_tts_chatterbox_api.json
+      - workflows/03b_tts_chatterbox_ref_api.json
+      - workflows/03d_tts_voxcpm2_api.json
+      - workflows/03d_tts_voxcpm2_ref_api.json
+    backends:
+      - id: orpheus
+        label: Orpheus 3B (emotion tags)
+        license: Apache-2.0 (Built with Llama 3.2)
+        download_group: orpheus      # scripts/setup_tts_orpheus.sh makes the venv and calls this group
+        files:
+          - $OPENSOUL_HOME/models/orpheus/Orpheus-3b-FT-Q4_K_M.gguf
+          - $OPENSOUL_HOME/models/snac_24khz/config.json
+      - id: kokoro
+        label: Kokoro-82M
+        license: Apache-2.0
+        files:
+          - $OPENSOUL_HOME/models/kokoro/config.json
+          - $OPENSOUL_HOME/models/kokoro/kokoro-v1_0.pth
+          - $OPENSOUL_HOME/models/kokoro/voices/am_michael.pt
+      - id: chatterbox
+        label: Chatterbox
+        license: MIT
+        files:
+          - $OPENSOUL_HOME/models/chatterbox/t3_cfg.safetensors
+      - id: voxcpm2
+        label: VoxCPM2 (voice clip)
+        license: Apache-2.0
+        setup: scripts/setup_tts_voxcpm2.sh   # own venv + hf:openbmb/VoxCPM2@32279effe8c19989596f05d353d1447f51d9e915
+        files:
+          - $OPENSOUL_HOME/models/voxcpm2/model.safetensors
+          - $OPENSOUL_HOME/models/voxcpm2/audiovae.pth
+
+  - id: video
+    label: Video
+    download_group: video
+    optional: false
+    default_backend: ltx25_int8      # overridden by LTX_VARIANT=bf16 → ltx25_bf16
+    env_backend: LTX_VARIANT
+    env_backend_map:
+      int8: ltx25_int8
+      bf16: ltx25_bf16
+    workflows:
+      - workflows/04_i2v_ltx_api.json
+      - workflows/04b_a2v_ltx_api.json
+    backends:
+      - id: ltx25_int8
+        label: LTX-2.5 distilled int8-convrot
+        license: LTX-2.x Community License
+        files:
+          - diffusion_models/ltx-2.5-22b-distilled-transformer-comfy-int8-convrot.safetensors
+          - text_encoders/gemma4-12b-with-proj-ltx-2.5-comfy-int8-convrot.safetensors
+          - vae/ltx-2.5-video-vae-bf16.safetensors
+          - vae/ltx-2.5-audio-vae-bf16.safetensors
+          - latent_upscale_models/ltx-2.5-latent-spatial-upscaler-x2-bf16-1.0.safetensors
+      - id: ltx25_bf16
+        label: LTX-2.5 distilled bf16
+        license: LTX-2.x Community License
+        files:
+          - diffusion_models/ltx-2.5-22b-distilled-transformer-bf16.safetensors
+          - text_encoders/gemma4-12b-with-proj-ltx-2.5-bf16.safetensors
+          - vae/ltx-2.5-video-vae-bf16.safetensors
+          - vae/ltx-2.5-audio-vae-bf16.safetensors
+          - latent_upscale_models/ltx-2.5-latent-spatial-upscaler-x2-bf16-1.0.safetensors
+
+  - id: lipsync
+    label: Lip-sync
+    download_group: lipsync
+    optional: false
+    default_backend: ltx_av          # OPENSOUL_LIPSYNC; LTX joint audio+video (04b) ships with the video stage
+    env_backend: OPENSOUL_LIPSYNC
+    workflows:
+      - workflows/04b_a2v_ltx_api.json
+      - workflows/05_lipsync_api.json
+    backends:
+      - id: ltx_av
+        label: LTX-2 joint audio+video
+        license: LTX-2.x Community License
+        # Reuses the video-stage pack (int8 or bf16). Shared VAEs are the local existence check.
+        files:
+          - vae/ltx-2.5-video-vae-bf16.safetensors
+          - vae/ltx-2.5-audio-vae-bf16.safetensors
+      - id: latentsync
+        label: LatentSync 1.6 (optional, after the video)
+        license: Apache-2.0 / OpenRAIL++-M
+        optional: true
+        download_group: lipsync      # ./scripts/download_models.sh lipsync
+        files:
+          - $OPENSOUL_HOME/LatentSync/checkpoints/latentsync_unet.pt
+          # the runner's MediaPipe face detector (no InsightFace): without it LatentSync isn't offered
+          - $OPENSOUL_HOME/models/mediapipe/face_landmarker.task
+
+  - id: identity_gate
+    label: Identity gate
+    download_group: ""               # patch needs no download; arcface is opt-in
+    optional: false
+    default_backend: patch
+    workflows:
+      - workflows/06_identity_gate_api.json
+      - workflows/06b_identity_gate_arcface_api.json
+    backends:
+      - id: patch
+        label: Patch embedding (shipped)
+        license: Apache-2.0
+        files: []
+      - id: arcface
+        label: InsightFace buffalo_l (opt-in)
+        license: non-commercial (weights)
+        optional: true
+        download_group: arcface
+        files:
+          - $HOME/.insightface/models/buffalo_l/w600k_r50.onnx
+
+  - id: motion
+    label: Motion
+    download_group: motion
+    optional: true                   # Openjutsu / Union Control IC-LoRA
+    default_backend: union_control_iclora
+    workflows: []
+    backends:
+      - id: union_control_iclora
+        label: LTX Union Control IC-LoRA
+        license: LTX-2 Community License
+        files:
+          - loras/ltx-2.3-22b-ic-lora-union-control-ref0.5.safetensors
+
+  - id: pose
+    label: Pose
+    download_group: pose
+    optional: true                   # DWPose for make_pose_guide.py
+    default_backend: dwpose
+    workflows: []
+    backends:
+      - id: dwpose
+        label: DWPose + YOLOX-L
+        license: Apache-2.0
+        files:
+          - $OPENSOUL_HOME/models/dwpose/yolox_l.onnx
+          - $OPENSOUL_HOME/models/dwpose/dw-ll_ucoco_384.onnx

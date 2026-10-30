@@ -1,0 +1,5 @@
+{
+  "note": "Stage 3a (alt): Chatterbox expressive TTS via the OpenSoul node pack. Output node 2.",
+  "status": "See docs/evidence/",
+  "format": "ComfyUI API (prompt) dict"
+}

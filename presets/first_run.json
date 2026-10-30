@@ -1,0 +1,15 @@
+{
+  "_doc": "First-run examples slot (D3, Oct 18 2026). The film shows only when \"audited\" is true (a visual review pass) and its file exists. Until then the slot shows tiles from the Lumi re-render whose status is \"accepted\" (copied into assets/preset_thumbs/); with none, it falls back to the existing preset tile clips. Swapping in the film is a change to this file, no code.",
+  "film": {
+    "id": "lumi_night_shift",
+    "title": "Lumi – Night Shift",
+    "video": "docs/media/lumi_night_shift.mp4",
+    "poster": "docs/media/lumi_night_shift.jpg",
+    "audited": false
+  },
+  "tiles": {
+    "title": "Example moves",
+    "items": []
+  },
+  "fallback_title": "Example moves"
+}

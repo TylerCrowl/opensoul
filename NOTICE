@@ -1,0 +1,16 @@
+OpenSoul
+Copyright 2026 OpenSoul contributors
+
+This product includes software developed for the ComfyUI Open Source Higgsfield contest.
+Lumi, Mio and Ren character assets (assets/lumi/, assets/mio/, assets/ren/ and the Lumi demo files) are all rights reserved — see ASSETS_LICENSE.
+
+Built with Llama. The fallback voice engine, Orpheus TTS 3B (Canopy Labs, Apache-2.0), is a fine-tune of
+Meta Llama 3.2 3B. Llama 3.2 is licensed under the Llama 3.2 Community License, Copyright (c) Meta Platforms,
+Inc. All Rights Reserved. https://www.llama.com/llama3_2/license/
+
+Desktop app for macOS (packaging/requirements-desktop-mac.txt, bundled in the Mac packages only):
+- pywebview, Copyright (c) Roman Sirokov and contributors, BSD 3-Clause License. https://github.com/r0x0r/pywebview
+- PyObjC (pyobjc-core and framework wrappers), Copyright (c) Ronald Oussoren and contributors, MIT License.
+- bottle, Copyright (c) Marcel Hellkamp, MIT License. proxy_tools, Copyright (c) Jonathan Tushman, MIT License.
+- typing_extensions, Python Software Foundation License.
+The Mac disk image is made in CI with dmgbuild (MIT); it is not shipped inside the app.

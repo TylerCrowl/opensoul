@@ -1,0 +1,30 @@
+{
+  "iphone_ugc": {
+    "id": "iphone_ugc",
+    "label": "iPhone UGC",
+    "prompt_suffix": "Shot on a handheld smartphone, slight unstable framing, auto-exposure hunting, digital noise, true-to-life colors, vertical UGC look.",
+    "post": {
+      "grain": 4,
+      "shake": 3,
+      "weave": 0,
+      "vignette": 0.0,
+      "warmth": 0.0,
+      "saturation": 1.06,
+      "contrast": 1.03
+    }
+  },
+  "film_35mm": {
+    "id": "film_35mm",
+    "label": "35mm film",
+    "prompt_suffix": "Shot on 35mm film, Kodak 5219 color, organic grain, soft halation on highlights, gentle vignette, cinematic 1/48 shutter motion blur.",
+    "post": {
+      "grain": 14,
+      "shake": 0,
+      "weave": 1.5,
+      "vignette": 0.6,
+      "warmth": 0.06,
+      "saturation": 0.9,
+      "contrast": 1.06
+    }
+  }
+}

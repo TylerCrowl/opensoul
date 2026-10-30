@@ -1,0 +1,5 @@
+{
+  "note": "Stage 2: consistent vertical stills conditioned on the character sheet via Qwen-Image-Edit-2511 (fp8mixed) + Lightning 4-step LoRA. App sets node 6 prompt + node 3 seed via Comfy SDK; node 5 is the uploaded sheet.",
+  "status": "Verified on DGX Spark with ComfyUI v0.41.2 (smoke test)",
+  "format": "ComfyUI API (prompt) dict"
+}

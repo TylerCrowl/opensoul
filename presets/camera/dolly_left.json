@@ -1,0 +1,36 @@
+{
+  "order": 3,
+  "id": "dolly_left",
+  "kind": "camera",
+  "label": "Dolly left",
+  "glyph": "left",
+  "blurb": "Glide sideways to the left",
+  "prompt": "Lateral track to the left on a level slider, camera height at eye level, parallel to the subject, foreground elements pass faster than background, subject holds frame-center, no pan, steady speed.",
+  "phrase": "the camera trucks left, parallel to the subject",
+  "lora": {
+    "name": "ltx-2-19b-lora-camera-control-dolly-left.safetensors",
+    "strength": 0.9,
+    "verified_on": "LTX-2 19B (unverified on LTX-2.5 22B)"
+  },
+  "expect_motion": [
+    "truck_left",
+    "orbit_left"
+  ],
+  "experimental": false,
+  "verified": {
+    "model": "LTX-2.5 22B distilled",
+    "path": "prompt",
+    "result": "works",
+    "checked_by": "eye",
+    "evidence": "production/motion_check/confusion.md set 15"
+  },
+  "defaults": {
+    "duration_s": 5,
+    "fps": 24,
+    "cfg": 3.0,
+    "steps": 8,
+    "width": 704,
+    "height": 1280
+  },
+  "thumbnail": "/assets/preset_thumbs/camera/dolly_left.mp4"
+}

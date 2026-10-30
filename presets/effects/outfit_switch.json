@@ -1,0 +1,28 @@
+{
+  "order": 4,
+  "id": "outfit_switch",
+  "kind": "effect",
+  "label": "Outfit switch",
+  "glyph": "outfit",
+  "blurb": "New look on the beat",
+  "prompt": "Subject faces camera, quick spin or hand swipe across the lens, and on the beat the outfit changes to a completely different styled look; face, hair and background stay identical, crisp match cut, energetic pacing.",
+  "lora": null,
+  "expect_motion": "any",
+  "experimental": false,
+  "verified": {
+    "model": "LTX-2.5 22B distilled",
+    "path": "prompt",
+    "result": "works",
+    "checked_by": "eye",
+    "evidence": "production/motion_check/confusion.md set 15"
+  },
+  "defaults": {
+    "duration_s": 6,
+    "fps": 24,
+    "cfg": 3.0,
+    "steps": 8,
+    "width": 704,
+    "height": 1280
+  },
+  "thumbnail": "/assets/preset_thumbs/effects/outfit_switch.mp4"
+}

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light dark" />
+  <script>(function(){try{var t=localStorage.getItem("opensoul.theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+  <title>Welcome to OpenSoul</title>
+  <link rel="icon" href="/static/opensoul-icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/static/theme.css" />
+  <link rel="stylesheet" href="/static/launcher.css" />
+</head>
+<body class="wl-body">
+  <main class="wl" id="wl">
+    <ol class="wl-steps" aria-label="Setup steps">
+      <li data-step="1" class="on">Welcome</li><li data-step="2">Choose</li><li data-step="3">Ready</li>
+    </ol>
+
+    <section class="wl-card" data-panel="1">
+      <img class="wl-icon" src="/static/opensoul-icon.svg" alt="" width="96" height="96" />
+      <h1>Make your first story</h1>
+      <p class="wl-lead">Make short videos with your own characters. Your work stays on your computer.</p>
+      <!-- OS-029: the same six steps and labels as the app's top bar, then Music videos and Shorts -->
+      <ol class="wl-flow" aria-label="The six steps in the top bar of the app">
+        <li>Characters</li><li>Stages</li><li>Shots</li><li>Render</li><li>Review</li><li>Export</li>
+      </ol>
+      <p class="wl-flow-note">Make your characters and places. Plan the shots. Render them, keep the best takes and export one video.</p>
+      <p class="wl-flow-note wl-tools-line">On the right of the top bar: <b>Music videos</b> (make a song, then shots that match it) and <b>Shorts</b> (one shot, no story).</p>
+      <p class="wl-hw" id="wlHw">Looking at this computer…</p>
+      <div class="wl-nav wl-nav-end">
+        <button class="wl-primary" id="wlNext1">Get started</button>
+      </div>
+    </section>
+
+    <section class="wl-card" data-panel="2" hidden>
+      <h1>How do you want to start?</h1>
+      <p class="wl-lead">You can change this any time from the corner of the app.</p>
+      <div class="wl-choices" role="radiogroup" aria-label="Mode">
+        <button class="wl-choice" role="radio" aria-checked="true" data-mode="preview" id="wlPreview">
+          <span class="wl-choice-title">Try it now <span class="wl-badge">No setup</span></span>
+          <span>Works on any computer. You see sample pictures and clips while you learn. Nothing leaves this computer.</span>
+        </button>
+        <button class="wl-choice" role="radio" aria-checked="false" data-mode="studio" id="wlStudio">
+          <span class="wl-choice-title">Connect my studio</span>
+          <span>Use your studio: a computer with a large graphics card that runs ComfyUI (for example a DGX Spark).
+            It makes real pictures and video.</span>
+        </button>
+      </div>
+
+      <div class="wl-studio" id="wlStudioBox" hidden>
+        <label for="wlUrl">Studio address</label>
+        <div class="wl-row">
+          <input id="wlUrl" type="text" inputmode="url" autocomplete="off" spellcheck="false"
+                 placeholder="e.g. http://my-studio.local:8188" aria-describedby="wlUrlHelp" />
+          <button class="wl-secondary" id="wlTest">Test connection</button>
+        </div>
+        <p class="wl-help" id="wlUrlHelp">Usually ends in <code>:8188</code>. Test it before you continue.</p>
+
+        <div class="wl-result" id="wlResult" role="status" aria-live="polite" hidden>
+          <span class="wl-result-icon" aria-hidden="true"></span>
+          <div class="wl-result-body">
+            <p class="wl-result-title" id="wlResultTitle"></p>
+            <p class="wl-result-text" id="wlResultText"></p>
+            <dl class="wl-facts" id="wlFacts" hidden></dl>
+          </div>
+        </div>
+        <div class="wl-warning" id="wlWarn" role="alert" hidden>
+          <p class="wl-warning-title">Public internet address</p>
+          <p id="wlWarnText"></p>
+        </div>
+
+        <details class="wl-more" id="wlFind">
+          <summary>Where do I find this address?</summary>
+          <div class="wl-more-body">
+            <p><b>1. Let other computers connect to the studio.</b> ComfyUI answers only on its own computer until you
+              start it with <code>--listen</code>. On the studio, start ComfyUI with its home-network address, for example
+              <code>python main.py --listen &lt;studio address&gt; --port 8188</code>. Use this only on a network that you
+              trust. Never use it on public Wi-Fi.</p>
+            <p><b>2. Find the studio's address.</b></p>
+            <ul>
+              <li><b>DGX Spark or another Linux computer:</b> open a Terminal on it. Type <code>hostname -I</code>.
+                Use the first number. It often starts with 192.168. or 10. Its name plus <code>.local</code> often works too.</li>
+              <li><b>Mac:</b> open System Settings, then Wi-Fi (or Network). Click Details next to your network. It shows
+                the IP address. The name in General, then Sharing, then Local hostname, also works.</li>
+              <li><b>Windows PC:</b> open Settings, then Network &amp; internet, then Properties. Find the IPv4 address.</li>
+            </ul>
+            <p><b>3. Type the address here.</b> Put <code>http://</code> in front and <code>:8188</code> at the end. Then click
+              Test connection.</p>
+            <p class="wl-fine">The API helper (comfy-api-proxy) must also accept connections, on port 8189. Its <code>--help</code> shows how.</p>
+          </div>
+        </details>
+
+        <details class="wl-more" id="wlSafe">
+          <summary>Is this safe?</summary>
+          <div class="wl-more-body wl-safe">
+            <p><b>Only your studio.</b> OpenSoul talks directly to the address that you type here, over your own
+              network. Nothing goes through other computers.</p>
+            <p><b>No account, no cloud, no tracking.</b> There is no OpenSoul account, cloud server or telemetry.
+              Your prompts, pictures and videos go only between this computer and your studio.</p>
+            <p><b>What OpenSoul sends.</b> OpenSoul sends your generation jobs (prompts and reference pictures) to ComfyUI
+              on your studio. The finished pictures, videos and voices come back.</p>
+            <p><b>One caveat.</b> By default, ComfyUI has no password, so anyone on the same network can use it.
+              Connect only on a network that you trust, like your home network. Never type a public internet address. Away
+              from home? Use a private connection such as a VPN.</p>
+            <p><b>Open source.</b> You can read every line. The connection code is in
+              <code>opensoul/launcher.py</code>. <a href="/help/desktop" target="_blank" rel="noopener">Read how
+              connecting works</a>.</p>
+          </div>
+        </details>
+
+        <details class="wl-more" id="wlAdv">
+          <summary>Advanced</summary>
+          <div class="wl-more-body">
+            <label for="wlApi">API helper address (comfy-api-proxy)</label>
+            <input id="wlApi" type="text" inputmode="url" autocomplete="off" spellcheck="false"
+                   placeholder="Leave empty: same computer, port 8189" />
+          </div>
+        </details>
+      </div>
+      <p class="wl-error" id="wlErr" role="alert"></p>
+      <div class="wl-nav">
+        <button class="wl-link" id="wlBack2">Back</button>
+        <button class="wl-primary" id="wlSave">Continue</button>
+      </div>
+    </section>
+
+    <section class="wl-card" data-panel="3" hidden>
+      <div class="wl-mark-ok" aria-hidden="true"><span class="wl-spark"></span><span class="wl-spark"></span><span class="wl-spark"></span></div>
+      <h1 id="wlDoneTitle">You're all set</h1>
+      <p class="wl-lead" id="wlDoneText"></p>
+      <ul class="wl-points wl-tips" id="wlTips">
+        <li><span class="wl-dot" aria-hidden="true">1</span><span>Start on <b>Characters</b>. Click a sample character or <b>New character</b>.</span></li>
+        <li><span class="wl-dot" aria-hidden="true">2</span><span>To close OpenSoul, click <b>Quit</b> in the bottom corner. When you open it again, your work is there.</span></li>
+      </ul>
+      <p class="wl-models" id="wlModels" hidden>Your studio needs the open models. The
+        <a href="/?tab=models">Models page</a> (in Settings) shows which models fit and which are missing.</p>
+      <div class="wl-nav">
+        <button class="wl-link" id="wlBack3">Back</button>
+        <a class="wl-primary" id="wlOpen" href="/">Open OpenSoul</a>
+      </div>
+    </section>
+  </main>
+  <script src="/static/welcome.js"></script>
+</body>
+</html>

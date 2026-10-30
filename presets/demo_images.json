@@ -1,0 +1,221 @@
+{
+  "_doc": "Every picture the default UI shows for the demo cast, the demo story and the example tiles comes from this file, so the image choices can be swapped in one place (Lumi's design may change on Oct 20). Only review-passed sources may be listed; a slot set to null shows the stylised placeholder or the move's glyph card. 'source' and 'verdict' record where each file came from (copied, never edited in place). Display only: generation still uses each character's own pack.",
+  "film_rules": [
+    "Lumi's ears are subtle or hidden, never big pointed elf ears.",
+    "Lumi's prop is the cream sketchbook, never the red hardcover book.",
+    "No cat (cut from the story)."
+  ],
+  "cast": {
+    "lumi": {
+      "card": "assets/demo_audited/placeholder_lumi.svg",
+      "placeholder": true,
+      "source": null,
+      "verdict": "Neutral placeholder (display only): the earlier picture was a frame of the v8f take, whose look descends from closed-generator concept art. It returns only after the open-model rebuild passes review.",
+      "replaced": "assets/demo_audited/lumi_card_v8f_f18.jpg (v8f f18, kept on disk, not shown)",
+      "note": "Concept being rebuilt from text"
+    },
+    "mio": {
+      "card": "assets/demo_audited/placeholder_mio.svg",
+      "placeholder": true,
+      "source": null,
+      "verdict": "No review-passed picture of Mio yet (the studio portrait reads as a stock photo); stylised placeholder until a passed sheet exists."
+    },
+    "ren": {
+      "card": "assets/demo_audited/placeholder_ren.svg",
+      "placeholder": true,
+      "source": null,
+      "verdict": "No review-passed picture of Ren yet (the studio portrait reads as a stock photo); stylised placeholder until a passed sheet exists."
+    }
+  },
+  "more_examples": [
+    "pixel"
+  ],
+  "preset_clips": {
+    "allowed": [],
+    "why": "Every rendered tile clip in assets/preset_thumbs/ shows the pre-audit Lumi (long pointed elf ears, red hardcover in some), so none is shown; each tile shows its motion glyph card. List a preset id here once its clip passes."
+  },
+  "projects": {
+    "lumi-night-shift": {
+      "shot_cards": {
+        "Cold open": {
+          "card": "assets/demo_audited/placeholder_shot.jpg",
+          "placeholder": true,
+          "source": null,
+          "verdict": "Neutral placeholder (display only): the earlier picture descends from closed-generator concept art (the v8f take, or the konbini stage plate cut from those concepts). It returns only after the open-model rebuild passes review.",
+          "replaced": "assets/demo_audited/shot01_cold_open_v8f_f28.jpg (v8f f28, kept on disk, not shown)",
+          "shown_as": "the labelled 'No take yet' tile, like every other shot without a take"
+        }
+      },
+      "other_cards_why": "Shots without a listed card show the plain 'No take yet' card (no badges, no take count).",
+      "stage": {
+        "Konbini interior": {
+          "master": "assets/demo_audited/placeholder_stage.jpg",
+          "angles": {},
+          "other_angles": "assets/demo_audited/placeholder_frame.svg",
+          "other_angles_why": "Every angle shows the neutral frame card until the open-model stage rebuild passes review.",
+          "master_source": null,
+          "master_verdict": "Neutral placeholder (display only): the earlier picture descends from closed-generator concept art (the v8f take, or the konbini stage plate cut from those concepts). It returns only after the open-model rebuild passes review.",
+          "sheet": {
+            "image": "assets/demo_audited/placeholder_stage.jpg",
+            "placeholder": true,
+            "source": null,
+            "verdict": "Neutral placeholder (display only): the earlier picture descends from closed-generator concept art (the v8f take, or the konbini stage plate cut from those concepts). It returns only after the open-model rebuild passes review."
+          },
+          "empty": "assets/demo_audited/placeholder_stage.jpg",
+          "placeholder": true,
+          "replaced": {
+            "master": "assets/demo_audited/konbini_master.jpg",
+            "angles": {
+              "window side": "assets/demo_audited/konbini_window_side.jpg",
+              "medium at register": "assets/demo_audited/konbini_register.jpg"
+            },
+            "sheet": "assets/demo_audited/stage_konbini_sheet_v6.jpg",
+            "empty": "data/projects/lumi-night-shift/locations/empty_konbini_v8b.png (the story's own empty-plate picture; the data file is never written)"
+          }
+        }
+      },
+      "approved_takes": {
+        "Cold open": []
+      },
+      "approved_takes_why": "Allow-list per shot beat. An entry is a stored take id (\"v9\") or a shipped take {id, video, poster} served from assets/ (the demo story's data is never written). Takes not listed are kept on disk but show 'No approved take yet'.",
+      "hide_takes_before": "2026-10-18T22:31:00-04:00",
+      "hide_takes_before_why": "Takes that existed at the visual review's 22:31 check (cat, ear tips, red book) and the seeded concept stills stay hidden unless listed above; takes a user makes afterwards show as usual (the Review copy promises that). Approved in content review, Oct 18 2026 23:37.",
+      "shot_text": {
+        "Cold open": {
+          "prompt": "3 AM, rain on the window. Lumi slouches behind the register, chin on her hand, doodling in her cream sketchbook.",
+          "replaces": [
+            "3 AM, rain on the convenience-store window. Lumi, bored at the register, reads an ancient book; a ginger cat sleeps on the counter."
+          ],
+          "source": "production/script/SCRIPT_v3.md (SCRIPT_v3 §1 Doodling), read only"
+        },
+        "Doors chime": {
+          "prompt": "The door chimes. Mio and Ren stumble in arm in arm, laughing and shaking off the rain. Lumi doesn't look up.",
+          "replaces": [
+            "The door chimes. Mio and Ren, a tipsy young couple, stumble in out of the rain, laughing."
+          ],
+          "source": "production/script/SCRIPT_v3.md (SCRIPT_v3 §2 Stumble in), read only"
+        },
+        "Canned coffee": {
+          "prompt": "Ren holds up a plain slim steel can of coffee (no colors, no logos) from the fridge like a trophy and sets it on the counter. Lumi closes her sketchbook and looks from the plain slim steel can to them, eyes off camera.",
+          "replaces": [
+            "Ren holds up a canned coffee from the fridge like a trophy and sets it on the counter. Lumi closes her sketchbook and looks from the can to them.",
+            "Ren grabs a canned coffee from the fridge and sets it on the counter; Lumi judges him silently."
+          ],
+          "source": "production/script/SCRIPT_v3.md (SCRIPT_v3 §3 The can + §4 The verdict), read only"
+        },
+        "Real coffee": {
+          "prompt": "“Give me three minutes.” Lumi makes two pour-over coffees, slowly and seriously, and slides the paper cups across the counter.",
+          "replaces": [
+            "Lumi takes the can away and makes them real coffee with whole milk, slowly and seriously."
+          ],
+          "source": "production/script/SCRIPT_v3.md (SCRIPT_v3 §5 Three minutes + §6 Pour-over), read only"
+        },
+        "Sip and freeze": {
+          "prompt": "Mio and Ren lean in, suspicious, and sip. Their eyes go wide. Lumi glances at the plain slim steel can. Says nothing.",
+          "replaces": [
+            "Mio and Ren lean in, suspicious, and sip. Their eyes go wide.",
+            "Mio and Ren sip. They freeze. Lumi, deadpan, holds her own cup.",
+            "Mio and Ren lean in, suspicious, and sip. Their eyes go wide. Lumi glances at the can and says nothing."
+          ],
+          "source": "production/script/SCRIPT_v3.md (SCRIPT_v3 §7 Real coffee + §8 (the sip)), read only"
+        },
+        "Into the rain": {
+          "prompt": "They wave and stumble back out into the rain. The door closes. Lumi, alone: “See you sometime later.”",
+          "replaces": [
+            "Mio and Ren leave and wave back at her as they step into the rain."
+          ],
+          "source": "production/script/SCRIPT_v3.md (SCRIPT_v3 §8 Sip, goodbye), read only"
+        },
+        "Daydream": {
+          "prompt": "Back to doodling. A slow push into the page: the drawing comes alive in warm colored pencil, the three of them as fantasy adventurers on a sunset road, cups raised.",
+          "replaces": [
+            "Daydream: the three of them on a fantasy adventure, painterly anime style.",
+            "Back to doodling. A slow push into the page: the drawing comes alive in warm colored pencil, the three of them as fantasy adventurers on a sunset road, cups raised.",
+            "Back to doodling. A slow push into the page: the drawing comes alive in warm colored pencil, the three of them as fantasy adventurers on a sunset road, cups raised. Lumi's ears stay hidden under her hood."
+          ],
+          "source": "production/script/SCRIPT_v3.md (SCRIPT_v3 §9 The daydream), read only"
+        },
+        "Ending": {
+          "prompt": "She closes the sketchbook and looks out at the rain with a tiny smile.",
+          "replaces": [
+            "After they leave, she opens her ancient book: it holds fun moments she remembers, each drawn anime-style as a fantasy adventure (a fishing trip drawn as a dragon hunt, a 1980s arcade night drawn as a dungeon raid). She draws tonight's tipsy coffee run with the couple as a new quest, closes the book softly, and the cat looks at the camera.",
+            "She closes the sketchbook and looks out at the rain with a tiny smile. End card: Lumi – Night Shift."
+          ],
+          "source": "production/script/SCRIPT_v3.md (SCRIPT_v3 §10 End), read only",
+          "end_card": "The 'Lumi – Night Shift' end card is set in type in the edit (ffmpeg drawtext on black), never generated, so it stays out of the render text."
+        }
+      },
+      "shot_text_why": "The audited film has no cat and no ancient book (she doodles in a cream sketchbook). Shown instead of the stored description only while the stored text is still one of 'replaces', so a user's own edit always wins; the stored data is never written. Renders from these shots use the new text too.",
+      "hidden_take_text": "Hidden until it passes review.",
+      "approved_takes_paused": {
+        "Cold open": [
+          {
+            "id": "v8f",
+            "video": "assets/demo_audited/shot01_doodling_v8f.mp4",
+            "poster": "assets/demo_audited/shot01_cold_open_v8f_f28.jpg",
+            "label": "Approved take",
+            "note": "SHOT01 v8f, passed visual review (AUDIT_v8f_20261018_2254) and content review. Shipped with the app; the earlier demo takes stay on disk, hidden.",
+            "source": "production/takes/SHOT01_doodling_v8f.mp4 (copied byte-for-byte, md5 b1f0e3061d46e4da4dfd6e646e547ef2)",
+            "verdict": "AUDIT production/audit/AUDIT_v8f_20261018_2254.md: PASS, whole clip (1344x768, 24 fps, 109 f, 4.542 s), no frame limits; eyes down, ear tips hidden, no cat, single blank tag (a pin-stub notch from ~f72 is only visible at 8x, so stills stay before it). content review: passed, Oct 18 22:56."
+          }
+        ],
+        "why": "Paused before the K-vs-D decision: the v8f take's look descends from closed-generator concept art, so no frame of it is served (no demo video or GIF can pick it up). The files stay on disk; move the entry back to approved_takes to show it again."
+      }
+    }
+  },
+  "approved_sources": [
+    "production/takes/SHOT01_doodling_v8f.mp4 (AUDIT_v8f_20261018_2254: PASS, whole clip)",
+    "production/takes/SHOT01_doodling_v8e.mp4 frames 12-34 (0.50-1.42 s) only",
+    "production/takes/stage_konbini_sheet_v6.jpg (AUDIT_v8e: PASS)",
+    "production/setbible/MASTER_PLATE_konbini.png (stage thumbnails)"
+  ],
+  "tile_still": {
+    "image": "assets/demo_audited/placeholder_tile.jpg",
+    "placeholder": true,
+    "source": null,
+    "verdict": "Neutral placeholder (display only): the earlier picture was a frame of the v8f take, whose look descends from closed-generator concept art. It returns only after the open-model rebuild passes review.",
+    "why": "Camera and effect tiles show this neutral placeholder under each move's glyph until a passed open-model clip exists.",
+    "replaced": "assets/demo_audited/tile_still_v8f_f24.jpg (kept on disk, not shown)"
+  },
+  "talking_lumi": {
+    "card": "assets/demo_audited/placeholder_lumi.svg",
+    "placeholder": true,
+    "wired": false,
+    "source": null,
+    "verdict": "Neutral placeholder (display only): the earlier still was a frame of a lip-sync take whose look descends from closed-generator concept art. Not wired into the UI.",
+    "replaced": "assets/demo_audited/lumi_talk_l04_s171_f13_c318.jpg (kept on disk, not shown)"
+  },
+  "first_run_examples": "Hidden: no camera-move clip has passed, and a still must not be labelled as a move. The start card shows first_run_still instead.",
+  "first_run_still": {
+    "image": "assets/demo_audited/placeholder_shot.jpg",
+    "title": "From the demo story",
+    "caption": "Demo frames are being redrawn. Lumi – Night Shift is being rebuilt from text with open models.",
+    "alt": "Placeholder: a film clapper while the demo frames are being redrawn",
+    "placeholder": true,
+    "source": null,
+    "verdict": "Neutral placeholder (display only): the earlier picture was a frame of the v8f take, whose look descends from closed-generator concept art. It returns only after the open-model rebuild passes review.",
+    "replaced": "assets/demo_audited/shot01_cold_open_v8f_f28.jpg (kept on disk, not shown)",
+    "why_icon": "A film-frame icon, never a person: this slot shows a scene from the story, not a character."
+  },
+  "approved_takes_note": "No shot is approved right now: Shot 1's v8f take is paused (approved_takes_paused) until the open-model rebuild. Never the unaudited SHOT01_doodling_v8f_v5b.mp4 remux.",
+  "pre_rebuild_hide": {
+    "_doc": "Old Lumi/Mio/Ren designs (from before the open-model remake) never show as current in the UI: any picture in these folders, and any saved pack of these names not made from text, displays as the character's card picture instead (cast.<name>.card). Display only; renders and files are untouched. Remove a folder here once its rebuilt files are in. Listed in production/app_test/provenance/LIVE_UI_SWAP_LIST.md.",
+    "dirs": {
+      "assets/lumi": "lumi",
+      "assets/mio": "mio",
+      "assets/ren": "ren",
+      "assets/demo_samples/lumi_pack": "lumi",
+      "assets/demo_samples/lumi_sheet_preview.jpg": "lumi",
+      "assets/demo_samples/lumi_still_01_front.png": "lumi",
+      "assets/demo_samples/lumi_still_02_side.png": "lumi",
+      "assets/demo_samples/lumi_still_03_close.png": "lumi",
+      "assets/demo_samples/lumi_still_reject_demo.png": "lumi",
+      "assets/demo_samples/lumi_video_poster.png": "lumi"
+    },
+    "pack_names": [
+      "lumi",
+      "mio",
+      "ren"
+    ]
+  }
+}

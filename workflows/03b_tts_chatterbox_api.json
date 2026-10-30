@@ -1,0 +1,21 @@
+{
+  "1": {
+    "class_type": "OpenSoulChatterboxTTS",
+    "inputs": {
+      "text": "Whole milk. Sixty-five degrees. Anything hotter and you are drinking an apology.",
+      "exaggeration": 0.6,
+      "cfg_weight": 0.5,
+      "seed": 7
+    }
+  },
+  "2": {
+    "class_type": "SaveAudio",
+    "inputs": {
+      "audio": [
+        "1",
+        0
+      ],
+      "filename_prefix": "opensoul_tts_chatterbox"
+    }
+  }
+}

@@ -1,0 +1,500 @@
+# OpenSoul model manifest: one swappable model slot per pipeline step (opensoul/model_manifest.py, docs/SETUP.md).
+#
+# One source of truth for "which model fills which step, under what licence, with how much memory and disk":
+# - Models the app runs today (`in_app: true`) are NOT copied here. Their label, licence, licence source, download
+#   size and URL are read from presets/hardware_profiles.yaml (`models.<id>`), their files from presets/models.yaml,
+#   and their memory per tier from the hardware_profiles.yaml picks. This file only adds the slot, how to install it
+#   and which machines it runs on, so the existing registries keep working unchanged.
+# - Candidates the app does not run yet (`in_app: false`) carry their own facts. Licence tags and file sizes were read
+#   from the Hugging Face Hub API (read-only) on 2026-10-23 and are cited as hf:<repo>@<revision>. Their memory
+#   numbers are estimates or figures reported by the tool's authors, never measurements.
+# - Slot defaults are the app's defaults (tests/test_model_manifest.py checks them against presets/models.yaml,
+#   presets/voice_engine.json and presets/music_models.json). This file never changes a default.
+# - Licence classes are the picker's (presets/hardware_profiles.yaml license_classes). `commercial_use` is derived:
+#   open -> yes; ai_label / use_restricted -> conditional; anything else -> no (never offered).
+schema: 1
+checked: "2026-10-23"
+
+slots:
+  - id: image
+    label: Pictures from text
+    plain: "Text-only character masters and scene pictures"
+    app_stage: master            # presets/models.yaml stage
+    picker_stage: stills         # presets/hardware_profiles.yaml stage
+    default: zimage
+  - id: edit
+    label: Picture edit
+    plain: "Consistent stills and the six-view character sheet, edited from a reference"
+    app_stage: stills
+    picker_stage: stills
+    default: qwen_edit_fp8mixed  # the sheet stage uses qwen_edit_bf16 (presets/models.yaml stage "sheet")
+  - id: video
+    label: Video
+    plain: "Moving shots made from your pictures"
+    app_stage: video
+    picker_stage: video
+    default: ltx25_int8          # presets/models.yaml default; LTX_VARIANT=bf16 selects ltx25_bf16 (the Spark's pick)
+  - id: lipsync
+    label: Lip-sync
+    plain: "Mouth moves in time with the voice"
+    app_stage: lipsync
+    picker_stage: lipsync
+    default: ltx_av
+  - id: music
+    label: Music
+    plain: "Songs and backing music"
+    app_stage: null              # presets/music_models.json defaults.song
+    picker_stage: music
+    default: ace_step
+  - id: voice
+    label: Voice
+    plain: "Spoken lines from your script"
+    app_stage: voice
+    picker_stage: tts
+    default: voxcpm2             # presets/voice_engine.json tts_default_new (new stories)
+    fallback: orpheus            # presets/models.yaml voice default_backend (older stories, Speak tab, no-clip fallback)
+  - id: upscale
+    label: Upscale
+    plain: "Make a finished shot sharper or bigger"
+    app_stage: null              # the LTX latent upscaler ships inside the video pack; no separate stage yet
+    picker_stage: null
+    default: ltx_spatial_upscaler_x2
+
+# install: how OpenSoul fetches it. `download_groups` are scripts/download_models.sh groups; `env` is what the run
+# needs set; `setup` is a setup script that makes its own venv. A model with `install: null` is not installable by
+# OpenSoul yet (manual, Phase 2).
+# platforms: nvidia (Linux + CUDA, through ComfyUI), apple (Apple Silicon), cpu.
+models:
+  # ---------------------------------------------------------------- in the app today (facts from hardware_profiles.yaml)
+  zimage:
+    slot: image
+    in_app: true
+    platforms: [nvidia]
+    memory: {est_gb: 16, source: estimate, basis: "12.3 GB bf16 model plus working memory; the 8.0 GB text encoder can be offloaded after encoding. Runs on the Spark but is not broken out in docs/HARDWARE_MEMORY.md"}
+    install: {download_groups: [master]}
+  qwen_edit_fp8mixed:
+    slot: edit
+    in_app: true
+    platforms: [nvidia]
+    install: {download_groups: [stills]}
+  qwen_edit_bf16:
+    slot: edit
+    in_app: true
+    platforms: [nvidia]
+    install: {download_groups: [stills, sheet]}   # sheet adds the bf16 model; stills has the shared encoder, VAE, LoRA
+  ltx25_int8:
+    slot: video
+    in_app: true
+    platforms: [nvidia]
+    install: {download_groups: [video], env: {LTX_VARIANT: int8}, gated: true}
+  ltx25_bf16:
+    slot: video
+    in_app: true
+    platforms: [nvidia]
+    install: {download_groups: [video], env: {LTX_VARIANT: bf16}, gated: true}
+  ltx_av:
+    slot: lipsync
+    in_app: true
+    platforms: [nvidia]
+    bundled_with: [ltx25_int8, ltx25_bf16]          # no extra files: the video model run with the voice as input
+    install: {download_groups: [video], gated: true}
+  latentsync:
+    slot: lipsync
+    in_app: true
+    platforms: [nvidia]
+    optional: true
+    install: {download_groups: [lipsync], manual_steps: ["git clone https://github.com/bytedance/LatentSync into $OPENSOUL_HOME/LatentSync first"]}
+  voxcpm2:
+    slot: voice
+    in_app: true
+    memory: {est_gb: 8, source: estimate, basis: "4.6 GB model + 0.38 GB audio VAE (2.29B parameters) plus working memory; not broken out in docs/HARDWARE_MEMORY.md"}
+    platforms: [nvidia]
+    install: {setup: scripts/setup_tts_voxcpm2.sh}
+  orpheus:
+    slot: voice
+    in_app: true
+    memory: {est_gb: 4, source: estimate, basis: "2.4 GB Q4_K_M GGUF under llama.cpp plus the small SNAC decoder; not broken out in docs/HARDWARE_MEMORY.md"}
+    platforms: [nvidia, cpu]
+    install: {download_groups: [orpheus], setup: scripts/setup_tts_orpheus.sh}
+  chatterbox:
+    slot: voice
+    in_app: true
+    platforms: [nvidia]
+    install: {download_groups: [tts], env: {ALLOW_PICKLE: "1"}}
+  kokoro:
+    slot: voice
+    in_app: true
+    platforms: [nvidia, cpu]
+    install: {download_groups: [tts], env: {ALLOW_PICKLE: "1"}}
+  ace_step:
+    slot: music
+    in_app: true
+    platforms: [nvidia]
+    install: {download_groups: [music]}
+  ltx_spatial_upscaler_x2:
+    slot: upscale
+    in_app: true
+    platforms: [nvidia]
+    bundled_with: [ltx25_int8, ltx25_bf16]
+    own:                                           # not a picker model, so its facts live here
+      label: LTX-2.5 latent spatial upscaler x2
+      license: LTX-2.x Community License
+      ai_label: true
+      license_verified: true
+      license_source: "hf:Lightricks/LTX-2.5@49b093a39c19169a8a81721dcc541e07e945232f (license: other, license_name: ltx-2.x-community-license-agreement)"
+      url: https://huggingface.co/Lightricks/LTX-2.5
+      weights_gb: 1.0
+      weights_source: "part of the video pack (presets/hardware_profiles.yaml ltx25_bf16 weights_source: spatial upscaler x2 1.0 GB)"
+      memory: {est_gb: null, source: estimate, basis: "runs inside the video workflow's second stage; not broken out"}
+      file: latent_upscale_models/ltx-2.5-latent-spatial-upscaler-x2-bf16-1.0.safetensors
+    install: {download_groups: [video], gated: true}
+
+  # ---------------------------------------------------------------- candidates, not in the app yet (own facts)
+  flux2_klein_4b:
+    slot: image
+    also_slots: [edit]
+    in_app: false
+    in_app_note: "Generate + edit in one 4B model. No OpenSoul workflow yet."
+    label: FLUX.2 klein 4B
+    runtime: comfyui
+    platforms: [nvidia, apple]
+    license: Apache-2.0
+    license_verified: true
+    license_source: "hf:black-forest-labs/FLUX.2-klein-4B@e7b7dc27f91deacad38e78976d1f2b499d76a294 (license: apache-2.0, not gated)"
+    url: https://huggingface.co/black-forest-labs/FLUX.2-klein-4B
+    weights_gb: 16.0
+    weights_source: "hf file sizes (same revision): flux-2-klein-4b.safetensors 7.75 GB + text_encoder 8.05 GB (2 shards) + vae 0.17 GB; the repo also has a diffusers copy of the transformer (another 7.75 GB) that is not needed"
+    memory: {est_gb: 8, source: estimate, basis: "4B transformer; 4-bit builds reported to fit 8-16 GB machines (Plan of Attack page); not run by us"}
+    install: null
+  zimage_mflux:
+    slot: image
+    in_app: false
+    in_app_note: "Apple Silicon only, through mflux (MLX). No OpenSoul runner for MLX yet."
+    label: Z-Image-Turbo via mflux (4-bit / 8-bit / bf16)
+    runtime: mflux
+    platforms: [apple]
+    license: Apache-2.0
+    license_verified: true
+    license_source: "hf:Tongyi-MAI/Z-Image-Turbo@f332072aa78be7aecdf3ee76d5c247082da564a6 (license: apache-2.0; mflux quantizes the official weights locally)"
+    url: https://github.com/mflux-community/mflux
+    weights_gb: null
+    weights_source: "not checked: mflux downloads the official repo and quantizes it on the Mac"
+    memory: {est_gb: 12, source: reported, basis: "4-bit on 16 GB Macs, 8-bit on 32 GB (mflux / Plan of Attack page); unverified"}
+    install: null
+  qwen_edit_gguf_q4:
+    slot: edit
+    in_app: false
+    in_app_note: "Needs the ComfyUI-GGUF loader node, which is not in workflows/node_allowlist.json yet."
+    label: Qwen-Image-Edit-2511 GGUF Q4_K_M
+    runtime: comfyui-gguf
+    platforms: [nvidia]
+    license: Apache-2.0
+    license_verified: true
+    license_source: "hf:unsloth/Qwen-Image-Edit-2511-GGUF@0d33d9692b4b26212297240d87b0d4719aa4fd06 (license: apache-2.0)"
+    url: https://huggingface.co/unsloth/Qwen-Image-Edit-2511-GGUF
+    weights_gb: 22.9
+    weights_source: "hf file size: qwen-image-edit-2511-Q4_K_M.gguf 13.24 GB (same revision) + the shared qwen_2.5_vl_7b_fp8_scaled 9.4 GB and qwen_image_vae 0.25 GB from the stills group"
+    memory: {est_gb: 14, source: estimate, basis: "13.24 GB Q4 file with the text encoder offloaded; 12-16 GB cards with offload (Plan of Attack page); not run by us"}
+    install: null
+  qwen_edit_gguf_q3:
+    slot: edit
+    in_app: false
+    in_app_note: "Needs the ComfyUI-GGUF loader node (not allowlisted yet). Slow on 8 GB with offload."
+    label: Qwen-Image-Edit-2511 GGUF Q3_K_M
+    runtime: comfyui-gguf
+    platforms: [nvidia]
+    license: Apache-2.0
+    license_verified: true
+    license_source: "hf:unsloth/Qwen-Image-Edit-2511-GGUF@0d33d9692b4b26212297240d87b0d4719aa4fd06 (license: apache-2.0)"
+    url: https://huggingface.co/unsloth/Qwen-Image-Edit-2511-GGUF
+    weights_gb: 19.6
+    weights_source: "hf file size: qwen-image-edit-2511-Q3_K_M.gguf 9.92 GB (Q2_K is 7.47 GB) + the shared 9.4 GB text encoder and 0.25 GB VAE"
+    memory: {est_gb: 10, source: estimate, basis: "Q3 file with heavy offload; slow (Plan of Attack page); not run by us"}
+    install: null
+  ltx25_gguf_q4:
+    slot: video
+    in_app: false
+    in_app_note: "Needs the ComfyUI-GGUF loader node (not allowlisted yet) and a GGUF variant of workflows/04 and 04b."
+    label: LTX-2.5 distilled GGUF Q4_K_M
+    runtime: comfyui-gguf
+    platforms: [nvidia]
+    license: LTX-2.x Community License
+    ai_label: true
+    license_verified: true
+    license_source: "hf:unsloth/LTX-2.5-GGUF@ac3c540c6025903784336e99b2dc179385c4c3b7 (license: other, license_name: ltx-2.x-community-license-agreement, not gated)"
+    license_note: "Same terms as the official LTX-2.5 files: AI-generated label on every video; companies with $10M or more in yearly revenue need a paid license."
+    url: https://huggingface.co/unsloth/LTX-2.5-GGUF
+    weights_gb: 32.3
+    weights_source: "hf file size: distilled/ltx-2.5-22b-distilled-Q4_K_M.gguf 13.58 GB (Q3_K_M 11.3 GB) + the int8 text encoder 15.4 GB, VAEs 1.9 GB and upscaler 1.0 GB from the video group (estimate of the set)"
+    memory: {est_gb: 16, source: estimate, basis: "13.6 GB Q4 transformer with offload; 16 GB cards (Plan of Attack page); not run by us"}
+    install: null
+  ltx_av_gguf_q4:
+    slot: lipsync
+    in_app: false
+    in_app_note: "The camera-locked a2v workflow on the GGUF video model; same blockers as ltx25_gguf_q4."
+    label: LTX-2.5 a2v on GGUF Q4 (camera-locked)
+    runtime: comfyui-gguf
+    platforms: [nvidia]
+    bundled_with: [ltx25_gguf_q4]
+    license: LTX-2.x Community License
+    ai_label: true
+    license_verified: true
+    license_source: "hf:unsloth/LTX-2.5-GGUF@ac3c540c6025903784336e99b2dc179385c4c3b7 (license: other, license_name: ltx-2.x-community-license-agreement)"
+    url: https://huggingface.co/unsloth/LTX-2.5-GGUF
+    weights_gb: 0
+    weights_source: "no extra files: the GGUF video model run with the voice as input"
+    memory: {est_gb: 16, source: estimate, basis: "same pass as the GGUF video model"}
+    install: null
+  ltx25_mlx_q8:
+    slot: video
+    in_app: false
+    in_app_note: "Apple Silicon only. No OpenSoul runner for MLX yet (Phase 2)."
+    label: LTX-2.5 MLX q8 (community port)
+    runtime: mlx
+    platforms: [apple]
+    license: LTX-2.x Community License
+    ai_label: true
+    license_verified: true
+    license_source: "hf:dgrauet/ltx-2.5-mlx-q8@746ca9aacb697d2c739f544d68b584214dedcc75 (license: other, license_name: ltx-2-community-license-agreement, gated: auto)"
+    license_note: "Community port; the LTX-2.x terms still apply (AI-generated label, revenue cap). Gated: accept on Hugging Face first."
+    url: https://huggingface.co/dgrauet/ltx-2.5-mlx-q8
+    weights_gb: 42.6
+    weights_source: "hf file sizes (same revision): transformer-distilled 20.6 GB + text_encoder 16.01 GB + connector 4.03 GB + spatial upscaler 1.0 GB + VAEs (not summed); the repo is 74.7 GB with the dev transformer and LoRA, which are not needed"
+    memory: {est_gb: 48, source: reported, basis: "q8 on 64 GB+ Macs (tool author / Plan of Attack page); unverified"}
+    install: null
+  ltx25_mlx_q4:
+    slot: video
+    in_app: false
+    in_app_note: "Apple Silicon only. No OpenSoul runner for MLX yet (Phase 2)."
+    label: LTX-2.5 MLX q4 (community port)
+    runtime: mlx
+    platforms: [apple]
+    license: LTX-2.x Community License
+    ai_label: true
+    license_verified: true
+    license_source: "hf:dgrauet/ltx-2.5-mlx-q4@e9a20add8c5937fcab635fb8e7a52926487a5776 (license: other, license_name: ltx-2-community-license-agreement, gated: auto)"
+    license_note: "Community port; the LTX-2.x terms still apply. Gated: accept on Hugging Face first."
+    url: https://huggingface.co/dgrauet/ltx-2.5-mlx-q4
+    weights_gb: 26.9
+    weights_source: "hf file sizes (same revision): transformer-distilled 11.32 GB + text_encoder 10.56 GB + connector 4.03 GB + spatial upscaler 1.0 GB; the repo is 50.7 GB with the dev transformer and LoRA"
+    memory: {est_gb: 28, source: reported, basis: "q4 with a low-memory profile on 16-32 GB Macs gives short low-res drafts (Plan of Attack page); unverified"}
+    install: null
+  ltx_av_mlx:
+    slot: lipsync
+    in_app: false
+    in_app_note: "LTX a2v through the MLX port; no OpenSoul runner for MLX yet."
+    label: LTX-2.5 a2v via MLX
+    runtime: mlx
+    platforms: [apple]
+    bundled_with: [ltx25_mlx_q8, ltx25_mlx_q4]
+    license: LTX-2.x Community License
+    ai_label: true
+    license_verified: true
+    license_source: "hf:dgrauet/ltx-2.5-mlx-q8@746ca9aacb697d2c739f544d68b584214dedcc75 (license: other, license_name: ltx-2-community-license-agreement)"
+    url: https://huggingface.co/dgrauet/ltx-2.5-mlx-q8
+    weights_gb: 0
+    weights_source: "no extra files: the MLX video model run with the voice as input"
+    memory: {est_gb: null, source: reported, basis: "same pass as the MLX video model; unverified"}
+    install: null
+  wan22_ti2v_5b_gguf_q4:
+    slot: video
+    in_app: false
+    in_app_note: "A different video family (Wan2.2): needs its own workflow, prompts and the ComfyUI-GGUF node."
+    label: Wan2.2 TI2V-5B GGUF Q4_K_M
+    runtime: comfyui-gguf
+    platforms: [nvidia]
+    license: Apache-2.0
+    license_verified: true
+    license_source: "hf:QuantStack/Wan2.2-TI2V-5B-GGUF@57437632ddd08bdcbd1508c866aa22e126ed51d2 (license: apache-2.0); base hf:Wan-AI/Wan2.2-TI2V-5B@921dbaf3f1674a56f47e83fb80a34bac8a8f203e (license: apache-2.0)"
+    url: https://huggingface.co/Wan-AI/Wan2.2-TI2V-5B
+    weights_gb: 17.6
+    weights_source: "hf file sizes: Wan2.2-TI2V-5B-Q4_K_M.gguf 3.43 GB (QuantStack revision above) + umt5-xxl encoder 11.36 GB and Wan2.2_VAE 2.82 GB (Wan-AI revision above; ComfyUI repacks may be smaller)"
+    memory: {est_gb: 8, source: estimate, basis: "5B Q4 at 480p drafts on 8 GB cards (Plan of Attack page); not run by us"}
+    install: null
+  ace_step_2b_turbo:
+    slot: music
+    in_app: false
+    in_app_note: "The smaller ACE-Step 1.5 turbo; the Music tab ships the XL Turbo workflow only (workflows/08m)."
+    label: ACE-Step 1.5 turbo (2B)
+    runtime: comfyui
+    platforms: [nvidia, apple, cpu]
+    license: MIT
+    license_verified: true
+    license_source: "hf:ACE-Step/Ace-Step1.5@19671f406d603126926c1b7e2adc169acbcade22 (license: mit)"
+    url: https://github.com/ace-step/ACE-Step-1.5
+    weights_gb: 10.0
+    weights_source: "hf file sizes (same revision): acestep-v15-turbo 4.79 GB + acestep-5Hz-lm-1.7B 3.71 GB + Qwen3-Embedding-0.6B 1.19 GB + vae 0.34 GB"
+    memory: {est_gb: 8, source: reported, basis: "ACE-Step 1.5 VRAM guide: 2B turbo with INT8 / offload on small cards, MPS and CPU supported (slow on CPU); unverified by us"}
+    install: null
+  kokoro_mlx:
+    slot: voice
+    in_app: false
+    in_app_note: "MLX build of Kokoro for Apple Silicon; the app's Kokoro runner is PyTorch."
+    label: Kokoro-82M (MLX build)
+    runtime: mlx
+    platforms: [apple]
+    license: Apache-2.0
+    license_verified: true
+    license_source: "hf:mlx-community/Kokoro-82M-bf16@a71e4d38b236d968966a2002c4c895dbd12b1c3c (license: apache-2.0)"
+    url: https://huggingface.co/mlx-community/Kokoro-82M-bf16
+    weights_gb: 0.39
+    weights_source: "hf repo size (same revision): kokoro-v1_0.safetensors 0.33 GB + voices"
+    memory: {est_gb: 1, source: estimate, basis: "82M parameters"}
+    install: null
+  seedvr2_3b:
+    slot: upscale
+    in_app: false
+    in_app_note: "Video upscaler; no OpenSoul workflow or allowlisted node yet (Phase 2)."
+    label: SeedVR2-3B
+    runtime: comfyui
+    platforms: [nvidia]
+    license: Apache-2.0
+    license_verified: true
+    license_source: "hf:ByteDance-Seed/SeedVR2-3B@37255ff8cccfb01071b87f635a5948ca8d53117c (license: apache-2.0)"
+    url: https://huggingface.co/ByteDance-Seed/SeedVR2-3B
+    weights_gb: 14.6
+    weights_source: "hf file sizes (same revision): seedvr2_ema_3b.pth 13.57 GB + ema_vae.pth 1.0 GB (pickle files: ALLOW_PICKLE would be needed)"
+    memory: {est_gb: 18, source: estimate, basis: "3B model plus video working memory; not run by us"}
+    install: null
+
+# Named so the picker and the setup tools can say why they are never offered. Never installed by an agent.
+blocked:
+  flux2_dev:
+    slot: image
+    label: FLUX.2-dev
+    license: FLUX non-commercial license
+    license_source: "hf:black-forest-labs/FLUX.2-dev@26afe3a78bb242c0a8bb181dcc8937bb16e5c66c (license: other, license_name: flux-non-commercial-license, gated: auto)"
+    reason: "Blocked: non-commercial weights. FLUX.2 klein 4B (Apache-2.0) is the open alternative."
+  demucs:
+    slot: music
+    ref: hardware_profiles      # presets/hardware_profiles.yaml not_recommended.demucs
+  arcface:
+    slot: null
+    ref: hardware_profiles      # presets/hardware_profiles.yaml not_recommended.arcface
+# Recommendation-only tiers for machines the app's picker has no tested or estimated stack for (its "fallback").
+# They never change what the app runs: they say which slot models to try, all as estimates or author-reported
+# figures, and are shown in place of "no recommendation". Matched top to bottom; first match wins.
+#   match: platform: nvidia | apple | cpu;  min_vram_gb / max_vram_gb (NVIDIA, discrete);  min_memory_gb / max_memory_gb (Apple unified).
+advisory_tiers:
+  - id: nvidia_16gb
+    label: "16 GB NVIDIA card (RTX 4080, 5080 and similar)"
+    match: {platform: nvidia, min_vram_gb: 14, max_vram_gb: 22}
+    status_label: "recommendation only (estimate)"
+    verdict: "Usable studio for 720p shorts once GGUF workflows land. Not tested by us."
+    picks:
+      image: {model: zimage, note: "bf16 fits; the 8 GB text encoder is offloaded after it runs"}
+      edit: {model: qwen_edit_gguf_q4, note: "GGUF Q4-Q5"}
+      video: {model: ltx25_gguf_q4, note: "distilled Q4_K_M with offload"}
+      lipsync: {model: ltx_av_gguf_q4, note: "a2v on the same GGUF model"}
+      music: {model: ace_step_2b_turbo, note: "2B sft/turbo; XL turbo only with offload"}
+      voice: {model: voxcpm2, note: "4.6 GB of weights"}
+      upscale: {model: null, note: "skip; finish at the render size"}
+  - id: nvidia_12gb
+    label: "12 GB NVIDIA card (RTX 3060 12 GB, 4070 and similar)"
+    match: {platform: nvidia, min_vram_gb: 10, max_vram_gb: 14}
+    status_label: "recommendation only (estimate)"
+    verdict: "Drafts of everything; finals are slow. Not tested by us."
+    picks:
+      image: {model: zimage, note: "fp8 / GGUF builds recommended; bf16 needs offload"}
+      edit: {model: qwen_edit_gguf_q4, note: "Q4 with offload"}
+      video: {model: wan22_ti2v_5b_gguf_q4, note: "Wan2.2 TI2V-5B GGUF Q5-Q8; LTX-2.5 GGUF Q3-Q4 with offload is experimental"}
+      lipsync: {model: ltx_av_gguf_q4, note: "experimental"}
+      music: {model: ace_step_2b_turbo, note: "2B with the small LM"}
+      voice: {model: kokoro, note: "or Chatterbox"}
+      upscale: {model: null, note: "skip"}
+  - id: nvidia_8gb
+    label: "8 GB NVIDIA card (RTX 4060 and similar)"
+    match: {platform: nvidia, min_vram_gb: 6, max_vram_gb: 10}
+    status_label: "recommendation only (estimate)"
+    verdict: "Stills, songs and voice. Video and lip-sync: use a remote GPU. Not tested by us."
+    picks:
+      image: {model: flux2_klein_4b, note: "or Z-Image-Turbo GGUF Q4"}
+      edit: {model: qwen_edit_gguf_q3, note: "Q2-Q3 with offload, slow"}
+      video: {model: wan22_ti2v_5b_gguf_q4, note: "480p drafts only"}
+      lipsync: {model: null, note: "No good local option: LatentSync 1.6 needs about 17 GB. Render lip-sync on a bigger machine."}
+      music: {model: ace_step_2b_turbo, note: "INT8 with offload"}
+      voice: {model: kokoro, note: ""}
+      upscale: {model: null, note: "skip"}
+  - id: apple_128gb
+    label: "Apple Silicon Max / Ultra, 128 GB"
+    match: {platform: apple, min_memory_gb: 100}
+    status_label: "recommendation only (Mac not supported by the app yet)"
+    verdict: "Full stack through MLX, slower than the Spark (unmeasured). Avoid the ComfyUI MPS bf16 path."
+    picks:
+      image: {model: zimage_mflux, note: "bf16"}
+      edit: {model: null, note: "Qwen-Image-Edit mflux q8 is reported at 96 GB+; not in this manifest yet. FLUX.2 klein 4B also edits."}
+      video: {model: ltx25_mlx_q8, note: "the native LTX-2 MPS path was tested by its author at 448×832"}
+      lipsync: {model: ltx_av_mlx, note: ""}
+      music: {model: ace_step_2b_turbo, note: "XL turbo on MPS is reported, unverified"}
+      voice: {model: kokoro_mlx, note: "VoxCPM2 on MPS is the Plan of Attack's pick for this Mac but unverified, so the MLX Kokoro build is listed"}
+      upscale: {model: null, note: "skip"}
+  - id: apple_64gb
+    label: "Apple Silicon, 64 GB"
+    match: {platform: apple, min_memory_gb: 56, max_memory_gb: 100}
+    status_label: "recommendation only (Mac not supported by the app yet)"
+    verdict: "Most features, one stage at a time. Estimate."
+    picks:
+      image: {model: zimage_mflux, note: "bf16"}
+      edit: {model: flux2_klein_4b, note: "Qwen-Image-Edit mflux Q4 may fit (unverified)"}
+      video: {model: ltx25_mlx_q8, note: ""}
+      lipsync: {model: ltx_av_mlx, note: ""}
+      music: {model: ace_step_2b_turbo, note: "XL turbo on MPS unverified"}
+      voice: {model: kokoro_mlx, note: "VoxCPM2 / Chatterbox on MPS unverified"}
+      upscale: {model: null, note: "skip"}
+  - id: apple_32gb
+    label: "Apple Silicon, 32 GB"
+    match: {platform: apple, min_memory_gb: 28, max_memory_gb: 56}
+    status_label: "recommendation only (Mac not supported by the app yet)"
+    verdict: "Short clips feasible, slow. A good UGC / photo-pack machine. Reported by tool authors, not tested by us."
+    picks:
+      image: {model: zimage_mflux, note: "8-bit"}
+      edit: {model: flux2_klein_4b, note: "bf16"}
+      video: {model: ltx25_mlx_q4, note: "LTX-2.3 MLX q8 with the low_vram profile is the other reported route"}
+      lipsync: {model: ltx_av_mlx, note: ""}
+      music: {model: ace_step_2b_turbo, note: "turbo or sft"}
+      voice: {model: kokoro_mlx, note: "VoxCPM2 on MPS unverified"}
+      upscale: {model: null, note: "skip"}
+  - id: apple_16gb
+    label: "Apple Silicon, 16 GB"
+    match: {platform: apple, min_memory_gb: 0, max_memory_gb: 28}
+    status_label: "recommendation only (Mac not supported by the app yet)"
+    verdict: "Stills, songs and voice: yes. Video: previews only. Reported by tool authors, not tested by us."
+    picks:
+      image: {model: zimage_mflux, note: "4-bit, or FLUX.2 klein 4B 4-bit"}
+      edit: {model: flux2_klein_4b, note: "4-bit (generate + edit)"}
+      video: {model: ltx25_mlx_q4, note: "short, low-res drafts with the low-memory profile"}
+      lipsync: {model: ltx_av_mlx, note: "drafts only"}
+      music: {model: ace_step_2b_turbo, note: "2B turbo on MPS"}
+      voice: {model: kokoro_mlx, note: ""}
+      upscale: {model: null, note: "skip"}
+  - id: cpu_only
+    label: "No graphics card (CPU only)"
+    match: {platform: cpu}
+    status_label: "recommendation only"
+    verdict: "Write, plan and voice here; render pictures and video elsewhere."
+    picks:
+      image: {model: null, note: "None practical on CPU"}
+      edit: {model: null, note: "None practical on CPU"}
+      video: {model: null, note: "Point the slot at a remote ComfyUI running the same open weights (Phase 2 routing)"}
+      lipsync: {model: null, note: "Remote"}
+      music: {model: ace_step_2b_turbo, note: "on CPU: slow, supported by ACE-Step"}
+      voice: {model: kokoro, note: ""}
+      upscale: {model: null, note: "Remote"}
+
+mac_caveats:
+  - "ComfyUI on Apple's MPS backend has an open bug: bf16 LTX-2.x runs can come out all black (ComfyUI issue 15804, https://github.com/Comfy-Org/ComfyUI/issues/15804). Route Mac video through MLX instead."
+  - "MLX routes exist: comfyui-ltx2-mlx nodes (LTX-2.3), dgrauet/ltx-2.5-mlx-q4 and -q8 weights, and mflux for Z-Image-Turbo, FLUX.2 klein and Qwen-Image-Edit."
+  - "Qwen-Image-Edit is heavy on a Mac (a q8 build is reported at 96 GB+); smaller Macs should edit with FLUX.2 klein 4B."
+  - "LatentSync, the Wan 14B models and other CUDA-only nodes are hidden on a Mac rather than offered and failing."
+  - "No Mac speed has been measured by us, and OpenSoul's runners are Linux + NVIDIA only today: every Mac row is a recommendation, not a supported setup."
+
+# Simulated computers for the advisory tiers (preview mode only, ?simulate=<id>), next to the picker's own five in
+# presets/hardware_profiles.yaml. Never used in studio mode.
+simulations:
+  rtx4080: {label: "RTX 4080 (16 GB)", platform: nvidia, gpus: [{name: "NVIDIA GeForce RTX 4080", vram_gb: 15.99}], memory_gb: 31.3}
+  rtx3060: {label: "RTX 3060 (12 GB)", platform: nvidia, gpus: [{name: "NVIDIA GeForce RTX 3060", vram_gb: 12.0}], memory_gb: 31.3}
+  rtx4060: {label: "RTX 4060 (8 GB)", platform: nvidia, gpus: [{name: "NVIDIA GeForce RTX 4060", vram_gb: 8.0}], memory_gb: 15.5}
+  mac128: {label: "Mac, Apple M4 Max, 128 GB", platform: apple, gpus: [], chip: "Apple M4 Max", memory_gb: 128.0}
+  mac64: {label: "Mac, Apple M2 Max, 64 GB", platform: apple, gpus: [], chip: "Apple M2 Max", memory_gb: 64.0}
+  mac32: {label: "Mac, Apple M3 Pro, 32 GB", platform: apple, gpus: [], chip: "Apple M3 Pro", memory_gb: 32.0}
+  mac16: {label: "Mac, Apple M1, 16 GB", platform: apple, gpus: [], chip: "Apple M1", memory_gb: 16.0}

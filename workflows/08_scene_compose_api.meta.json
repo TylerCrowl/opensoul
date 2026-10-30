@@ -1,0 +1,5 @@
+{
+  "note": "Scene composer: a story start frame with up to three characters (Qwen-Image-Edit-2511 bf16 + Lightning 4-step LoRA, multi-image edit). Node 5/51/52 = character reference pictures (image1..3; pass the same picture twice when there are fewer characters), node 6 = scene prompt (refer to 'the woman in image 1' etc.), node 3 seed, node 8 size (default 1344x768, 16:9). Output node 9. Used by scripts/story_frames.py for shots with two or more characters.",
+  "status": "see docs/evidence/STORY_DRAFT.md",
+  "format": "ComfyUI API (prompt) dict"
+}

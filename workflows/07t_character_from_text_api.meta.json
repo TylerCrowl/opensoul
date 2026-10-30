@@ -1,0 +1,5 @@
+{
+  "note": "Character Sheet from a text description only: makes the reference portrait the six-view sheet starts from. Same models as workflow 07 (Qwen-Image-Edit-2511 bf16 + Lightning 4-step LoRA) with no input image, so the edit model runs as text-to-image and no extra model download is needed. opensoul/character_sheet.py make_reference_from_text sets node 6 prompt, node 7 negative, node 3 seed, node 8 size, and reads node 9.",
+  "status": "Verified on DGX Spark (Lumi, Oct 17 2026); see docs/evidence/CHARACTER_SHEET.md",
+  "format": "ComfyUI API (prompt) dict"
+}

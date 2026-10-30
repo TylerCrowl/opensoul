@@ -1,0 +1,37 @@
+# Evidence: OpenSoul workflows run end to end through the Comfy SDK
+
+> **Demo A** in this file is the retired first demo character (replaced by Lumi and Pixel on Oct 18 2026). Its files were removed from the tree; file names below were renamed to match.
+
+Run on Fri Oct 16 2026 (log times are ET, from the DGX Spark's clock) on the DGX Spark (GB10), ComfyUI v0.41.2, **comfy-sdk 0.5.0**, **comfy-api-proxy 0.1.6**.
+Every job was submitted by `scripts/sdk_run.py` → `opensoul.comfy_client.run_workflow_file` → `comfy_sdk.Comfy` →
+Comfy API v2 (`POST /api/v2/assets`, `POST /api/v2/jobs`, `GET /api/v2/jobs/{id}`, output download) on `comfy-api-proxy` → ComfyUI.
+Each log shows the SDK's HTTP calls, the job id, the status and the downloaded output.
+
+| # | Workflow | Nodes | Server | Result | Log | Output |
+|---|---|---|---|---|---|---|
+| 1 | `02_consistent_stills_api.json` (Qwen-Image-Edit-2511 fp8 + Lightning 4-step; the character sheet uploaded as an SDK asset) | core only | shared ComfyUI :8188 via proxy :8189 | ✅ succeeded, 60.6 s | [sdk_still_qwen.log](sdk_still_qwen.log) | [still/opensoul_still_00029_.png](still/opensoul_still_00029_.png) |
+| 2 | `03_tts_api.json` (Kokoro-82M, `am_michael`) | `OpenSoulKokoroTTS` → `SaveAudio` | ComfyUI :8190 + node pack via proxy :8191 | ✅ succeeded, 20.5 s | [sdk_tts_kokoro.log](sdk_tts_kokoro.log) | [tts/opensoul_tts_00001.flac](tts/opensoul_tts_00001.flac) |
+| 3 | `03b_tts_chatterbox_api.json` (Chatterbox) | `OpenSoulChatterboxTTS` → `SaveAudio` | :8190 / :8191 | ✅ succeeded, 15.4 s | [sdk_tts_chatterbox.log](sdk_tts_chatterbox.log) | [tts_cb/opensoul_tts_chatterbox_00001.flac](tts_cb/opensoul_tts_chatterbox_00001.flac) |
+| 4 | `05_lipsync_api.json` (LatentSync 1.6, 20 steps, g=1.5; an LTX clip and the Kokoro line from run 2 uploaded as SDK assets) | `LoadVideo` + `LoadAudio` → `OpenSoulLatentSync` → `SaveVideo` | :8190 / :8191 | ✅ succeeded, 200.7 s; 576×1024, 5.08 s, with audio | [sdk_lipsync_latentsync.log](sdk_lipsync_latentsync.log) | `opensoul_lipsync_00001_.mp4` (clip showed Demo A; removed Oct 18 2026, kept outside the repo; log above is the proof) |
+| 5 | `06_identity_gate_api.json` (ArcFace gate: character sheet vs the still from run 1) | `LoadImage` ×2 → `OpenSoulIdentityGate` → `SaveImage` | :8190 / :8191 | ✅ succeeded, 4.1 s. **Score 0.6427 ≥ 0.45, so it passed** | [sdk_identity_gate.log](sdk_identity_gate.log), [identity_gate_report.json](identity_gate_report.json) | [gate/opensoul_gate_pass_00002_.png](gate/opensoul_gate_pass_00002_.png) |
+| 6 | `04_i2v_ltx_api.json` (**LTX-2.5 distilled 22B bf16** + Gemma 4 bf16 TE; Demo A start frame `cA.png` uploaded as an SDK asset; 512×896 → ×2 latent upsample → 1024×1792, 97 frames / 4 s, seed 71, the Demo A v4 bf16 sigmas) | core LTXV nodes only | shared ComfyUI :8188 via proxy :8189, queued FIFO behind the Demo A renders | <!--LTX_I2V-->✅ succeeded (finished status=succeeded in 1108.3s); ffprobe w,h,frames / duration: 1024,1792,97 4.041667 <!--/LTX_I2V--> | [sdk_ltx_i2v.log](sdk_ltx_i2v.log) | `opensoul_ltx_i2v.mp4` (clip showed Demo A; removed Oct 18 2026, kept outside the repo; log above is the proof) |
+| 7 | `04b_a2v_ltx_api.json` (same models/settings, **audio-conditioned**: Demo A line D WAV uploaded as an SDK asset, padded/trimmed like the Demo A batch runner; start frame `cB.png`) | core LTXV nodes + `LoadAudio` | :8188 via :8189 | <!--LTX_A2V-->✅ succeeded (finished status=succeeded in 792.6s); ffprobe w,h,frames / duration: 1024,1792,121 5.041667 <!--/LTX_A2V--> | [sdk_ltx_a2v.log](sdk_ltx_a2v.log) | `opensoul_ltx_a2v.mp4` (clip showed Demo A; removed Oct 18 2026, kept outside the repo; log above is the proof) |
+| 8 | **Batch run with `scripts/sdk_batch.py`** (Oct 17, 7:11–7:47 PM ET): 10 preset-tile takes, `i2v_hq_bf16` LTX-2.5 22B bf16, 97 frames, seed 101, one per UI tile (dolly_zoom, fpv, jib_down, jib_up, orbit, static, day_to_night, earth_zoom_out, orbit_freeze, outfit_switch) | core LTXV nodes (+ camera LoRA where on disk) | :8188 via proxy :8189 | ✅ **10/10 succeeded** via comfy-sdk (210.6–225.8 s each, job ids in log). The first 5 tiles of the same batch fell back to raw `/prompt` because the proxy rejected the SDK `metadata` field; `sdk_batch.py` now submits without metadata (same as the Character Sheet path), which fixed it | [sdk_pt1_preset_batch.log](sdk_pt1_preset_batch.log) | tiles in [assets/preset_thumbs](../../assets/preset_thumbs/) |
+
+Notes and caveats:
+
+- **Why two ComfyUI processes?** ComfyUI loads custom nodes only at startup, and the shared instance on :8188 is busy with another render that must not be restarted. So the node-pack workflows ran on a second, unmodified ComfyUI process (same install and models, `--base-directory ~/OpenSoul/sdkproof/comfy_base`, the pack symlinked into its `custom_nodes`) on :8190, with its own `comfy-api-proxy` on :8191. In a normal install you symlink the pack into `ComfyUI/custom_nodes`, use one ComfyUI, and use one proxy.
+- An earlier attempt to submit `05` to the :8189 proxy (no node pack) was correctly rejected by the SDK with `InvalidWorkflow: Node 'OpenSoulLatentSync' not found`. A first `05` run on :8191 failed because LatentSync needs `ffmpeg` on PATH; the runner now falls back to the `imageio-ffmpeg` binary.
+- The identity gate's JSON report is emitted as ComfyUI `ui.text`. comfy-api-proxy 0.1.6 did not surface it as an SDK output, so the score was read from the ComfyUI job history (`identity_gate_report.json`). The SDK output is the passed image.
+- **LTX runs 6–7 (Oct 17).** The repo's own `workflows/04*` files were submitted unchanged except for SDK input overrides
+  (`--set`): the bf16 transformer/text-encoder names and the 1024×1792 / 512×896 sizes used by the Demo A renders (the files default to int8 at
+  704×1280 for 24 GB cards), the prompt, negative, seeds and length. Each was a single `scripts/sdk_run.py` call per workflow with those `--set` overrides. The jobs went into the same FIFO queue as the Demo A renders; nothing was cancelled or reordered, and one OpenSoul job is in flight at a time.
+  The status cells above were filled in from each finished job's SDK result.
+  Run 6 timing: the 1108 s is SDK wall time from submit (10:05:35 ET) to download (10:24:03 ET), including ≈ 12 min queued behind two Demo A renders; the job itself started executing between 10:13:47 and 10:18:22 ET, so the render took ≈ 6–10 min. Output is H.264 + AAC (LTX joint audio), 1024×1792, 97 frames, 4.04 s.
+- A first LTX attempt (10:04 ET) failed **before submission**: `run_workflow_file` called `Path(value).is_file()` on the 400-character prompt and
+  hit `ENAMETOOLONG`. Fixed in `opensoul/comfy_client.py` (`_is_existing_file`, regression test in `tests/test_sdk_routing.py`), then resubmitted.
+- **SDK-native Demo A renders:** `scripts/sdk_batch.py` takes the same jobs.json as the GPU box's `v4/batch2.py` and makes the same graph edits
+  (audio pad/trim → frames, LoRA chain nodes 70/71, negative, seeds), but submits through `run_workflow_file` with images and audio as SDK assets.
+  Validated with `--dry-run` against all 14 jobs of the live `jobs_v7f.json` on the Spark (every override names a real node input); the running v7e/v7f
+  queues were **not** switched over. Use it for the next batch: `RDIR=~/OpenSoul/v4 COMFY_BASE_URL=http://127.0.0.1:8189 python scripts/sdk_batch.py jobs.json`.
+- Comfy Cloud / Comfy API deployments were **not** used.

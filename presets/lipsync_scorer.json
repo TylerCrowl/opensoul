@@ -1,0 +1,6 @@
+{
+  "_doc": "Optional lip-sync scorer for the rebuilt-character method (opensoul/lipsync_scorer.py). OPTIONAL EXTERNAL tool: the scoring CLI is not part of this repo and is never downloaded; see docs/LIPSYNC_SCORER.md (its S3FD sfd_face.pth weights have no upstream licence: never redistribute or auto-download them). It runs the external tool's CLI '<python> <cli> --score-only VIDEO [--ref RAW] --json', which prints one JSON object with lse_c, lse_d and method ('fair25'). Empty cli = disabled. Env overrides: OPENSOUL_LIPSYNC_SCORER (cli path), OPENSOUL_LIPSYNC_SCORER_PYTHON (the tool's own Python), OPENSOUL_LIPSYNC_SCORER_TIMEOUT (seconds). Relative paths resolve from the repo root. Never put a home path here.",
+  "cli": "",
+  "python": "",
+  "timeout_s": 900
+}

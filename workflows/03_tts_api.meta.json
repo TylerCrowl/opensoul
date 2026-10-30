@@ -1,0 +1,5 @@
+{
+  "note": "Stage 3a: Kokoro-82M TTS via the OpenSoul node pack (custom_nodes/opensoul_nodes). App sets node 1 text/voice; output node 2.",
+  "status": "Run end to end via comfy-sdk on DGX Spark; see docs/evidence/",
+  "format": "ComfyUI API (prompt) dict"
+}

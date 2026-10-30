@@ -1,0 +1,219 @@
+/* OpenSoul colour tokens: the only file with raw colours (tests/test_theme_tokens.py enforces it).
+   Light is the default. Dark applies with [data-theme="dark"] (chosen in Settings) or, when the choice is
+   "System default" (no data-theme attribute), with prefers-color-scheme: dark. The two dark blocks must stay
+   identical; the test checks that. Channel tokens (--*-rgb) feed rgb(var(--x-rgb) / alpha) for tints and shadows. */
+:root {
+  color-scheme: light;
+  /* surfaces */
+  --bg: #f5f5f7;
+  --surface: #ffffff;
+  --surface-2: #fafafa;
+  --wash: #f0f0f2;
+  --control: #e8e8ed;
+  --control-hover: #dedee3;
+  --line-strong: #c7c7cc;
+  --field-bg: #f5f5f7;
+  /* text */
+  --text: #1d1d1f;
+  --text-2: #3a3a3c;
+  --text-secondary: #515154;
+  --text-tertiary: #68686d;
+  --text-faint: #b0b0b5;
+  --inverse-bg: #1d1d1f;
+  --inverse-text: #f5f5f7;
+  --inverse-link: #64b5ff;
+  --on-accent: #ffffff;
+  --on-media: #f5f5f7;
+  /* accent */
+  --accent: #0071e3;
+  --accent-hover: #0066cc;
+  --accent-text: #0066cc;
+  --accent-wash: #eef4fd;
+  --accent-wash-2: #dbe9fb;
+  --focus-ring: #0071e3;
+  /* status */
+  --success: #34c759;
+  --ok: #34c759;
+  --ok-bg: #e3f5e8;
+  --ok-text: #1b6b33;
+  --danger: #ff3b30;
+  --danger-text: #c4322b;
+  --warn-bg: #fff4d6;
+  --warn-text: #6b4e00;
+  --warn-line: #f0d58a;
+  --neutral-bg: #e8e8ed;
+  --restricted-bg: #fde9d3;   /* amber: open weights, use-restricted licences */
+  --restricted-text: #8a4200;
+  --planned-bg: #efeafc;      /* violet: planned, not built yet */
+  --planned-text: #5b3fb0;
+  /* media, illustrations and charts (placeholder scenes stay the same in both themes) */
+  --media-bg: #000000;
+  --media-bg-2: #111111;
+  --scene-dusk: #3a3f5c;
+  --scene-earth-1: #2c4a7a;
+  --scene-earth-2: #0b1426;
+  --viz-low: #d6e8ff;
+  --viz-mid: #a9d0ff;
+  --viz-high: #6fb1ff;
+  /* channels for alpha colours */
+  --ink-rgb: 0 0 0;
+  --shadow-rgb: 0 0 0;
+  --shadow-k: 1;
+  --scrim-rgb: 0 0 0;
+  --scrim-ink-rgb: 29 29 31;
+  --glass-rgb: 255 255 255;
+  --on-media-rgb: 255 255 255;
+  --neutral-rgb: 127 127 127;
+  --accent-rgb: 0 113 227;
+  --accent-fill-rgb: 0 113 227;
+  --tint-k: 1;
+  --danger-rgb: 255 59 48;
+  --ok-rgb: 52 199 89;
+  /* composites */
+  --border: rgb(var(--ink-rgb) / 0.08);
+  --shadow: 0 2px 8px rgb(var(--shadow-rgb) / calc(0.04 * var(--shadow-k))), 0 12px 40px rgb(var(--shadow-rgb) / calc(0.06 * var(--shadow-k)));
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0e0e10;
+  --surface: #1c1c1e;
+  --surface-2: #232326;
+  --wash: #242427;
+  --control: #2c2c2e;
+  --control-hover: #3a3a3c;
+  --line-strong: #4a4a4e;
+  --field-bg: #2c2c2e;
+  --text: #f5f5f7;
+  --text-2: #d1d1d6;
+  --text-secondary: #b4b4ba;
+  --text-tertiary: #9a9aa0;
+  --text-faint: #5c5c61;
+  --inverse-bg: #f5f5f7;
+  --inverse-text: #1d1d1f;
+  --inverse-link: #0060c0;
+  --on-accent: #ffffff;
+  --on-media: #f5f5f7;
+  --accent: #0071e3;
+  --accent-hover: #0062c4;
+  --accent-text: #4da3ff;
+  --accent-wash: #15273d;
+  --accent-wash-2: #1b3556;
+  --focus-ring: #4da3ff;
+  --success: #30d158;
+  --ok: #30d158;
+  --ok-bg: #173823;
+  --ok-text: #6ad98a;
+  --danger: #ff453a;
+  --danger-text: #ff7b73;
+  --warn-bg: #3a2e0b;
+  --warn-text: #f5c542;
+  --warn-line: #6b5416;
+  --neutral-bg: #2c2c2e;
+  --restricted-bg: #3d2611;
+  --restricted-text: #ffad5c;
+  --planned-bg: #2b2447;
+  --planned-text: #c4b5ff;
+  --media-bg: #000000;
+  --media-bg-2: #111111;
+  --scene-dusk: #3a3f5c;
+  --scene-earth-1: #2c4a7a;
+  --scene-earth-2: #0b1426;
+  --viz-low: #1f3d66;
+  --viz-mid: #2f5f9e;
+  --viz-high: #4d8fe0;
+  --ink-rgb: 255 255 255;
+  --shadow-rgb: 0 0 0;
+  --shadow-k: 4;
+  --scrim-rgb: 0 0 0;
+  --scrim-ink-rgb: 29 29 31;
+  --glass-rgb: 44 44 46;
+  --on-media-rgb: 255 255 255;
+  --neutral-rgb: 127 127 127;
+  --accent-rgb: 77 163 255;
+  --accent-fill-rgb: 0 113 227;
+  --tint-k: 1.6;
+  --danger-rgb: 255 69 58;
+  --ok-rgb: 48 209 88;
+  --border: rgb(var(--ink-rgb) / 0.12);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #0e0e10;
+    --surface: #1c1c1e;
+    --surface-2: #232326;
+    --wash: #242427;
+    --control: #2c2c2e;
+    --control-hover: #3a3a3c;
+    --line-strong: #4a4a4e;
+    --field-bg: #2c2c2e;
+    --text: #f5f5f7;
+    --text-2: #d1d1d6;
+    --text-secondary: #b4b4ba;
+    --text-tertiary: #9a9aa0;
+    --text-faint: #5c5c61;
+    --inverse-bg: #f5f5f7;
+    --inverse-text: #1d1d1f;
+    --inverse-link: #0060c0;
+    --on-accent: #ffffff;
+    --on-media: #f5f5f7;
+    --accent: #0071e3;
+    --accent-hover: #0062c4;
+    --accent-text: #4da3ff;
+    --accent-wash: #15273d;
+    --accent-wash-2: #1b3556;
+    --focus-ring: #4da3ff;
+    --success: #30d158;
+    --ok: #30d158;
+    --ok-bg: #173823;
+    --ok-text: #6ad98a;
+    --danger: #ff453a;
+    --danger-text: #ff7b73;
+    --warn-bg: #3a2e0b;
+    --warn-text: #f5c542;
+    --warn-line: #6b5416;
+    --neutral-bg: #2c2c2e;
+    --restricted-bg: #3d2611;
+    --restricted-text: #ffad5c;
+    --planned-bg: #2b2447;
+    --planned-text: #c4b5ff;
+    --media-bg: #000000;
+    --media-bg-2: #111111;
+    --scene-dusk: #3a3f5c;
+    --scene-earth-1: #2c4a7a;
+    --scene-earth-2: #0b1426;
+    --viz-low: #1f3d66;
+    --viz-mid: #2f5f9e;
+    --viz-high: #4d8fe0;
+    --ink-rgb: 255 255 255;
+    --shadow-rgb: 0 0 0;
+    --shadow-k: 4;
+    --scrim-rgb: 0 0 0;
+    --scrim-ink-rgb: 29 29 31;
+    --glass-rgb: 44 44 46;
+    --on-media-rgb: 255 255 255;
+    --neutral-rgb: 127 127 127;
+    --accent-rgb: 77 163 255;
+    --accent-fill-rgb: 0 113 227;
+    --tint-k: 1.6;
+    --danger-rgb: 255 69 58;
+    --ok-rgb: 48 209 88;
+    --border: rgb(var(--ink-rgb) / 0.12);
+  }
+}
+
+/* Theme switches stay instant for people who ask for less motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
+}
+
+/* Placeholder artwork (grey clapper frames and the drawn stand-in cast, not real renders) is softened in dark mode so
+   it doesn't glare. Real pictures and videos are never filtered: what you see is what you export. */
+:root[data-theme="dark"] img:is([src*="/placeholder_shot"], [src*="/placeholder_frame"], [src*="/placeholder_tile"]) { filter: invert(1) hue-rotate(180deg) brightness(0.9); }
+:root[data-theme="dark"] img[src*="/placeholder_"][src$=".svg"]:not([src*="/placeholder_frame"]) { filter: brightness(0.88); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) img:is([src*="/placeholder_shot"], [src*="/placeholder_frame"], [src*="/placeholder_tile"]) { filter: invert(1) hue-rotate(180deg) brightness(0.9); }
+  :root:not([data-theme="light"]) img[src*="/placeholder_"][src$=".svg"]:not([src*="/placeholder_frame"]) { filter: brightness(0.88); }
+}

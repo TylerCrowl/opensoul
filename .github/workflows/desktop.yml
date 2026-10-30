@@ -1,0 +1,78 @@
+# Desktop packages (packaging/build_bundle.py, docs/DESKTOP.md). Manual or on a version tag; nothing is published
+# from here: the packages are workflow artifacts until someone attaches them to a release by hand.
+name: desktop
+on:
+  workflow_dispatch:
+  push:
+    tags: ["v*"]
+jobs:
+  build:
+    # Cross-builds: every package is assembled on Linux (wheels are fetched for the target platform).
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target: [mac-arm64, mac-x64, linux-x64, linux-arm64, windows-x64]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install Pillow
+      - run: python packaging/build_bundle.py --target ${{ matrix.target }} --out dist
+      - uses: actions/upload-artifact@v4
+        with: { name: "opensoul-${{ matrix.target }}", path: "dist/OpenSoul-*", if-no-files-found: error }
+
+  smoke:
+    # Open each package on its own OS: start the launcher headless and ask the server who it is.
+    needs: build
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: macos-14, target: mac-arm64 }
+          - { os: macos-13, target: mac-x64 }
+          - { os: ubuntu-latest, target: linux-x64 }
+          - { os: ubuntu-24.04-arm, target: linux-arm64 }
+          - { os: windows-latest, target: windows-x64 }
+    runs-on: ${{ matrix.os }}
+    env: { OPENSOUL_NO_BROWSER: "1", OPENSOUL_NO_DIALOG: "1" }
+    steps:
+      - uses: actions/download-artifact@v4
+        with: { name: "opensoul-${{ matrix.target }}", path: dist }
+      - uses: actions/checkout@v4
+        if: startsWith(matrix.target, 'mac')
+        with: { path: src }
+      - name: mac
+        if: startsWith(matrix.target, 'mac')
+        run: |
+          ditto -x -k dist/OpenSoul-*.zip x
+          codesign --force --deep -s - x/OpenSoul.app          # ad-hoc signature (no Apple account needed)
+          plutil -lint x/OpenSoul.app/Contents/Info.plist
+          x/OpenSoul.app/Contents/MacOS/OpenSoul               # OPENSOUL_NO_BROWSER=1: no window, server only
+          curl -fsS http://127.0.0.1:7860/api/launcher/status | grep '"app":"opensoul"'
+          curl -fsS -o /dev/null http://127.0.0.1:7860/welcome
+          rt=$(ls -d "$HOME/Library/Application Support/OpenSoul/runtime/"*/ | head -1)
+          "$rt/python/bin/python3" -I -c "import webview, AppKit, WebKit; print('window libs ok', webview.__file__)"
+          # drag-to-Applications disk image (dmgbuild drives hdiutil; macOS only)
+          python3 -m venv /tmp/dmgvenv && /tmp/dmgvenv/bin/pip install --quiet dmgbuild==1.6.7 Pillow
+          name=$(basename dist/OpenSoul-*.zip .zip)
+          /tmp/dmgvenv/bin/python src/packaging/make_dmg.py x/OpenSoul.app "dist/$name.dmg"
+          hdiutil verify "dist/$name.dmg"
+      - name: linux
+        if: startsWith(matrix.target, 'linux')
+        run: |
+          mkdir x && tar -xzf dist/OpenSoul-*.tar.gz -C x
+          x/OpenSoul/OpenSoul
+          curl -fsS http://127.0.0.1:7860/api/launcher/status | grep '"app":"opensoul"'
+          x/OpenSoul/OpenSoul stop
+      - name: windows
+        if: matrix.target == 'windows-x64'
+        shell: pwsh
+        run: |
+          Expand-Archive (Get-ChildItem dist/OpenSoul-*.zip).FullName -DestinationPath x
+          Push-Location x/OpenSoul/runtime/app
+          ../python/python.exe -I -m opensoul.launcher open
+          Pop-Location
+          if ((Invoke-RestMethod http://127.0.0.1:7860/api/launcher/status).app -ne "opensoul") { throw "launcher smoke test failed" }
+      - uses: actions/upload-artifact@v4
+        if: startsWith(matrix.target, 'mac')
+        with: { name: "opensoul-${{ matrix.target }}-dmg", path: "dist/*.dmg" }
