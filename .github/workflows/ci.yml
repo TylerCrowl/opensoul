@@ -1,10 +1,16 @@
 name: ci
 on: [push, pull_request]
+# The job only runs tests. A pull request's code executes here, so the token stays read-only and is
+# not left in the checkout for those tests to use.
+permissions:
+  contents: read
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - uses: actions/setup-python@v5
         with: { python-version: "3.12" }
       - run: sudo apt-get update && sudo apt-get install -y ffmpeg

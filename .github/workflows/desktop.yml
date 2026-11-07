@@ -5,6 +5,10 @@ on:
   workflow_dispatch:
   push:
     tags: ["v*"]
+# Packages are built and uploaded as artifacts. The token can read the repo and write those artifacts, and nothing else.
+permissions:
+  contents: read
+  actions: write
 jobs:
   build:
     # Cross-builds: every package is assembled on Linux (wheels are fetched for the target platform).
@@ -14,6 +18,8 @@ jobs:
         target: [mac-arm64, mac-x64, linux-x64, linux-arm64, windows-x64]
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - uses: actions/setup-python@v5
         with: { python-version: "3.12" }
       - run: pip install Pillow
@@ -40,7 +46,7 @@ jobs:
         with: { name: "opensoul-${{ matrix.target }}", path: dist }
       - uses: actions/checkout@v4
         if: startsWith(matrix.target, 'mac')
-        with: { path: src }
+        with: { path: src, persist-credentials: false }
       - name: mac
         if: startsWith(matrix.target, 'mac')
         run: |

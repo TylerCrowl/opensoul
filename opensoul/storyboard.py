@@ -81,17 +81,39 @@ def rel_path(p: str | Path | None) -> str | None:
         return str(p)
 
 
+def within(path: str | Path, root: str | Path) -> bool:
+    """True when ``path`` resolves inside ``root``. ``..``, absolute paths and symlinks that leave ``root`` are out.
+
+    The API has no login and listens on this computer, so any other local account can call it. A stored or
+    caller-supplied path must not make the server read that account's way into files the OpenSoul user can see.
+    """
+    try:
+        q, r = Path(path).resolve(), Path(root).resolve()
+        return q == r or q.is_relative_to(r)
+    except (OSError, ValueError):
+        return False
+
+
 def abs_path(p: str | None) -> Path | None:
     """``data/<rest>`` -> the server's DATA dir (so a sandbox copy of a story never reads the repo's real data);
-    other relative paths -> the repo (shipped assets)."""
+    other relative paths -> the repo (shipped assets).
+
+    Relative paths that leave those trees (``..`` or a symlink) are None. An absolute path is returned as given:
+    HTTP handlers that take a path from the caller must also require :func:`within` the data dir or the repo.
+    Render code passes absolute paths of files this process just wrote.
+    """
     if not p:
         return None
     q = Path(p)
     if q.is_absolute():
         return q
     if q.parts and q.parts[0] == "data":
-        return data_dir().joinpath(*q.parts[1:])
-    return ROOT / q
+        candidate = data_dir().joinpath(*q.parts[1:])
+    else:
+        candidate = ROOT / q
+    if within(candidate, data_dir()) or within(candidate, ROOT):
+        return candidate
+    return None
 
 
 @dataclass

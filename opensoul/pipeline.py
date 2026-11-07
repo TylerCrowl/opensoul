@@ -68,13 +68,18 @@ def generate_stills(
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
     prompt = pack.prompt_with_lock(scene_prompt)
+    # A pack.json can name an absolute picture outside the pack. Copying that would let any local caller
+    # read files the OpenSoul user can see. Only pictures that stay inside the pack directory are used.
+    from opensoul.storyboard import within
+
+    refs = [r for r in pack.ref_images if within(r, pack_dir)]
 
     if dry_run() or not _comfy_reachable():
         results: list[tuple[Path, ConsistencyResult]] = []
-        for i, ref in enumerate(pack.ref_images[:n]):
+        for i, ref in enumerate(refs[:n]):
             dest = out / f"still_{i:02d}.png"
             shutil.copy2(ref, dest)
-            r = score_consistency(dest, pack.ref_images, threshold=threshold, mode="mean")
+            r = score_consistency(dest, refs, threshold=threshold, mode="mean")
             meta = {"prompt": prompt, "consistency": r.to_dict(), "dry_run": True}
             (out / f"still_{i:02d}.json").write_text(json.dumps(meta, indent=2))
             if r.passed:
@@ -83,10 +88,12 @@ def generate_stills(
 
     from opensoul.comfy_client import run_workflow_file
 
+    if not refs:
+        return []
     paths = run_workflow_file(
         WORKFLOWS / "02_consistent_stills_api.json",
         inputs={
-            "5": {"image": str(pack.ref_images[0])},
+            "5": {"image": str(refs[0])},
             "6": {"prompt": prompt},
             "7": {"prompt": pack.negative_prompt},
             "3": {"seed": pack.seed},
@@ -96,7 +103,7 @@ def generate_stills(
     )
     kept: list[tuple[Path, ConsistencyResult]] = []
     for p in paths:
-        r = score_consistency(p, pack.ref_images, threshold=threshold, mode="mean")
+        r = score_consistency(p, refs, threshold=threshold, mode="mean")
         (p.with_suffix(".json")).write_text(
             json.dumps({"prompt": prompt, "consistency": r.to_dict()}, indent=2)
         )
