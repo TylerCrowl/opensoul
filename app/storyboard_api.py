@@ -53,6 +53,16 @@ def _url(p: str | None) -> str | None:
     return _srv()._file_url(q) if q is not None and q.is_file() else None
 
 
+def _usable_media(path: str | None) -> Path | None:
+    """A caller-supplied picture that exists inside the data folder or the repo. Anything else is None."""
+    f = sb.abs_path(path) if path else None
+    if f is None or not f.is_file():
+        return None
+    if sb.within(f, sb.data_dir()) or sb.within(f, sb.ROOT):
+        return f
+    return None
+
+
 def _is_still(p: str | None) -> bool:
     return bool(p) and Path(p).suffix.lower() in {".png", ".jpg", ".jpeg", ".webp"}
 
@@ -382,15 +392,15 @@ def put_location(pid: str, name: str, req: LocationIn):
         if not image:
             raise HTTPException(400, "That take has no still to use as the plate.")
     if image is not None:
-        f = sb.abs_path(image)
-        if not f or not f.is_file():
+        f = _usable_media(image)
+        if not f:
             raise HTTPException(400, "OpenSoul cannot find the plate picture.")
         _need_picture(f, "plate picture")
         image = sb.rel_path(f)
     empty = None
     if req.empty is not None:
-        f = sb.abs_path(req.empty) if req.empty else None
-        if req.empty and (not f or not f.is_file()):
+        f = _usable_media(req.empty) if req.empty else None
+        if req.empty and not f:
             raise HTTPException(400, "OpenSoul cannot find the empty plate picture.")
         if f:
             _need_picture(f, "empty plate picture")
@@ -419,8 +429,8 @@ def _picture(p, image, from_version, what="picture"):
             raise HTTPException(400, f"That take has no still to use as the {what}.")
     if image is None:
         return None
-    f = sb.abs_path(image)
-    if not f or not f.is_file():
+    f = _usable_media(image)
+    if not f:
         raise HTTPException(400, f"OpenSoul cannot find the {what}.")
     _need_picture(f, what)
     return sb.rel_path(f)

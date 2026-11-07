@@ -518,10 +518,20 @@ def backends():
     return {"stages": backend_choices()}
 
 
+def _in_app_tree(p: str | Path) -> bool:
+    """A caller-supplied path that resolves inside the data folder or the repo. Nothing else."""
+    try:
+        return bool(str(p)) and _inside(Path(p), DATA, ROOT)
+    except (OSError, ValueError):
+        return False
+
+
 @app.post("/api/shot")
 def make_shot(req: ShotRequest):
     from opensoul.orpheus import TagError
 
+    if req.pack_dir and not _is_demo_pack(req.pack_dir) and not _in_app_tree(req.pack_dir):
+        raise HTTPException(400, "OpenSoul cannot find that character. Return to step 1.")
     tts_b = _check_backend("voice", req.tts_backend)
     ls_b = _check_backend("lipsync", req.lipsync_backend)
     voice, voice_from = req.voice, "shot" if req.voice else ""
@@ -642,7 +652,16 @@ def _own_refs(pack_dir: str | Path | None) -> list[Path]:
     if not (d / "pack.json").is_file():
         return []
     cp = CharacterPack.load(d)
-    return [Path(r) for r in cp.ref_images if Path(r).is_file() and not _is_demo_image(Path(r), cp.name)]
+    kept = []
+    for raw in cp.ref_images:
+        p = Path(raw)
+        try:
+            # A pack may name a picture outside itself. That file is not this character's reference.
+            if p.is_file() and _inside(p, d) and not _is_demo_image(p, cp.name):
+                kept.append(p)
+        except (OSError, ValueError):
+            continue
+    return kept
 
 
 def _library(name: str) -> dict | None:
@@ -1653,7 +1672,7 @@ def make_photos(
     n: int = Form(3),
     threshold: float = Form(0.78),
 ):
-    if not Path(pack_dir).is_dir():
+    if not _in_app_tree(pack_dir) or not Path(pack_dir).is_dir():
         raise HTTPException(400, "OpenSoul cannot find the character. Return to step 1.")
     if _dry() and Path(pack_dir).resolve() == DEMO_PACK.resolve():
         items = []
@@ -1670,7 +1689,7 @@ def make_photos(
             )
         return {"items": items}
     os.environ.setdefault("OPENSOUL_DRY_RUN", "1")
-    if (Path(pack_dir) / "pack.json").is_file() and not [r for r in CharacterPack.load(pack_dir).ref_images if Path(r).is_file()]:
+    if (Path(pack_dir) / "pack.json").is_file() and not _own_refs(pack_dir) and not _is_demo_pack(pack_dir):
         raise HTTPException(400, "This character has no picture yet. Generate a master or make a character sheet first.")
     kept = generate_stills(pack_dir, scene, n=n, out_dir=DATA / "outputs" / "stills", threshold=threshold)
     # Also score rejects? pipeline only returns kept — OK for now
@@ -1687,6 +1706,19 @@ def make_photos(
     return {"items": items}
 
 
+def _bundled_script(script_id: str) -> str:
+    """Text of one bundled script (content/lumi/<id>.md). An id is a single file name, never a path."""
+    if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_-]{0,80}", script_id or ""):
+        return ""
+    try:
+        sp = (SCRIPTS / f"{script_id}.md").resolve()
+        if sp.is_file() and sp.is_relative_to(SCRIPTS.resolve()):
+            return sp.read_text(encoding="utf-8")
+    except (OSError, ValueError):
+        return ""
+    return ""
+
+
 @app.post("/api/video")
 def make_video(
     pack_dir: str = Form(""),
@@ -1695,17 +1727,17 @@ def make_video(
     still_path: str = Form(""),
 ):
     body = script_text
-    if script_id:
-        sp = SCRIPTS / f"{script_id}.md"
-        if sp.is_file() and not script_text:
-            body = sp.read_text(encoding="utf-8")
+    if script_id and not script_text:
+        body = _bundled_script(script_id)
     if _dry() and _poster_url():
         return {
             "poster_url": _poster_url(),
             "note": "Preview poster. Connect a studio to render the talking video.",
             "script_preview": (body or "")[:800],
         }
-    if not still_path:
+    if pack_dir and not _in_app_tree(pack_dir):
+        raise HTTPException(400, "OpenSoul cannot find the character. Return to step 1.")
+    if not still_path or not _in_app_tree(still_path) or not Path(still_path).is_file():
         raise HTTPException(400, "Choose a photo from step 2 first.")
     path = generate_talking_video(pack_dir or DATA / "packs", still_path, body or "Hello.", DATA / "outputs" / "video")
     return {"poster_url": f"/api/file?path={_key(path)}", "note": str(path), "script_preview": body[:800]}
